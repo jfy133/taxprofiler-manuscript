@@ -1,0 +1,51 @@
+---
+title: "nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling"
+author: 
+    - name: Sofia Stamouli
+      affiliations:
+      - name: Karolinkska Institutet
+    - name: Moritz Beber
+      affiliations:
+      - name: UnSeen Bio
+    - name: "..."
+    - name: James A. Fellows Yates
+      orcid: 0000-0001-5585-6277
+      email: james_fellows_yates@eva.mpg.de
+      affiliations:
+      - name: Max Planck Institute for Evolutionary Anthropology
+        address: Deutsche Pl. 6 
+        city: Leipzig
+        state: Saxony
+        postal-code: 04103
+bibliography: refs.bib
+---
+
+## Abstract
+
+Metagenomic classification tackles the problem of characterising the taxonomic source of all DNA sequencing reads in a sample. A common approach to address the differences and biases between the many different taxonomic classification tools is to run sequencing libraries through multiple classification tools and databases. This, however, is a very time intensive task when performing manually - particularly when combined with the appropriate preprocessing of sequencing reads before the classification. 
+
+Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases in one pipeline run. Implemented in Nextflow and nf-core, the pipeline benefits from high levels of scalability and portability, allowing for large and small profjects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline as the field of metageomics develops. <...>
+
+## Introduction
+
+
+While there are strong benefits of metagenomic approaches to taxonomic classification versus targeted approaches, the problem remains challenging and without clear gold standard tools or techniques.
+
+## Implementation
+
+## Use Cases
+
+## Discussion
+
+## Data Availability
+
+## Supplementary Data
+
+## Acknowledgments
+
+## Funding
+
+## References
+
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
