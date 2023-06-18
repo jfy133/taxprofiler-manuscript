@@ -171,15 +171,38 @@ for metagenomic taxonomic classification and profiling}
 \date{}
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, interior hidden, sharp corners, borderline west={3pt}{0pt}{shadecolor}, enhanced, frame hidden, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, frame hidden, enhanced, boxrule=0pt, interior hidden, borderline west={3pt}{0pt}{shadecolor}, breakable]}{\end{tcolorbox}}\fi
 
 \hypertarget{abstract}{%
 \subsection{Abstract}\label{abstract}}
 
-Hello
+Metagenomic classification tackles the problem of characterising the
+taxonomic source of all DNA sequencing reads in a sample. A common
+approach to address the differences and biases between the many
+different taxonomic classification tools is to run sequencing libraries
+through multiple classification tools and databases. This, however, is a
+very time intensive task when performing manually - particularly when
+combined with the appropriate preprocessing of sequencing reads before
+the classification.
+
+Here we present nf-core/taxprofiler, a highly parallelised taxonomic
+classification and processing pipeline that allows for automated and
+simultaneous classification and/or profiling of of both short- and
+long-read metagenomic sequencing libraries against a large number of
+taxonomic classifiers and profilers as well as databases in one pipeline
+run. Implemented in Nextflow and nf-core, the pipeline benefits from
+high levels of scalability and portability, allowing for large and small
+profjects on a wide range of computing infrastructure, as well as
+best-practise software development and community support to ensure
+longevity and adaptability of the pipeline as the field of metageomics
+develops. \textless\ldots\textgreater{}
 
 \hypertarget{introduction}{%
 \subsection{Introduction}\label{introduction}}
+
+While there are strong benefits of metagenomic approaches to taxonomic
+classification versus targeted approaches, the problem remains
+challenging and without clear gold standard tools or techniques.
 
 \hypertarget{implementation}{%
 \subsection{Implementation}\label{implementation}}
