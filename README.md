@@ -1,3 +1,3 @@
 # nf-core taxprofiler manuscript
 
-Written in Quaro
+Written in Quarto
