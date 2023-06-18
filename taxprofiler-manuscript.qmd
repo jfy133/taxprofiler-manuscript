@@ -24,14 +24,22 @@ bibliography: refs.bib
 
 Metagenomic classification tackles the problem of characterising the taxonomic source of all DNA sequencing reads in a sample. A common approach to address the differences and biases between the many different taxonomic classification tools is to run sequencing libraries through multiple classification tools and databases. This, however, is a very time intensive task when performing manually - particularly when combined with the appropriate preprocessing of sequencing reads before the classification. 
 
-Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases in one pipeline run. Implemented in Nextflow and nf-core, the pipeline benefits from high levels of scalability and portability, allowing for large and small profjects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline as the field of metageomics develops. <...>
+Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases in one pipeline run. Implemented in Nextflow and nf-core, the pipeline benefits from high levels of scalability and portability, allowing for large and small projects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline as the field of metagenomics develops. <...>
 
 ## Introduction
 
 
-While there are strong benefits of metagenomic approaches to taxonomic classification versus targeted approaches, the problem remains challenging and without clear gold standard tools or techniques.
+There are a range of strong benefits of metagenomic approaches to taxonomic classification of DNA samples compared to targeted approaches. While targeted approaches such as 16S or other marker gene amplicon sequencing have in the past been useful due to low cost and large reference databases, shotgun sequencing coupled with metagenomic analyses is being shown to produce similar resolution during taxonomic classification at increasingly lower costs [@Hillmann2018-ud], and additionally with the data having greater use in terms of reusability and further exploration (given whole genomes and thus functional information can be characterised).
+
+<...> define classification and profiling
+
+It is a popular problem <...> however there is no established 'gold standard' method,. Therefore there are a plethora of tools and databases tackling the problem of taxonomic classification and/or profiling, yet <...>
 
 ## Implementation
+
+![Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control, read preprocessing, complexity filtering, host removal, and run merging before going into taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are additionally standardised into a common taxon table format and some with visualisation of profiles.](taxprofiler_tube.png){#fig-workflow-diagram fig-alt="nf-core/taxprofiler workflow diagram in a metro map style"}
+
+There are many types of metagenomic profile techniques from alignment, to k-mer, and marker-gene based methods [@Quince2017-bl]
 
 ## Use Cases
 

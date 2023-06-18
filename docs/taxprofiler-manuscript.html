@@ -24,7 +24,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -63,7 +82,6 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -146,14 +164,23 @@ ul.task-list li input[type="checkbox"] {
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
 <p>Metagenomic classification tackles the problem of characterising the taxonomic source of all DNA sequencing reads in a sample. A common approach to address the differences and biases between the many different taxonomic classification tools is to run sequencing libraries through multiple classification tools and databases. This, however, is a very time intensive task when performing manually - particularly when combined with the appropriate preprocessing of sequencing reads before the classification.</p>
-<p>Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases in one pipeline run. Implemented in Nextflow and nf-core, the pipeline benefits from high levels of scalability and portability, allowing for large and small profjects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline as the field of metageomics develops. &lt;…&gt;</p>
+<p>Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases in one pipeline run. Implemented in Nextflow and nf-core, the pipeline benefits from high levels of scalability and portability, allowing for large and small projects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline as the field of metagenomics develops. &lt;…&gt;</p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>While there are strong benefits of metagenomic approaches to taxonomic classification versus targeted approaches, the problem remains challenging and without clear gold standard tools or techniques.</p>
+<p>There are a range of strong benefits of metagenomic approaches to taxonomic classification of DNA samples compared to targeted approaches. While targeted approaches such as 16S or other marker gene amplicon sequencing have in the past been useful due to low cost and large reference databases, shotgun sequencing coupled with metagenomic analyses is being shown to produce similar resolution during taxonomic classification at increasingly lower costs <span class="citation" data-cites="Hillmann2018-ud">(<a href="#ref-Hillmann2018-ud" role="doc-biblioref">Hillmann et al. 2018</a>)</span>, and additionally with the data having greater use in terms of reusability and further exploration (given whole genomes and thus functional information can be characterised).</p>
+<p>&lt;…&gt; define classification and profiling</p>
+<p>It is a popular problem &lt;…&gt; however there is no established ‘gold standard’ method,. Therefore there are a plethora of tools and databases tackling the problem of taxonomic classification and/or profiling, yet &lt;…&gt;</p>
 </section>
 <section id="implementation" class="level2">
 <h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
+<div id="fig-workflow-diagram" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="taxprofiler_tube.png" class="img-fluid figure-img" alt="nf-core/taxprofiler workflow diagram in a metro map style"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control, read preprocessing, complexity filtering, host removal, and run merging before going into taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are additionally standardised into a common taxon table format and some with visualisation of profiles.</figcaption>
+</figure>
+</div>
+<p>There are many types of metagenomic profile techniques from alignment, to k-mer, and marker-gene based methods <span class="citation" data-cites="Quince2017-bl">(<a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>)</span></p>
 </section>
 <section id="use-cases" class="level2">
 <h2 class="anchored" data-anchor-id="use-cases">Use Cases</h2>
@@ -178,9 +205,17 @@ ul.task-list li input[type="checkbox"] {
 <p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
 
 
+
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Hillmann2018-ud" class="csl-entry" role="listitem">
+Hillmann, Benjamin, Gabriel A Al-Ghalith, Robin R Shields-Cutler, Qiyun Zhu, Daryl M Gohl, Kenneth B Beckman, Rob Knight, and Dan Knights. 2018. <span>“Evaluating the Information Content of Shallow Shotgun Metagenomics.”</span> <em>mSystems</em> 3 (6). <a href="https://doi.org/10.1128/mSystems.00069-18">https://doi.org/10.1128/mSystems.00069-18</a>.
+</div>
+<div id="ref-Quince2017-bl" class="csl-entry" role="listitem">
+Quince, Christopher, Alan W Walker, Jared T Simpson, Nicholas J Loman, and Nicola Segata. 2017. <span>“Shotgun Metagenomics, from Sampling to Analysis.”</span> <em>Nature Biotechnology</em> 35 (9): 833–44. <a href="https://doi.org/10.1038/nbt.3935">https://doi.org/10.1038/nbt.3935</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
