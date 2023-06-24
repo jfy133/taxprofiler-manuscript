@@ -168,9 +168,13 @@ div.csl-indent {
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>There are a range of strong benefits of metagenomic approaches to taxonomic classification of DNA samples compared to targeted approaches. While targeted approaches such as 16S or other marker gene amplicon sequencing have in the past been useful due to low cost and large reference databases, shotgun sequencing coupled with metagenomic analyses is being shown to produce similar resolution during taxonomic classification at increasingly lower costs <span class="citation" data-cites="Hillmann2018-ud">(<a href="#ref-Hillmann2018-ud" role="doc-biblioref">Hillmann et al. 2018</a>)</span>, and additionally with the data having greater use in terms of reusability and further exploration (given whole genomes and thus functional information can be characterised).</p>
-<p>&lt;…&gt; define classification and profiling</p>
-<p>It is a popular problem &lt;…&gt; however there is no established ‘gold standard’ method,. Therefore there are a plethora of tools and databases tackling the problem of taxonomic classification and/or profiling, yet &lt;…&gt;</p>
+<p>There are a range of strong benefits of metagenomic approaches to taxonomic classification of DNA samples compared to targeted approaches [CITE]. While targeted approaches such as 16S or other marker gene amplicon sequencing have in the past been useful due to low cost and large and diverse reference databases, metagenomic analyses has been shown to produce similar resolution during taxonomic classification <span class="citation" data-cites="Hillmann2018-ud">(<a href="#ref-Hillmann2018-ud" role="doc-biblioref">Hillmann et al. 2018</a>)</span> (with increasing lower costs of shotgun sequencing), but the added benefit of having greater reusability potential of the data, via whole genome reconstruction and also functional classification of metagenomics.</p>
+<!-- TODO: define our classification/profiling terimnology? -->
+<p>Taxonomic profiling consists of identifying the original ‘taxonomic source’ of a given DNA sequence [CITE]. In metagenomics this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or ‘k-mer matching’ [CITE], and the most close match being considered the most likely original ‘source’ organism of that sequence. Some profilers additionally will also try to infer actual (cellular) species abundance of the organism in the original sample, based on the sequence abundance [CITE].</p>
+<p>Due to the scale of taxonomic profiling is an unresolved ‘problem’ in bioinformatics. Having to identify the original source of many sequences, from many samples, against many reference genomes but in an <em>efficient</em> manner is understandably a difficult problem. Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts they have been developed in <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(<a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>. Thus, no established ‘gold standard’ method currently exists.</p>
+<!-- ONE SOLUTION IS TO RUN MANY -->
+<!-- DATABASES? -->
+<!-- SCALABILITY DUE TO LARGE SCALE -->
 </section>
 <section id="implementation" class="level2">
 <h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
@@ -212,8 +216,14 @@ div.csl-indent {
 <div id="ref-Hillmann2018-ud" class="csl-entry" role="listitem">
 Hillmann, Benjamin, Gabriel A Al-Ghalith, Robin R Shields-Cutler, Qiyun Zhu, Daryl M Gohl, Kenneth B Beckman, Rob Knight, and Dan Knights. 2018. <span>“Evaluating the Information Content of Shallow Shotgun Metagenomics.”</span> <em>mSystems</em> 3 (6). <a href="https://doi.org/10.1128/mSystems.00069-18">https://doi.org/10.1128/mSystems.00069-18</a>.
 </div>
+<div id="ref-Meyer2022-dg" class="csl-entry" role="listitem">
+Meyer, Fernando, Adrian Fritz, Zhi-Luo Deng, David Koslicki, Till Robin Lesker, Alexey Gurevich, Gary Robertson, et al. 2022. <span>“Critical Assessment of Metagenome Interpretation: The Second Round of Challenges.”</span> <em>Nature Methods</em> 19 (4): 429–40. <a href="https://doi.org/10.1038/s41592-022-01431-4">https://doi.org/10.1038/s41592-022-01431-4</a>.
+</div>
 <div id="ref-Quince2017-bl" class="csl-entry" role="listitem">
 Quince, Christopher, Alan W Walker, Jared T Simpson, Nicholas J Loman, and Nicola Segata. 2017. <span>“Shotgun Metagenomics, from Sampling to Analysis.”</span> <em>Nature Biotechnology</em> 35 (9): 833–44. <a href="https://doi.org/10.1038/nbt.3935">https://doi.org/10.1038/nbt.3935</a>.
+</div>
+<div id="ref-Sczyrba2017-ma" class="csl-entry" role="listitem">
+Sczyrba, Alexander, Peter Hofmann, Peter Belmann, David Koslicki, Stefan Janssen, Johannes Dröge, Ivan Gregor, et al. 2017. <span>“Critical Assessment of Metagenome Interpretation-a Benchmark of Metagenomics Software.”</span> <em>Nature Methods</em> 14 (11): 1063–71. <a href="https://doi.org/10.1038/nmeth.4458">https://doi.org/10.1038/nmeth.4458</a>.
 </div>
 </div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

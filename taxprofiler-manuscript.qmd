@@ -29,11 +29,18 @@ Here we present nf-core/taxprofiler, a highly parallelised taxonomic classificat
 ## Introduction
 
 
-There are a range of strong benefits of metagenomic approaches to taxonomic classification of DNA samples compared to targeted approaches. While targeted approaches such as 16S or other marker gene amplicon sequencing have in the past been useful due to low cost and large reference databases, shotgun sequencing coupled with metagenomic analyses is being shown to produce similar resolution during taxonomic classification at increasingly lower costs [@Hillmann2018-ud], and additionally with the data having greater use in terms of reusability and further exploration (given whole genomes and thus functional information can be characterised).
+There are a range of strong benefits of metagenomic approaches to taxonomic classification of DNA samples compared to targeted approaches [CITE]. While targeted approaches such as 16S or other marker gene amplicon sequencing have in the past been useful due to low cost and large and diverse reference databases, metagenomic analyses has been shown to produce similar resolution during taxonomic classification [@Hillmann2018-ud] (with increasing lower costs of shotgun sequencing), but the added benefit of having greater reusability potential of the data, via whole genome reconstruction and also functional classification of metagenomics.
 
-<...> define classification and profiling
+<!-- TODO: define our classification/profiling terimnology? -->
 
-It is a popular problem <...> however there is no established 'gold standard' method,. Therefore there are a plethora of tools and databases tackling the problem of taxonomic classification and/or profiling, yet <...>
+Taxonomic profiling consists of identifying the original 'taxonomic source' of a given DNA sequence [CITE]. In metagenomics this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or 'k-mer matching' [CITE], and the most close match being considered the most likely original 'source' organism of that sequence. Some profilers additionally will also try to infer actual (cellular) species abundance of the organism in the original sample, based on the sequence abundance [CITE]. 
+
+Due to the scale of taxonomic profiling is an unresolved 'problem' in bioinformatics. Having to identify the original source of many sequences, from many samples, against many reference genomes but in an _efficient_ manner is understandably a difficult problem. Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts that they have been developed in [@Sczyrba2017-ma;@Meyer2022-dg]. Thus, no established 'gold standard' method currently exists.
+
+<!-- ONE SOLUTION IS TO RUN MANY -->
+<!-- DATABASES? -->
+
+<!-- SCALABILITY DUE TO LARGE SCALE -->
 
 ## Implementation
 
