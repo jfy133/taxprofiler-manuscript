@@ -8,7 +8,14 @@
 
 <meta name="author" content="Sofia Stamouli">
 <meta name="author" content="Moritz Beber">
-<meta name="author" content="…">
+<meta name="author" content="Lauri Mesilaakso">
+<meta name="author" content="Tanja Normark">
+<meta name="author" content="Jianhong Ou">
+<meta name="author" content="Thomas A. Christensen II">
+<meta name="author" content="Maxime Borry">
+<meta name="author" content="Mahwash Jamy">
+<meta name="author" content="Rafal Stepien">
+<meta name="author" content="nf-core community">
 <meta name="author" content="James A. Fellows Yates">
 
 <title>taxprofiler-manuscript - nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling</title>
@@ -99,9 +106,11 @@ div.csl-indent {
   <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">Implementation</a></li>
+  <li><a href="#benchmarking" id="toc-benchmarking" class="nav-link" data-scroll-target="#benchmarking">Benchmarking</a></li>
   <li><a href="#use-cases" id="toc-use-cases" class="nav-link" data-scroll-target="#use-cases">Use Cases</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   <li><a href="#data-availability" id="toc-data-availability" class="nav-link" data-scroll-target="#data-availability">Data Availability</a></li>
+  <li><a href="#code-availability" id="toc-code-availability" class="nav-link" data-scroll-target="#code-availability">Code Availability</a></li>
   <li><a href="#supplementary-data" id="toc-supplementary-data" class="nav-link" data-scroll-target="#supplementary-data">Supplementary Data</a></li>
   <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
   <li><a href="#funding" id="toc-funding" class="nav-link" data-scroll-target="#funding">Funding</a></li>
@@ -123,30 +132,103 @@ div.csl-indent {
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Sofia Stamouli </p>
+    <p class="author">Sofia Stamouli <a href="https://orcid.org/0009-0006-0893-3771" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            Karolinkska Institutet
+            Department of Microbiology, Tumor and Cell Biology, Clinical Genomics, Karolinkska Institutet
+          </p>
+        <p class="affiliation">
+            Department of Clinical Microbiology, Karolinska University Hospital
           </p>
       </div>
       <div class="quarto-title-meta-contents">
-    <p class="author">Moritz Beber </p>
+    <p class="author">Moritz Beber <a href="https://orcid.org/0000-0003-2406-1978" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            UnSeen Bio
+            Unseen Bio ApS
           </p>
       </div>
       <div class="quarto-title-meta-contents">
-    <p class="author">… </p>
+    <p class="author">Lauri Mesilaakso </p>
   </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Clinical Microbiology, Region Östergötland
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Tanja Normark </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Microbiology, Tumor and Cell Biology, Clinical Genomics, Karolinkska Institutet
+          </p>
+        <p class="affiliation">
+            Department of Clinical Microbiology, Karolinska University Hospital
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Jianhong Ou </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Regeneration Center, Duke University
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Thomas A. Christensen II <a href="https://orcid.org/0000-0003-1219-9320" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Veterinary Diagnostic Laboratory, Kansas State University College of Veterinary Medicine
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Maxime Borry <a href="https://orcid.org/0000-0001-9140-7559" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Archaeogenetics, Max Planck Institute for Evolutionary Anthropology
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Mahwash Jamy </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Microbiology, Tumor and Cell Biology, Clinical Genomics, Karolinkska Institutet
+          </p>
+        <p class="affiliation">
+            Department of Clinical Microbiology, Karolinska University Hospital
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Rafal Stepien </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Center for Public Health Genomics, University of Virginia
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://nf-co.re">nf-core community</a> </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            
+          </p>
+      </div>
       <div class="quarto-title-meta-contents">
     <p class="author">James A. Fellows Yates <a href="https://orcid.org/0000-0001-5585-6277" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            Max Planck Institute for Evolutionary Anthropology
+            Department of Archaeogenetics, Max Planck Institute for Evolutionary Anthropology
+          </p>
+        <p class="affiliation">
+            Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute
           </p>
       </div>
     </div>
@@ -171,48 +253,73 @@ div.csl-indent {
 <p>There are a range of strong benefits of metagenomic approaches to taxonomic classification of DNA samples compared to targeted approaches [CITE]. While targeted approaches such as 16S or other marker gene amplicon sequencing have in the past been useful due to low cost and large and diverse reference databases, metagenomic analyses has been shown to produce similar resolution during taxonomic classification <span class="citation" data-cites="Hillmann2018-ud">(<a href="#ref-Hillmann2018-ud" role="doc-biblioref">Hillmann et al. 2018</a>)</span> (with increasing lower costs of shotgun sequencing), but the added benefit of having greater reusability potential of the data, via whole genome reconstruction and also functional classification of metagenomics.</p>
 <!-- TODO: define our classification/profiling terimnology? -->
 <p>Taxonomic profiling consists of identifying the original ‘taxonomic source’ of a given DNA sequence [CITE]. In metagenomics this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or ‘k-mer matching’ [CITE], and the most close match being considered the most likely original ‘source’ organism of that sequence. Some profilers additionally will also try to infer actual (cellular) species abundance of the organism in the original sample, based on the sequence abundance [CITE].</p>
-<p>Due to the scale of taxonomic profiling is an unresolved ‘problem’ in bioinformatics. Having to identify the original source of many sequences, from many samples, against many reference genomes but in an <em>efficient</em> manner is understandably a difficult problem. Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts they have been developed in <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(<a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>. Thus, no established ‘gold standard’ method currently exists.</p>
-<!-- ONE SOLUTION IS TO RUN MANY -->
-<!-- DATABASES? -->
-<!-- SCALABILITY DUE TO LARGE SCALE -->
+<p>Due to the scale of the problem, taxonomic profiling remains an ‘unresolved problem’ in bioinformatics. Having to identify the original source of many sequences, against many reference genomes but in an <em>efficient</em> manner is understandably a difficult problem. Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts that they have been developed in <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(<a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>. Additionally, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results. Thus, no established ‘gold standard’ method currently exists.</p>
+<p>One solution to addressing the range of different tools is to run all of them in parallel, and cross compare the results. This can both be useful for benchmarking studies <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(e.g. <a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>, but also to build consensus profiles whereby confidence of a particular taxonomic identification can be increased when it is detected by multiple tools [CITE].</p>
+<p>A second challenge in taxonomic profiling is a question of databases. As with tools, there is no one set ‘gold standard’ database for taxonomic profiling. Different questions and contexts may require different databases, such as when a researcher wants to search for both bacteria_and viruses species in samples, and as an extension of this, classifiers may need different settings for each database. Furthermore, as genomic sequencing becomes cheaper and more efficient, the number of publicly available reference genomes are rapidly increasing [CITE], making the size of databases taxonomic classifiers also much a larger.</p>
+<p>Finally, with the sinking of sequencing costs, this opens up the possibility for larger and larger metagenome sequencing, meaning the sample sizes of studies are increasing further highlighting the need for methods for efficiently profiling many samples against many tools and databases. Manually setting up bioinformatic jobs for classification tasks for each database and settings against different tools on traditional academic computing infrastructure (e.g.&nbsp;high performance computing clusters or ‘HPC’ clusters) can be very tedious. Additionally, particularly for very large sample sets, there is increasing use of cloud platforms that have greater scalability than traditional HPCs. Being able to reliably and reproducibly execute taxonomic classification tasks across infrastructure with minimal intervention would therefore be a boon for the metagenomics field.</p>
+<p>Here we present nf-core/taxprofiler a pipeline designed to allow users to efficiently and simultaneously taxonomically classify and profile short- and long-read sequencing data against multiple tools and databases in a single pipeline run. nf-core/taxprofiler utilises Nextflow <span class="citation" data-cites="Di_Tommaso2017-xu">(<a href="#ref-Di_Tommaso2017-xu" role="doc-biblioref">Di Tommaso et al. 2017</a>)</span> to ensure efficiency, portability, and scalability, and has been developed within the nf-core initiative of Nextflow pipelines <span class="citation" data-cites="Ewels2020-vi">(<a href="#ref-Ewels2020-vi" role="doc-biblioref">Ewels et al. 2020</a>)</span> to ensure high quality coding practises and user accessibility, including detailed documentation and a GUI execution interface.</p>
 </section>
 <section id="implementation" class="level2">
 <h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
+<p>nf-core/taxprofiler aims to facilitate three main steps of a typical shotgun metagenomic workflow. Taking in short- (e.g.&nbsp;Illumina) or long-read (e.g.&nbsp;Nanopore) FASTQ or FASTA files, it can perform a range of appropriate preprocessing steps of reads, then perform taxonomic classification profiling against a range of different tools depending on the wish of the user, and finally perform post-classification aggregation and standardisation of the resulting profiles with the possibility of visualisation of outputs. All relevant preprocessing statistics are displayed in an interactive and dynamic MultiQC report [CITE].</p>
+<p>Preprocessing &lt;…&gt;</p>
 <div id="fig-workflow-diagram" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="taxprofiler_tube.png" class="img-fluid figure-img" alt="nf-core/taxprofiler workflow diagram in a metro map style"></p>
 <figcaption class="figure-caption">Figure&nbsp;1: Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control, read preprocessing, complexity filtering, host removal, and run merging before going into taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are additionally standardised into a common taxon table format and some with visualisation of profiles.</figcaption>
 </figure>
 </div>
-<p>There are many types of metagenomic profile techniques from alignment, to k-mer, and marker-gene based methods <span class="citation" data-cites="Quince2017-bl">(<a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>)</span></p>
+<p>There are many types of metagenomic profile techniques from alignment, to k-mer, and marker-gene based methods <span class="citation" data-cites="Quince2017-bl">(<a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>)</span>.</p>
+</section>
+<section id="benchmarking" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarking">Benchmarking</h2>
+<p>We ran nf-core/taxprofiler on a dataset of <!-- TODO --> from <!-- TODO --> , on a <!-- TODO --> .</p>
+<p>Run metric can be seen in Figure <!-- TODO --> .</p>
 </section>
 <section id="use-cases" class="level2">
 <h2 class="anchored" data-anchor-id="use-cases">Use Cases</h2>
+<p>Here we provide a very examples</p>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
+<p>Comparison with…</p>
+<p>We decided not to include support for metataxonomic tools (amplicon sequencing data) as there already exists well established best-practise pipelines for this [QIIME], however conceptually tools such as XYZ that identify 16S sequences <em>from</em> metagenomic</p>
+<p>Future development will see &lt;…additional profiling tools, database construction, additional validation steps&gt;</p>
 </section>
 <section id="data-availability" class="level2">
 <h2 class="anchored" data-anchor-id="data-availability">Data Availability</h2>
+<p>All data used in this publication</p>
+</section>
+<section id="code-availability" class="level2">
+<h2 class="anchored" data-anchor-id="code-availability">Code Availability</h2>
+<p>nf-core/taxprofiler source code is available on GitHub at https://github.com/nf-core/taxprofiler, and each release is archived on Zenodo (<!-- DOI -->)</p>
+<p>The version of the pipeline described in this paper is version (<!-- VERSION -->) (Zenodo archive DOI: <!-- DOI -->)</p>
 </section>
 <section id="supplementary-data" class="level2">
 <h2 class="anchored" data-anchor-id="supplementary-data">Supplementary Data</h2>
 </section>
 <section id="acknowledgments" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<p>We thank Prof.&nbsp;Christina Warinner and the Microbiome Sciences group MPI-EVA for original discussions that lead to the pipeline. We are also grateful for the nf-core community for ongoing support in the development in the pipeline.</p>
 </section>
 <section id="funding" class="level2">
 <h2 class="anchored" data-anchor-id="funding">Funding</h2>
+<p>S.S. was supported by Rapid establishment of comprehensive laboratory pandemic preparedness – RAPID-SEQ This material is based upon work supported by the U.S. Department of Agriculture, Agricultural Research Service, under agreement No.&nbsp;58-3022-0-001 (T.A.C II). M.B. and J.A.F.Y were supported by the Max Planck Society. J.A.F.Y was supported by the Werner Siemens-Stiftung (“Paleobiotechnology”, Awarded to Prof.&nbsp;Pierre Stallforth and Prof.&nbsp;Christina Warinner).</p>
 </section>
 <section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
+
 
 
 
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Di_Tommaso2017-xu" class="csl-entry" role="listitem">
+Di Tommaso, Paolo, Maria Chatzou, Evan W Floden, Pablo Prieto Barja, Emilio Palumbo, and Cedric Notredame. 2017. <span>“Nextflow Enables Reproducible Computational Workflows.”</span> <em>Nature Biotechnology</em> 35 (4): 316–19. <a href="https://doi.org/10.1038/nbt.3820">https://doi.org/10.1038/nbt.3820</a>.
+</div>
+<div id="ref-Ewels2020-vi" class="csl-entry" role="listitem">
+Ewels, Philip A, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso, and Sven Nahnsen. 2020. <span>“The Nf-Core Framework for Community-Curated Bioinformatics Pipelines.”</span> <em>Nature Biotechnology</em> 38 (3): 276–78. <a href="https://doi.org/10.1038/s41587-020-0439-x">https://doi.org/10.1038/s41587-020-0439-x</a>.
+</div>
 <div id="ref-Hillmann2018-ud" class="csl-entry" role="listitem">
 Hillmann, Benjamin, Gabriel A Al-Ghalith, Robin R Shields-Cutler, Qiyun Zhu, Daryl M Gohl, Kenneth B Beckman, Rob Knight, and Dan Knights. 2018. <span>“Evaluating the Information Content of Shallow Shotgun Metagenomics.”</span> <em>mSystems</em> 3 (6). <a href="https://doi.org/10.1128/mSystems.00069-18">https://doi.org/10.1128/mSystems.00069-18</a>.
 </div>
@@ -225,7 +332,7 @@ Quince, Christopher, Alan W Walker, Jared T Simpson, Nicholas J Loman, and Nicol
 <div id="ref-Sczyrba2017-ma" class="csl-entry" role="listitem">
 Sczyrba, Alexander, Peter Hofmann, Peter Belmann, David Koslicki, Stefan Janssen, Johannes Dröge, Ivan Gregor, et al. 2017. <span>“Critical Assessment of Metagenome Interpretation-a Benchmark of Metagenomics Software.”</span> <em>Nature Methods</em> 14 (11): 1063–71. <a href="https://doi.org/10.1038/nmeth.4458">https://doi.org/10.1038/nmeth.4458</a>.
 </div>
-</div></section></div></main> <!-- /main -->
+</div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
