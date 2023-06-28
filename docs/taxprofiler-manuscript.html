@@ -105,10 +105,16 @@ div.csl-indent {
   <ul>
   <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">Implementation</a></li>
-  <li><a href="#benchmarking" id="toc-benchmarking" class="nav-link" data-scroll-target="#benchmarking">Benchmarking</a></li>
-  <li><a href="#use-cases" id="toc-use-cases" class="nav-link" data-scroll-target="#use-cases">Use Cases</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation">Implementation</a>
+  <ul class="collapse">
+  <li><a href="#input-and-execution" id="toc-input-and-execution" class="nav-link" data-scroll-target="#input-and-execution">Input and Execution</a></li>
+  <li><a href="#preprocessing" id="toc-preprocessing" class="nav-link" data-scroll-target="#preprocessing">Preprocessing</a></li>
+  <li><a href="#profiling" id="toc-profiling" class="nav-link" data-scroll-target="#profiling">Profiling</a></li>
+  <li><a href="#post-profiling" id="toc-post-profiling" class="nav-link" data-scroll-target="#post-profiling">Post-profiling</a></li>
+  </ul></li>
+  <li><a href="#use-cases-and-benchmarking" id="toc-use-cases-and-benchmarking" class="nav-link" data-scroll-target="#use-cases-and-benchmarking">Use Cases and Benchmarking</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   <li><a href="#data-availability" id="toc-data-availability" class="nav-link" data-scroll-target="#data-availability">Data Availability</a></li>
   <li><a href="#code-availability" id="toc-code-availability" class="nav-link" data-scroll-target="#code-availability">Code Availability</a></li>
   <li><a href="#supplementary-data" id="toc-supplementary-data" class="nav-link" data-scroll-target="#supplementary-data">Supplementary Data</a></li>
@@ -246,7 +252,7 @@ div.csl-indent {
 <section id="abstract" class="level2">
 <h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
 <p>Metagenomic classification tackles the problem of characterising the taxonomic source of all DNA sequencing reads in a sample. A common approach to address the differences and biases between the many different taxonomic classification tools is to run sequencing libraries through multiple classification tools and databases. This, however, is a very time intensive task when performing manually - particularly when combined with the appropriate preprocessing of sequencing reads before the classification.</p>
-<p>Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases in one pipeline run. Implemented in Nextflow and nf-core, the pipeline benefits from high levels of scalability and portability, allowing for large and small projects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline as the field of metagenomics develops. &lt;…&gt;</p>
+<p>Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases in one pipeline run. Implemented in Nextflow and nf-core, the pipeline benefits from high levels of scalability and portability, allowing for large and small projects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline as the field of metagenomics develops.</p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
@@ -261,30 +267,126 @@ div.csl-indent {
 </section>
 <section id="implementation" class="level2">
 <h2 class="anchored" data-anchor-id="implementation">Implementation</h2>
-<p>nf-core/taxprofiler aims to facilitate three main steps of a typical shotgun metagenomic workflow. Taking in short- (e.g.&nbsp;Illumina) or long-read (e.g.&nbsp;Nanopore) FASTQ or FASTA files, it can perform a range of appropriate preprocessing steps of reads, then perform taxonomic classification profiling against a range of different tools depending on the wish of the user, and finally perform post-classification aggregation and standardisation of the resulting profiles with the possibility of visualisation of outputs. All relevant preprocessing statistics are displayed in an interactive and dynamic MultiQC report [CITE].</p>
-<p>Preprocessing &lt;…&gt;</p>
+<p>nf-core/taxprofiler aims to facilitate three main steps of a typical shotgun metagenomic workflow. Taking in short- (e.g.&nbsp;Illumina) or long-read (e.g.&nbsp;Nanopore) FASTQ or FASTA files, it can perform a range of appropriate preprocessing steps of reads, then perform taxonomic classification profiling against a range of different tools depending on the wish of the user, and finally perform post-classification aggregation and standardisation of the resulting profiles with the possibility of visualisation of outputs [FIGURE 1]. All relevant preprocessing statistics are displayed in an interactive and dynamic MultiQC report [CITE].</p>
 <div id="fig-workflow-diagram" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="taxprofiler_tube.png" class="img-fluid figure-img" alt="nf-core/taxprofiler workflow diagram in a metro map style"></p>
 <figcaption class="figure-caption">Figure&nbsp;1: Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control, read preprocessing, complexity filtering, host removal, and run merging before going into taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are additionally standardised into a common taxon table format and some with visualisation of profiles.</figcaption>
 </figure>
 </div>
-<p>There are many types of metagenomic profile techniques from alignment, to k-mer, and marker-gene based methods <span class="citation" data-cites="Quince2017-bl">(<a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>)</span>.</p>
+<section id="input-and-execution" class="level3">
+<h3 class="anchored" data-anchor-id="input-and-execution">Input and Execution</h3>
+<!-- TODO comapre cli and gui; laptop vs HPC vs cloud etc. -->
+<!-- TODO input sheet and database sheet
+
+<!-- TODO -->
 </section>
-<section id="benchmarking" class="level2">
-<h2 class="anchored" data-anchor-id="benchmarking">Benchmarking</h2>
+<section id="preprocessing" class="level3">
+<h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
+<p>Preprocessing steps in nf-core/taxprofiler are aimed at removing laboratory and sequencing artefacts that may influence taxonomically profiling, either for computing resource consumption and/or false-positive or false-negative classification reasons. First sequencing quality control with FastQC [CITE] or Falco [CITE] is carried out. Falco was included in for reduced memory requirements in particular for long reads sequencing. Library adapter sequences can reduce accuracy during alignment and are sometimes contaminants inside reference genomes [CITE CARP BLOG], and paired-end merging may provide longer sequences that will allow more specific classification when paired-end alignment is not supported by a given classifier. For these tasks nf-core/taxprofiler can apply either fastp [CITE] or AdapterRemoval2 [CITE] for short-reads, and Porechop [CITE] for Oxford Nanopore long-read data. For both short- and long-reads FastQC or Falco is run again to allow assessment on the performance of the adapter removal and/or pair-merging step.</p>
+<p>Low complexity sequences, e.g.&nbsp;sequences containing long stretches mono- or di-nucleotide repeats provide little specific genetic information that contribute to taxonomic identification, as they can align to many different reference genomes. Including such reads during profiling can increase run-time and memory usage for little gain, as during lowest-common-ancestor (LCA) classification steps they will be assigned to high-level taxonomic levels such as Kingdom. nf-core/taxprofiler offers removal of these reads through complexity filtering algorithms as provided by fastp, BBDuk [CITE], or PRINSEQ++ [CITE]. Long read sequences often do not have such reads as lengths are sufficeint enough to capture greater sequence diversity - but it is sometimes desired to only classify reads longer than a certain length - as these provide sufficient taxonomic information. Therefore nf-core/taxprofiler can remove contigs shorter than a user-defined length using Filtlong.</p>
+<p>Another common preprocessing step in metagenomic studies is to remove possible host DNA. This can help speed up run-time, particularly for microbiome studies, where detection of only microbes are of interest. Furthermore, host-contamination of reference genomes on public databases is common [CITE], therefore removal of such sequences can also decrease the risk of false positive taxonomic identifications. If users wish to remove multiple hosts or other sequences, they can simply combine all reference genomes into a single FASTA reference file. Short-read host removal can be carried out with Bowtie2 [CITE] and minimap2 for long-reads, both in combination with SAMtools [CITE].</p>
+<p>Finally, nf-core/taxprofiler can optionally perform run merging where libraries have been sequenced over multiple lanes to generate one profile per sample or library.</p>
+<p>Across all steps, relevant statistics and log files are generated, and the processed reads of each step in FASTQ format can be optionally saved for downstream re-use.</p>
+</section>
+<section id="profiling" class="level3">
+<h3 class="anchored" data-anchor-id="profiling">Profiling</h3>
+<p>There are many types of metagenomic profile techniques from profiling against whole-genome references with alignment or k-mer based approaches [CITE], or methods involving alignment to species-specific marker-gene families <span class="citation" data-cites="Quince2017-bl">(<a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>,OTHERS?)</span>. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. Which tools are used in a pipeline run is up to the user, with a tool being executed both a corresponding database and <code>--run_&lt;tool&gt;</code> flag is provided. Specific classification/profiling settings for each tool and database are specified in the database CSV input sheet, however for some tools pipeline level command-line flags are available.</p>
+<p>As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [CITE], Bracken [CITE], KrakenUniq [CITE], Centrifuge [CITE], MALT [CITE], DIAMOND [CITE], Kaiju [CITE], MetaPhlAn3 [CITE], MetaPhlAn4 [CITE] mOTUs [CITE], ganon [CITE], KMCP [CITE]. Table <!-- TODO --> summarises the category and reference database type for each tool.</p>
+<!-- TODO CHECK!!!!! AND add fig id AND maybe add classifier vs profiler? -->
+<table class="table">
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Reference Type</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>Kraken2</td>
+</tr>
+<tr class="even">
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>Bracken</td>
+</tr>
+<tr class="odd">
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>KrakenUniq</td>
+</tr>
+<tr class="even">
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>ganon</td>
+</tr>
+<tr class="odd">
+<td>???</td>
+<td>???</td>
+<td>KMCP</td>
+</tr>
+<tr class="even">
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>Centrifuge</td>
+</tr>
+<tr class="odd">
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>MALT</td>
+</tr>
+<tr class="even">
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>DIAMOND</td>
+</tr>
+<tr class="odd">
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>Kaiju</td>
+</tr>
+<tr class="even">
+<td>alignment based</td>
+<td>marker-gene</td>
+<td>MetaPhlAn3</td>
+</tr>
+<tr class="odd">
+<td>alignment based</td>
+<td>marker-gene</td>
+<td>MetaPhlAn4</td>
+</tr>
+<tr class="even">
+<td>alignment based</td>
+<td>marker-gene</td>
+<td>mOTUS</td>
+</tr>
+</tbody>
+</table>
+<p>nf-core/taxprofiler by default produces the per-sample main taxonomic classification profile from a tool or a tool’s report generation tool, normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.</p>
+</section>
+<section id="post-profiling" class="level3">
+<h3 class="anchored" data-anchor-id="post-profiling">Post-profiling</h3>
+<p>Metagenomic studies often must compare the profiles between many samples, and the results of multiple profiles are normally stored in ‘taxon tables’, i.e, counts per reference (rows), for each sample (columns). When available nf-core/taxprofiler can optionally produce the ‘native’ taxon table of each classification tool when multiple samples are run.</p>
+<p>When researchers wish to compare between taxonomic classifiers or profilers, they must often deal with the heterogenous output formats that are produced by each tool, typically in the form of custom parser and merging scripts for each tool. To facilitate more user-friendly cross-comparison between tools, nf-core/taxprofiler utilises the TAXPASTA tool <span class="citation" data-cites="Beber">(<a href="#ref-Beber" role="doc-biblioref"><strong>Beber?</strong></a>)</span> to generate standardarised profiles and generate multi-sample tables.</p>
+<p>Summary statistics for the entire pipeline are visualised are displayed in a customisable MultiQC report [CITE], when supported, to support user quality control of data and pipeline runs. Krona plots [CITE] can also optionally be generated for supported tools to help provide further visualisation of taxonomic profiles.</p>
+</section>
+</section>
+<section id="use-cases-and-benchmarking" class="level2">
+<h2 class="anchored" data-anchor-id="use-cases-and-benchmarking">Use Cases and Benchmarking</h2>
 <p>We ran nf-core/taxprofiler on a dataset of <!-- TODO --> from <!-- TODO --> , on a <!-- TODO --> .</p>
 <p>Run metric can be seen in Figure <!-- TODO --> .</p>
-</section>
-<section id="use-cases" class="level2">
-<h2 class="anchored" data-anchor-id="use-cases">Use Cases</h2>
-<p>Here we provide a very examples</p>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
 <p>Comparison with…</p>
 <p>We decided not to include support for metataxonomic tools (amplicon sequencing data) as there already exists well established best-practise pipelines for this [QIIME], however conceptually tools such as XYZ that identify 16S sequences <em>from</em> metagenomic</p>
-<p>Future development will see &lt;…additional profiling tools, database construction, additional validation steps&gt;</p>
+<p>Future development will see &lt;…additional profiling tools, database construction, additional validation steps, PacBio support&gt;</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 </section>
 <section id="data-availability" class="level2">
 <h2 class="anchored" data-anchor-id="data-availability">Data Availability</h2>
