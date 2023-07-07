@@ -28,18 +28,19 @@ author:
       affiliations:
       - ref: ki 
       - ref: kuh
-    - name: Jianhong Ou
-      given: Jianhong
-      family: Ou
-      orcid:
-      affiliations:
-      - ref: du
     - name: Thomas A. Christensen II
       given: Thomas A.
       family: Christensen II
       orcid: 0000-0003-1219-9320
       affiliations:
       - ref: ksu
+    - name: Lili Andersson-Li
+      given: Lili
+      family: Andersson-Li
+      orcid:
+      affiliations:
+      - ref: ki
+      - ref: kuh
     - name: Maxime Borry
       given: Maxime
       family: Borry
@@ -74,7 +75,7 @@ author:
         - ref: hki
 affiliations:
   - id: ki
-    name: Department of Microbiology, Tumor and Cell Biology, Clinical Genomics, Karolinkska Institutet
+    name: Department of Microbiology, Tumor and Cell Biology, Karolinkska Institutet
     address: Solnavägen 1
     city: Solna
     state: Stockholm 
@@ -115,13 +116,6 @@ affiliations:
     state: Östergötland
     postal-code: 58191
     country: Sweden
-  - id: du
-    name: Regeneration Center, Duke University
-    address: Nanaline Duke Bldg 464
-    city: Durham
-    state: NC
-    postal-code: 27710
-    country: United States
   - id: ksu
     name: Veterinary Diagnostic Laboratory, Kansas State University College of Veterinary Medicine 
     address: 1800 Denison Ave
@@ -281,11 +275,11 @@ The version of the pipeline described in this paper is version (<!-- VERSION -->
 
 ## Acknowledgments
 
-We thank Prof. Christina Warinner and the Microbiome Sciences group MPI-EVA for original discussions that lead to the pipeline. We are also grateful for the nf-core community for ongoing support in the development in the pipeline.
+We thank Prof. Christina Warinner and the Microbiome Sciences group MPI-EVA for original discussions that lead to the pipeline. We are also grateful for the nf-core community for ongoing support in the development in the pipeline, in particular for the contributions by Jianhong Ou.
 
 ## Funding
 
-S.S. was supported by Rapid establishment of comprehensive laboratory pandemic preparedness – RAPID-SEQ
+S.S. and L.A-L. was supported by Rapid establishment of comprehensive laboratory pandemic preparedness – RAPID-SEQ
 This material is based upon work supported by the U.S. Department of Agriculture, Agricultural Research Service, under agreement No. 58-3022-0-001 (T.A.C II).
 M.B. and J.A.F.Y were supported by the Max Planck Society. J.A.F.Y was supported by the Werner Siemens-Stiftung ("Paleobiotechnology", Awarded to Prof. Pierre Stallforth and Prof. Christina Warinner).
 
