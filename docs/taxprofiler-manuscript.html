@@ -314,8 +314,14 @@ div.csl-indent {
 <p>We note that while we are aware of discussions on the topic of differing definitions of metagenomic classifier and profiler [CITE], we generally refer to classifiers and profilers as synonyms throughout this article, as previously described [TAXPASTA PAPER], both many different types of tools are used in the pipeline.</p>
 <section id="input-and-execution" class="level3">
 <h3 class="anchored" data-anchor-id="input-and-execution">Input and Execution</h3>
-<p>The pipeline can be executed via typical Nextflow commands, or using the standard nf-core ‘launch’ GUI (<a href="https://nf-co.re/taxprofiler/launch">https://nf-co.re/taxprofiler/launch</a>), making the pipeline accessible for both computationally experienced as well as less experienced researchers. In addition to the general usage and parameter documentation of the pipeline (https://nf-co.re/taxprofiler). The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameter(s) are being modified for each pipeline parameter (<!-- SCREENSHOT FIGURE -->). The GUI also includes controlled user input by providing strict drop-down lists and input validation prior execution of the pipeline to reduce the risk of typos and other mistakes (in contrast the command-line interface (CLI) that only includes validation at pipeline run-time).</p>
-<p>An example nf-core command line execution of the pipeline can be seen in in figure <!--- COMMAND FIGURE -->, where two input files are supplied: one of paths of FASTQ files of metagenomic samples and necessary metadata for preprocessing (such as sample ID and sequencing platform ), and then a second giving paths to the user-supplied databases with parameters the user wishes the databases to be aligned to with. Various parameters are available to optionally turn on different preprocessing steps, and provide additional configurations such as tool selection and value options. Even if a user supplies a tool’s database to the database input sheet, the user must still activate the execution of each classifier they wish to use with dedicated flags, with some additional per-classifier flags for saving particular optional output files.</p>
+<p>The pipeline can be executed via typical Nextflow commands, or using the standard nf-core ‘launch’ GUI (<a href="https://nf-co.re/taxprofiler/launch">https://nf-co.re/taxprofiler/launch</a>), making the pipeline accessible for both computationally experienced as well as less experienced researchers. In addition to the general usage and parameter documentation of the pipeline (https://nf-co.re/taxprofiler). The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameter(s) are being modified for each pipeline parameter (<a href="#fig-launch-page">Figure&nbsp;2</a>). The GUI also includes controlled user input by providing strict drop-down lists and input validation prior execution of the pipeline to reduce the risk of typos and other mistakes (in contrast the command-line interface (CLI) that only includes validation at pipeline run-time).</p>
+<div id="fig-launch-page" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="taxprofiler_launchpage.png" class="img-fluid figure-img" alt="TODO"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Screenshot of the nf-core pipeline launch graphical user interface with nf-core/taxprofiler options displayed. The web browser-based interface provides guidance for how to configure each pipeline parameter by providing both short and long help descriptions to help guide users in which contexts to configure each parameter. Additional elements such as radio buttons, drop down menus, and background regular expressions check for validity of input. When pressing launch, a prepared configuration file and command is provided that can be copied and pasted by the user into the terminal</figcaption>
+</figure>
+</div>
+<p>An example nf-core command line execution of the pipeline can be seen in in figure <!--- TODO COMMAND FIGURE -->, where two input files are supplied: one of paths of FASTQ files of metagenomic samples and necessary metadata for preprocessing (such as sample ID and sequencing platform ), and then a second giving paths to the user-supplied databases with parameters the user wishes the databases to be aligned to with. Various parameters are available to optionally turn on different preprocessing steps, and provide additional configurations such as tool selection and value options. Even if a user supplies a tool’s database to the database input sheet, the user must still activate the execution of each classifier they wish to use with dedicated flags, with some additional per-classifier flags for saving particular optional output files.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/taxprofiler <span class="at">-r</span> 1.1.0 <span class="dt">\</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>-profile singularity,<span class="op">&lt;</span>institute<span class="op">&gt;</span> <span class="dt">\</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>--input <span class="op">&lt;</span>samplesheet.csv<span class="op">&gt;</span> --databases <span class="op">&lt;</span>database.csv<span class="op">&gt;</span> <span class="dt">\</span></span>
@@ -326,7 +332,7 @@ div.csl-indent {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>--run_krona <span class="dt">\</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>--run_profile_standardisation <span class="dt">\</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>All nf-core pipelines are strictly versioned (specified with the Nextflow <code>-r</code> flag), and to ensure reproducibility each version of the pipeline has a fixed set of software used for each step of the pipeline. The fixed set of software are controlled through the use of the conda package manager and containers (e.g., docker, singularity) from the stable bioconda [CITE] and biocontainer [CITE] repositories. This, coupled with the intrinsic Nextflow ability to execute on most infrastructure whether that is a local laptop (resource requirements permitting), traditional HPC, as well across common cloud providers also makes nf-core/taxprofiler a very portable pipeline that can be used across many contexts.</p>
-<!-- SCREENSHOT OF LAUNCH -->
+<!-- TODO SCREENSHOT OF LAUNCH -->
 </section>
 <section id="preprocessing" class="level3">
 <h3 class="anchored" data-anchor-id="preprocessing">Preprocessing</h3>
@@ -339,11 +345,20 @@ div.csl-indent {
 <section id="profiling" class="level3">
 <h3 class="anchored" data-anchor-id="profiling">Profiling</h3>
 <p>There are many types of metagenomic profile techniques from profiling against whole-genome references with alignment or k-mer based approaches [CITE], or methods involving alignment to species-specific marker-gene families <span class="citation" data-cites="Quince2017-bl">(<a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>,OTHERS?)</span>. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. Which tools are used in a pipeline run is up to the user, with a tool being executed both a corresponding database and <code>--run_&lt;tool&gt;</code> flag is provided. Specific classification/profiling settings for each tool and database are specified in the database CSV input sheet, however for some tools pipeline level command-line flags are available.</p>
-<p>As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [CITE], Bracken [CITE], KrakenUniq [CITE], Centrifuge [CITE], MALT [CITE], DIAMOND [CITE], Kaiju [CITE], MetaPhlAn3 [CITE], MetaPhlAn4 [CITE] mOTUs [CITE], ganon [CITE], KMCP [CITE]. Table <!-- TODO --> summarises the category and reference database type for each tool.</p>
+<p>As of version 1.1.0, the following classifiers and profilers are available: Kraken2 <span class="citation" data-cites="Wood2019-mf">(<a href="#ref-Wood2019-mf" role="doc-biblioref">Wood, Lu, and Langmead 2019</a>)</span>, Bracken <span class="citation" data-cites="Lu2017-vc">(<a href="#ref-Lu2017-vc" role="doc-biblioref">Lu et al. 2017</a>)</span>, KrakenUniq <span class="citation" data-cites="Breitwieser2018-xg">(<a href="#ref-Breitwieser2018-xg" role="doc-biblioref">Breitwieser, Baker, and Salzberg 2018</a>)</span>, Centrifuge <span class="citation" data-cites="Kim2016-qc">(<a href="#ref-Kim2016-qc" role="doc-biblioref">Kim et al. 2016</a>)</span>, MALT <span class="citation" data-cites="Vagene2018-px">(<a href="#ref-Vagene2018-px" role="doc-biblioref">Vågene et al. 2018</a>)</span>, DIAMOND <span class="citation" data-cites="Buchfink2021-ks">(<a href="#ref-Buchfink2021-ks" role="doc-biblioref">Buchfink, Reuter, and Drost 2021</a>)</span>, Kaiju <span class="citation" data-cites="Menzel2016-xy">(<a href="#ref-Menzel2016-xy" role="doc-biblioref">Menzel, Ng, and Krogh 2016</a>)</span>, MetaPhlAn3 and 4 <span class="citation" data-cites="Beghini2021-cf Blanco-Miguez2023-cq">(<a href="#ref-Beghini2021-cf" role="doc-biblioref">Beghini et al. 2021</a>; <a href="#ref-Blanco-Miguez2023-cq" role="doc-biblioref">Blanco-Míguez et al. 2023</a>)</span> mOTUs <span class="citation" data-cites="Ruscheweyh2022-hn">(<a href="#ref-Ruscheweyh2022-hn" role="doc-biblioref">Ruscheweyh et al. 2022</a>)</span>, ganon <span class="citation" data-cites="Piro2020-es">(<a href="#ref-Piro2020-es" role="doc-biblioref">Piro et al. 2020</a>)</span>, KMCP <span class="citation" data-cites="Shen2023-bk">(<a href="#ref-Shen2023-bk" role="doc-biblioref">Shen et al. 2023</a>)</span>. <a href="#tbl-tool-summaries">Table&nbsp;1</a> summarises the category and reference database type for each tool.</p>
 <!-- TODO CHECK!!!!! AND add fig id AND maybe add classifier vs profiler? -->
+<div id="tbl-tool-summaries" class="anchored">
 <table class="table">
+<caption>Table&nbsp;1: List of nf-core/taxprofiler supported taxonomic profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which ‘alphabet’ is primarily used for matching between a query (read) and a reference (genome/gene). Method refers to the algorithm type used for matching. Reference type refers to the typical sequence type used in database construction of the tool.</caption>
+<colgroup>
+<col style="width: 34%">
+<col style="width: 24%">
+<col style="width: 23%">
+<col style="width: 17%">
+</colgroup>
 <thead>
 <tr class="header">
+<th>Sequence Matching Type</th>
 <th>Method</th>
 <th>Reference Type</th>
 <th>Tool</th>
@@ -351,67 +366,80 @@ div.csl-indent {
 </thead>
 <tbody>
 <tr class="odd">
+<td>Nucleotide</td>
 <td>k-mer based</td>
 <td>whole-genome</td>
 <td>Kraken2</td>
 </tr>
 <tr class="even">
+<td>Nucleotide</td>
 <td>k-mer based</td>
 <td>whole-genome</td>
 <td>Bracken</td>
 </tr>
 <tr class="odd">
+<td>Nucleotide</td>
 <td>k-mer based</td>
 <td>whole-genome</td>
 <td>KrakenUniq</td>
 </tr>
 <tr class="even">
+<td>Nucleotide</td>
 <td>k-mer based</td>
 <td>whole-genome</td>
 <td>ganon</td>
 </tr>
 <tr class="odd">
-<td>???</td>
-<td>???</td>
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
 <td>KMCP</td>
 </tr>
 <tr class="even">
+<td>Amino Acid</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>Kaiju</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide</td>
 <td>alignment based</td>
 <td>whole-genome</td>
 <td>Centrifuge</td>
 </tr>
-<tr class="odd">
+<tr class="even">
+<td>Nucleotide/Amino Acid</td>
 <td>alignment based</td>
 <td>whole-genome</td>
 <td>MALT</td>
 </tr>
-<tr class="even">
+<tr class="odd">
+<td>Amino Acid</td>
 <td>alignment based</td>
 <td>whole-genome</td>
 <td>DIAMOND</td>
 </tr>
-<tr class="odd">
-<td>alignment based</td>
-<td>whole-genome</td>
-<td>Kaiju</td>
-</tr>
 <tr class="even">
+<td>Nucleotide</td>
 <td>alignment based</td>
 <td>marker-gene</td>
 <td>MetaPhlAn3</td>
 </tr>
 <tr class="odd">
+<td>Nucleotide</td>
 <td>alignment based</td>
 <td>marker-gene</td>
 <td>MetaPhlAn4</td>
 </tr>
 <tr class="even">
+<td>Nucleotide</td>
 <td>alignment based</td>
 <td>marker-gene</td>
 <td>mOTUS</td>
 </tr>
 </tbody>
 </table>
+</div>
 <!-- EMPHASISE PARALLELISATION AND EFFICIENCY -->
 <p>nf-core/taxprofiler by default produces the per-sample main taxonomic classification profile from a tool or a tool’s report generation tool, normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.</p>
 </section>
@@ -450,7 +478,7 @@ div.csl-indent {
 </section>
 <section id="code-availability" class="level2">
 <h2 class="anchored" data-anchor-id="code-availability">Code Availability</h2>
-<p>nf-core/taxprofiler source code is available on GitHub at https://github.com/nf-core/taxprofiler, and each release is archived on Zenodo (<!-- DOI -->)</p>
+<p>nf-core/taxprofiler source code is available on GitHub at <a href="https://github.com/nf-core/taxprofiler">https://github.com/nf-core/taxprofiler</a>, and each release is archived on Zenodo (DOI: <a href="https://doi.org/10.5281/zenodo.7728364">10.5281/zenodo.7728364</a>)</p>
 <p>The version of the pipeline described in this paper is version (<!-- VERSION -->) (Zenodo archive DOI: <!-- DOI -->)</p>
 </section>
 <section id="supplementary-data" class="level2">
@@ -472,6 +500,18 @@ div.csl-indent {
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Beghini2021-cf" class="csl-entry" role="listitem">
+Beghini, Francesco, Lauren J McIver, Aitor Blanco-Míguez, Leonard Dubois, Francesco Asnicar, Sagun Maharjan, Ana Mailyan, et al. 2021. <span>“Integrating Taxonomic, Functional, and Strain-Level Profiling of Diverse Microbial Communities with <span class="nocase">bioBakery</span> 3.”</span> <em>eLife</em> 10 (May): e65088. <a href="https://doi.org/10.7554/eLife.65088">https://doi.org/10.7554/eLife.65088</a>.
+</div>
+<div id="ref-Blanco-Miguez2023-cq" class="csl-entry" role="listitem">
+Blanco-Míguez, Aitor, Francesco Beghini, Fabio Cumbo, Lauren J McIver, Kelsey N Thompson, Moreno Zolfo, Paolo Manghi, et al. 2023. <span>“Extending and Improving Metagenomic Taxonomic Profiling with Uncharacterized Species Using <span>MetaPhlAn</span> 4.”</span> <em>Nature Biotechnology</em>, February, 1–12. <a href="https://doi.org/10.1038/s41587-023-01688-w">https://doi.org/10.1038/s41587-023-01688-w</a>.
+</div>
+<div id="ref-Breitwieser2018-xg" class="csl-entry" role="listitem">
+Breitwieser, F P, D N Baker, and S L Salzberg. 2018. <span>“<span>KrakenUniq</span>: Confident and Fast Metagenomics Classification Using Unique k-Mer Counts.”</span> <em>Genome Biology</em> 19 (1): 198. <a href="https://doi.org/10.1186/s13059-018-1568-0">https://doi.org/10.1186/s13059-018-1568-0</a>.
+</div>
+<div id="ref-Buchfink2021-ks" class="csl-entry" role="listitem">
+Buchfink, Benjamin, Klaus Reuter, and Hajk-Georg Drost. 2021. <span>“Sensitive Protein Alignments at Tree-of-Life Scale Using <span>DIAMOND</span>.”</span> <em>Nature Methods</em> 18 (4): 366–68. <a href="https://doi.org/10.1038/s41592-021-01101-x">https://doi.org/10.1038/s41592-021-01101-x</a>.
+</div>
 <div id="ref-Di_Tommaso2017-xu" class="csl-entry" role="listitem">
 Di Tommaso, Paolo, Maria Chatzou, Evan W Floden, Pablo Prieto Barja, Emilio Palumbo, and Cedric Notredame. 2017. <span>“Nextflow Enables Reproducible Computational Workflows.”</span> <em>Nature Biotechnology</em> 35 (4): 316–19. <a href="https://doi.org/10.1038/nbt.3820">https://doi.org/10.1038/nbt.3820</a>.
 </div>
@@ -481,14 +521,38 @@ Ewels, Philip A, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alne
 <div id="ref-Hillmann2018-ud" class="csl-entry" role="listitem">
 Hillmann, Benjamin, Gabriel A Al-Ghalith, Robin R Shields-Cutler, Qiyun Zhu, Daryl M Gohl, Kenneth B Beckman, Rob Knight, and Dan Knights. 2018. <span>“Evaluating the Information Content of Shallow Shotgun Metagenomics.”</span> <em>mSystems</em> 3 (6). <a href="https://doi.org/10.1128/mSystems.00069-18">https://doi.org/10.1128/mSystems.00069-18</a>.
 </div>
+<div id="ref-Kim2016-qc" class="csl-entry" role="listitem">
+Kim, Daehwan, Li Song, Florian P Breitwieser, and Steven L Salzberg. 2016. <span>“Centrifuge: Rapid and Sensitive Classification of Metagenomic Sequences.”</span> <em>Genome Research</em> 26 (12): 1721–29. <a href="https://doi.org/10.1101/gr.210641.116">https://doi.org/10.1101/gr.210641.116</a>.
+</div>
+<div id="ref-Lu2017-vc" class="csl-entry" role="listitem">
+Lu, Jennifer, Florian P Breitwieser, Peter Thielen, and Steven L Salzberg. 2017. <span>“Bracken: Estimating Species Abundance in Metagenomics Data.”</span> <em>PeerJ. Computer Science</em> 3 (e104): e104. <a href="https://doi.org/10.7717/peerj-cs.104">https://doi.org/10.7717/peerj-cs.104</a>.
+</div>
+<div id="ref-Menzel2016-xy" class="csl-entry" role="listitem">
+Menzel, Peter, Kim Lee Ng, and Anders Krogh. 2016. <span>“Fast and Sensitive Taxonomic Classification for Metagenomics with Kaiju.”</span> <em>Nature Communications</em> 7 (April): 11257. <a href="https://doi.org/10.1038/ncomms11257">https://doi.org/10.1038/ncomms11257</a>.
+</div>
 <div id="ref-Meyer2022-dg" class="csl-entry" role="listitem">
 Meyer, Fernando, Adrian Fritz, Zhi-Luo Deng, David Koslicki, Till Robin Lesker, Alexey Gurevich, Gary Robertson, et al. 2022. <span>“Critical Assessment of Metagenome Interpretation: The Second Round of Challenges.”</span> <em>Nature Methods</em> 19 (4): 429–40. <a href="https://doi.org/10.1038/s41592-022-01431-4">https://doi.org/10.1038/s41592-022-01431-4</a>.
+</div>
+<div id="ref-Piro2020-es" class="csl-entry" role="listitem">
+Piro, Vitor C, Temesgen H Dadi, Enrico Seiler, Knut Reinert, and Bernhard Y Renard. 2020. <span>“Ganon: Precise Metagenomics Classification Against Large and up-to-Date Sets of Reference Sequences.”</span> <em>Bioinformatics (Oxford, England)</em> 36 (Suppl_1): i12–20. <a href="https://doi.org/10.1093/bioinformatics/btaa458">https://doi.org/10.1093/bioinformatics/btaa458</a>.
 </div>
 <div id="ref-Quince2017-bl" class="csl-entry" role="listitem">
 Quince, Christopher, Alan W Walker, Jared T Simpson, Nicholas J Loman, and Nicola Segata. 2017. <span>“Shotgun Metagenomics, from Sampling to Analysis.”</span> <em>Nature Biotechnology</em> 35 (9): 833–44. <a href="https://doi.org/10.1038/nbt.3935">https://doi.org/10.1038/nbt.3935</a>.
 </div>
+<div id="ref-Ruscheweyh2022-hn" class="csl-entry" role="listitem">
+Ruscheweyh, Hans-Joachim, Alessio Milanese, Lucas Paoli, Nicolai Karcher, Quentin Clayssen, Marisa Isabell Keller, Jakob Wirbel, et al. 2022. <span>“Cultivation-Independent Genomes Greatly Expand Taxonomic-Profiling Capabilities of <span class="nocase">mOTUs</span> Across Various Environments.”</span> <em>Microbiome</em> 10 (1): 212. <a href="https://doi.org/10.1186/s40168-022-01410-z">https://doi.org/10.1186/s40168-022-01410-z</a>.
+</div>
 <div id="ref-Sczyrba2017-ma" class="csl-entry" role="listitem">
 Sczyrba, Alexander, Peter Hofmann, Peter Belmann, David Koslicki, Stefan Janssen, Johannes Dröge, Ivan Gregor, et al. 2017. <span>“Critical Assessment of Metagenome Interpretation-a Benchmark of Metagenomics Software.”</span> <em>Nature Methods</em> 14 (11): 1063–71. <a href="https://doi.org/10.1038/nmeth.4458">https://doi.org/10.1038/nmeth.4458</a>.
+</div>
+<div id="ref-Shen2023-bk" class="csl-entry" role="listitem">
+Shen, Wei, Hongyan Xiang, Tianquan Huang, Hui Tang, Mingli Peng, Dachuan Cai, Peng Hu, and Hong Ren. 2023. <span>“<span>KMCP</span>: Accurate Metagenomic Profiling of Both Prokaryotic and Viral Populations by Pseudo-Mapping.”</span> <em>Bioinformatics</em> 39 (1): btac845. <a href="https://doi.org/10.1093/bioinformatics/btac845">https://doi.org/10.1093/bioinformatics/btac845</a>.
+</div>
+<div id="ref-Vagene2018-px" class="csl-entry" role="listitem">
+Vågene, Åshild J, Alexander Herbig, Michael G Campana, Nelly M Robles García, Christina Warinner, Susanna Sabin, Maria A Spyrou, et al. 2018. <span>“Salmonella Enterica Genomes from Victims of a Major Sixteenth-Century Epidemic in Mexico.”</span> <em>Nature Ecology &amp; Evolution</em> 2 (3): 520–28. <a href="https://doi.org/10.1038/s41559-017-0446-6">https://doi.org/10.1038/s41559-017-0446-6</a>.
+</div>
+<div id="ref-Wood2019-mf" class="csl-entry" role="listitem">
+Wood, Derrick E, Jennifer Lu, and Ben Langmead. 2019. <span>“Improved Metagenomic Analysis with Kraken 2.”</span> <em>Genome Biology</em> 20 (1): 257. <a href="https://doi.org/10.1186/s13059-019-1891-0">https://doi.org/10.1186/s13059-019-1891-0</a>.
 </div>
 </div></section><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div id="quarto-reuse" class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by/4.0/">https://creativecommons.org/licenses/by/4.0/</a></div></div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

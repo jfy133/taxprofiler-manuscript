@@ -167,9 +167,11 @@ We note that while we are aware of discussions on the topic of differing definit
 
 ### Input and Execution
 
-The pipeline can be executed via typical Nextflow commands, or using the standard nf-core 'launch' GUI ([https://nf-co.re/taxprofiler/launch](https://nf-co.re/taxprofiler/launch)), making the pipeline accessible for both computationally experienced as well as less experienced researchers. In addition to the general usage and parameter documentation of the pipeline (https://nf-co.re/taxprofiler). The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameter(s) are being modified for each pipeline parameter (<!-- SCREENSHOT FIGURE -->). The GUI also includes controlled user input by providing strict drop-down lists and input validation prior execution of the pipeline to reduce the risk of typos and other mistakes (in contrast the command-line interface (CLI) that only includes validation at pipeline run-time).
+The pipeline can be executed via typical Nextflow commands, or using the standard nf-core 'launch' GUI ([https://nf-co.re/taxprofiler/launch](https://nf-co.re/taxprofiler/launch)), making the pipeline accessible for both computationally experienced as well as less experienced researchers. In addition to the general usage and parameter documentation of the pipeline (https://nf-co.re/taxprofiler). The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameter(s) are being modified for each pipeline parameter ([@fig-launch-page]). The GUI also includes controlled user input by providing strict drop-down lists and input validation prior execution of the pipeline to reduce the risk of typos and other mistakes (in contrast the command-line interface (CLI) that only includes validation at pipeline run-time).
 
-An example nf-core command line execution of the pipeline can be seen in in figure <!--- COMMAND FIGURE -->, where two input files are supplied: one of paths of FASTQ files of metagenomic samples and necessary metadata for preprocessing (such as sample ID and sequencing platform ), and then a second giving paths to the user-supplied databases with parameters the user wishes the databases to be aligned to with. Various parameters are available to optionally turn on different preprocessing steps, and provide additional configurations such as tool selection and value options. Even if a user supplies a tool's database to the database input sheet, the user must still activate the execution of each classifier they wish to use with dedicated flags, with some additional per-classifier flags for saving particular optional output files. 
+![Screenshot of the nf-core pipeline launch graphical user interface with nf-core/taxprofiler options displayed. The web browser-based interface provides guidance for how to configure each pipeline parameter by providing both short and long help descriptions to help guide users in which contexts to configure each parameter. Additional elements such as radio buttons, drop down menus, and background regular expressions check for validity of input. When pressing launch, a prepared configuration file and command is provided that can be copied and pasted by the user into the terminal](taxprofiler_launchpage.png){#fig-launch-page fig-alt="TODO"}
+
+An example nf-core command line execution of the pipeline can be seen in in figure <!--- TODO COMMAND FIGURE -->, where two input files are supplied: one of paths of FASTQ files of metagenomic samples and necessary metadata for preprocessing (such as sample ID and sequencing platform ), and then a second giving paths to the user-supplied databases with parameters the user wishes the databases to be aligned to with. Various parameters are available to optionally turn on different preprocessing steps, and provide additional configurations such as tool selection and value options. Even if a user supplies a tool's database to the database input sheet, the user must still activate the execution of each classifier they wish to use with dedicated flags, with some additional per-classifier flags for saving particular optional output files. 
 
 ```bash
 $ nextflow run nf-core/taxprofiler -r 1.1.0 \
@@ -185,7 +187,7 @@ $ nextflow run nf-core/taxprofiler -r 1.1.0 \
 
 All nf-core pipelines are strictly versioned (specified with the Nextflow `-r` flag), and to ensure reproducibility each version of the pipeline has a fixed set of software used for each step of the pipeline. The fixed set of software are controlled through the use of the conda package manager and containers (e.g., docker, singularity) from the stable bioconda [CITE] and biocontainer [CITE] repositories. This, coupled with the intrinsic Nextflow ability to execute on most infrastructure whether that is a local laptop (resource requirements permitting), traditional HPC, as well across common cloud providers also makes nf-core/taxprofiler a very portable pipeline that can be used across many contexts.   
 
-<!-- SCREENSHOT OF LAUNCH -->
+<!-- TODO SCREENSHOT OF LAUNCH -->
 
 ### Preprocessing
 
@@ -203,23 +205,26 @@ Across all steps, relevant statistics and log files are generated and used both 
 
 There are many types of metagenomic profile techniques from profiling against whole-genome references with alignment or k-mer based approaches [CITE], or methods involving alignment to species-specific marker-gene families [@Quince2017-bl,OTHERS?]. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. Which tools are used in a pipeline run is up to the user, with a tool being executed both a corresponding database and `--run_<tool>` flag is provided. Specific classification/profiling settings for each tool and database are specified in the database CSV input sheet, however for some tools pipeline level command-line flags are available. 
 
-As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [CITE], Bracken [CITE], KrakenUniq [CITE], Centrifuge [CITE], MALT [CITE], DIAMOND [CITE], Kaiju [CITE], MetaPhlAn3 [CITE], MetaPhlAn4 [CITE] mOTUs [CITE], ganon [CITE], KMCP [CITE]. Table <!-- TODO --> summarises the category and reference database type for each tool.
+As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn3 and 4 [@Beghini2021-cf;@Blanco-Miguez2023-cq] mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk]. [@tbl-tool-summaries] summarises the category and reference database type for each tool.
 
 <!-- TODO CHECK!!!!! AND add fig id AND maybe add classifier vs profiler? -->
-| Method          | Reference Type | Tool       |
-|-----------------|----------------|------------|
-| k-mer based     | whole-genome   | Kraken2    |
-| k-mer based     | whole-genome   | Bracken    |
-| k-mer based     | whole-genome   | KrakenUniq |
-| k-mer based     | whole-genome   | ganon      |
-| ???             | ???            | KMCP       |
-| alignment based | whole-genome   | Centrifuge |
-| alignment based | whole-genome   | MALT       |
-| alignment based | whole-genome   | DIAMOND    |
-| alignment based | whole-genome   | Kaiju      |
-| alignment based | marker-gene    | MetaPhlAn3 |
-| alignment based | marker-gene    | MetaPhlAn4 |
-| alignment based | marker-gene    | mOTUS      |
+
+| Sequence Matching Type | Method          | Reference Type | Tool       |
+|------------------------|-----------------|----------------|------------|
+| Nucleotide             | k-mer based     | whole-genome   | Kraken2    |
+| Nucleotide             | k-mer based     | whole-genome   | Bracken    |
+| Nucleotide             | k-mer based     | whole-genome   | KrakenUniq |
+| Nucleotide             | k-mer based     | whole-genome   | ganon      |
+| Nucleotide             | k-mer based     | whole-genome   | KMCP       |
+| Amino Acid             | k-mer based     | whole-genome   | Kaiju      |
+| Nucleotide             | alignment based | whole-genome   | Centrifuge |
+| Nucleotide/Amino Acid  | alignment based | whole-genome   | MALT       |
+| Amino Acid             | alignment based | whole-genome   | DIAMOND    |
+| Nucleotide             | alignment based | marker-gene    | MetaPhlAn3 |
+| Nucleotide             | alignment based | marker-gene    | MetaPhlAn4 |
+| Nucleotide             | alignment based | marker-gene    | mOTUS      |
+
+: List of nf-core/taxprofiler supported taxonomic profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which 'alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). Method refers to the algorithm type used for matching. Reference type refers to the typical sequence type used in database construction of the tool. {#tbl-tool-summaries}
 
 <!-- EMPHASISE PARALLELISATION AND EFFICIENCY --> 
 
@@ -267,7 +272,7 @@ All data used in this publication
 
 ## Code Availability
 
-nf-core/taxprofiler source code is available on GitHub at https://github.com/nf-core/taxprofiler, and each release is archived on Zenodo (<!-- DOI -->)
+nf-core/taxprofiler source code is available on GitHub at [https://github.com/nf-core/taxprofiler](https://github.com/nf-core/taxprofiler), and each release is archived on Zenodo (DOI: [10.5281/zenodo.7728364](https://doi.org/10.5281/zenodo.7728364))
 
 The version of the pipeline described in this paper is version (<!-- VERSION -->) (Zenodo archive DOI: <!-- DOI -->)
 

@@ -259,3 +259,558 @@
   issn     = "1548-7091,1548-7105",
   language = "en"
 }
+
+@ARTICLE{Wood2019-mf,
+  title    = "Improved metagenomic analysis with Kraken 2",
+  author   = "Wood, Derrick E and Lu, Jennifer and Langmead, Ben",
+  journal  = "Genome biology",
+  volume   =  20,
+  number   =  1,
+  pages    =  257,
+  abstract = "Although Kraken's k-mer-based approach provides a fast taxonomic
+              classification of metagenomic sequence data, its large memory
+              requirements can be limiting for some applications. Kraken 2
+              improves upon Kraken 1 by reducing memory usage by 85\%, allowing
+              greater amounts of reference genomic data to be used, while
+              maintaining high accuracy and increasing speed fivefold. Kraken 2
+              also introduces a translated search mode, providing increased
+              sensitivity in viral metagenomics analysis.",
+  month    =  nov,
+  year     =  2019,
+  url      = "http://dx.doi.org/10.1186/s13059-019-1891-0",
+  keywords = "Alignment-free methods; Metagenomics; Metagenomics classification;
+              Microbiome; Minimizers; Probabilistic data structures",
+  doi      = "10.1186/s13059-019-1891-0",
+  pmid     =  31779668,
+  issn     = "1474-760X,1474-7596",
+  language = "en"
+}
+
+@ARTICLE{Lu2017-vc,
+  title     = "Bracken: estimating species abundance in metagenomics data",
+  author    = "Lu, Jennifer and Breitwieser, Florian P and Thielen, Peter and
+               Salzberg, Steven L",
+  journal   = "PeerJ. Computer science",
+  publisher = "PeerJ",
+  volume    =  3,
+  number    = "e104",
+  pages     = "e104",
+  abstract  = "Metagenomic experiments attempt to characterize microbial
+               communities using high-throughput DNA sequencing. Identification
+               of the microorganisms in a sample provides information about the
+               genetic profile, population structure, and role of microorganisms
+               within an environment. Until recently, most metagenomics studies
+               focused on high-level characterization at the level of phyla, or
+               alternatively sequenced the 16S ribosomal RNA gene that is
+               present in bacterial species. As the cost of sequencing has
+               fallen, though, metagenomics experiments have increasingly used
+               unbiased shotgun sequencing to capture all the organisms in a
+               sample. This approach requires a method for estimating abundance
+               directly from the raw read data. Here we describe a fast,
+               accurate new method that computes the abundance at the species
+               level using the reads collected in a metagenomics experiment.
+               Bracken (Bayesian Reestimation of Abundance after Classification
+               with KrakEN) uses the taxonomic assignments made by Kraken, a
+               very fast read-level classifier, along with information about the
+               genomes themselves to estimate abundance at the species level,
+               the genus level, or above. We demonstrate that Bracken can
+               produce accurate species- and genus-level abundance estimates
+               even when a sample contains multiple near-identical species.",
+  month     =  jan,
+  year      =  2017,
+  url       = "https://peerj.com/articles/cs-104",
+  keywords  = "Metagenomics; Species abundance; Microbiome; Bayesian estimation",
+  doi       = "10.7717/peerj-cs.104",
+  issn      = "2376-5992",
+  language  = "en"
+}
+
+@ARTICLE{Kim2016-qc,
+  title    = "Centrifuge: rapid and sensitive classification of metagenomic
+              sequences",
+  author   = "Kim, Daehwan and Song, Li and Breitwieser, Florian P and Salzberg,
+              Steven L",
+  journal  = "Genome research",
+  volume   =  26,
+  number   =  12,
+  pages    = "1721--1729",
+  abstract = "Centrifuge is a novel microbial classification engine that enables
+              rapid, accurate, and sensitive labeling of reads and
+              quantification of species on desktop computers. The system uses an
+              indexing scheme based on the Burrows-Wheeler transform (BWT) and
+              the Ferragina-Manzini (FM) index, optimized specifically for the
+              metagenomic classification problem. Centrifuge requires a
+              relatively small index (4.2 GB for 4078 bacterial and 200 archaeal
+              genomes) and classifies sequences at very high speed, allowing it
+              to process the millions of reads from a typical high-throughput
+              DNA sequencing run within a few minutes. Together, these advances
+              enable timely and accurate analysis of large metagenomics data
+              sets on conventional desktop computers. Because of its
+              space-optimized indexing schemes, Centrifuge also makes it
+              possible to index the entire NCBI nonredundant nucleotide sequence
+              database (a total of 109 billion bases) with an index size of 69
+              GB, in contrast to k-mer-based indexing schemes, which require far
+              more extensive space.",
+  month    =  dec,
+  year     =  2016,
+  url      = "http://dx.doi.org/10.1101/gr.210641.116",
+  doi      = "10.1101/gr.210641.116",
+  pmc      = "PMC5131823",
+  pmid     =  27852649,
+  issn     = "1088-9051,1549-5469",
+  language = "en"
+}
+
+@ARTICLE{Breitwieser2018-xg,
+  title     = "{KrakenUniq}: confident and fast metagenomics classification
+               using unique k-mer counts",
+  author    = "Breitwieser, F P and Baker, D N and Salzberg, S L",
+  journal   = "Genome biology",
+  publisher = "Springer Science and Business Media LLC",
+  volume    =  19,
+  number    =  1,
+  pages     =  198,
+  abstract  = "False-positive identifications are a significant problem in
+               metagenomics classification. We present KrakenUniq, a novel
+               metagenomics classifier that combines the fast k-mer-based
+               classification of Kraken with an efficient algorithm for
+               assessing the coverage of unique k-mers found in each species in
+               a dataset. On various test datasets, KrakenUniq gives better
+               recall and precision than other methods and effectively
+               classifies and distinguishes pathogens with low abundance from
+               false positives in infectious disease samples. By using the
+               probabilistic cardinality estimator HyperLogLog, KrakenUniq runs
+               as fast as Kraken and requires little additional memory.
+               KrakenUniq is freely available at
+               https://github.com/fbreitwieser/krakenuniq .",
+  month     =  nov,
+  year      =  2018,
+  url       = "https://genomebiology.biomedcentral.com/articles/10.1186/s13059-018-1568-0",
+  keywords  = "Infectious disease diagnosis; Metagenomics; Metagenomics
+               classification; Microbiome; Pathogen detection",
+  doi       = "10.1186/s13059-018-1568-0",
+  pmc       = "PMC6238331",
+  pmid      =  30445993,
+  issn      = "1474-7596,1474-760X",
+  language  = "en"
+}
+
+
+@ARTICLE{Vagene2018-px,
+  title    = "Salmonella enterica genomes from victims of a major
+              sixteenth-century epidemic in Mexico",
+  author   = "Vågene, Åshild J and Herbig, Alexander and Campana, Michael G and
+              Robles García, Nelly M and Warinner, Christina and Sabin, Susanna
+              and Spyrou, Maria A and Andrades Valtueña, Aida and Huson, Daniel
+              and Tuross, Noreen and Bos, Kirsten I and Krause, Johannes",
+  journal  = "Nature ecology \& evolution",
+  volume   =  2,
+  number   =  3,
+  pages    = "520--528",
+  abstract = "Indigenous populations of the Americas experienced high mortality
+              rates during the early contact period as a result of infectious
+              diseases, many of which were introduced by Europeans. Most of the
+              pathogenic agents that caused these outbreaks remain unknown.
+              Through the introduction of a new metagenomic analysis tool called
+              MALT, applied here to search for traces of ancient pathogen DNA,
+              we were able to identify Salmonella enterica in individuals buried
+              in an early contact era epidemic cemetery at Teposcolula-Yucundaa,
+              Oaxaca in southern Mexico. This cemetery is linked, based on
+              historical and archaeological evidence, to the 1545-1550 CE
+              epidemic that affected large parts of Mexico. Locally, this
+              epidemic was known as 'cocoliztli', the pathogenic cause of which
+              has been debated for more than a century. Here, we present
+              genome-wide data from ten individuals for Salmonella enterica
+              subsp. enterica serovar Paratyphi C, a bacterial cause of enteric
+              fever. We propose that S. Paratyphi C be considered a strong
+              candidate for the epidemic population decline during the 1545
+              cocoliztli outbreak at Teposcolula-Yucundaa.",
+  month    =  jan,
+  year     =  2018,
+  url      = "http://dx.doi.org/10.1038/s41559-017-0446-6",
+  doi      = "10.1038/s41559-017-0446-6",
+  pmid     =  29335577,
+  issn     = "2397-334X",
+  language = "en"
+}
+
+@ARTICLE{Buchfink2021-ks,
+  title     = "Sensitive protein alignments at tree-of-life scale using
+               {DIAMOND}",
+  author    = "Buchfink, Benjamin and Reuter, Klaus and Drost, Hajk-Georg",
+  journal   = "Nature methods",
+  publisher = "Springer Science and Business Media LLC",
+  volume    =  18,
+  number    =  4,
+  pages     = "366--368",
+  abstract  = "We are at the beginning of a genomic revolution in which all
+               known species are planned to be sequenced. Accessing such data
+               for comparative analyses is crucial in this new age of
+               data-driven biology. Here, we introduce an improved version of
+               DIAMOND that greatly exceeds previous search performances and
+               harnesses supercomputing to perform tree-of-life scale protein
+               alignments in hours, while matching the sensitivity of the gold
+               standard BLASTP.",
+  month     =  apr,
+  year      =  2021,
+  url       = "https://www.nature.com/articles/s41592-021-01101-x",
+  doi       = "10.1038/s41592-021-01101-x",
+  pmc       = "PMC8026399",
+  pmid      =  33828273,
+  issn      = "1548-7091,1548-7105",
+  language  = "en"
+}
+
+@ARTICLE{Menzel2016-xy,
+  title    = "Fast and sensitive taxonomic classification for metagenomics with
+              Kaiju",
+  author   = "Menzel, Peter and Ng, Kim Lee and Krogh, Anders",
+  journal  = "Nature communications",
+  volume   =  7,
+  pages    =  11257,
+  abstract = "Metagenomics emerged as an important field of research not only in
+              microbial ecology but also for human health and disease, and
+              metagenomic studies are performed on increasingly larger scales.
+              While recent taxonomic classification programs achieve high speed
+              by comparing genomic k-mers, they often lack sensitivity for
+              overcoming evolutionary divergence, so that large fractions of the
+              metagenomic reads remain unclassified. Here we present the novel
+              metagenome classifier Kaiju, which finds maximum (in-)exact
+              matches on the protein-level using the Burrows-Wheeler transform.
+              We show in a genome exclusion benchmark that Kaiju classifies
+              reads with higher sensitivity and similar precision compared with
+              current k-mer-based classifiers, especially in genera that are
+              underrepresented in reference databases. We also demonstrate that
+              Kaiju classifies up to 10 times more reads in real metagenomes.
+              Kaiju can process millions of reads per minute and can run on a
+              standard PC. Source code and web server are available at
+              http://kaiju.binf.ku.dk.",
+  month    =  apr,
+  year     =  2016,
+  url      = "http://dx.doi.org/10.1038/ncomms11257",
+  doi      = "10.1038/ncomms11257",
+  pmc      = "PMC4833860",
+  pmid     =  27071849,
+  issn     = "2041-1723",
+  language = "en"
+}
+
+@ARTICLE{Beghini2021-cf,
+  title     = "Integrating taxonomic, functional, and strain-level profiling of
+               diverse microbial communities with {bioBakery} 3",
+  author    = "Beghini, Francesco and McIver, Lauren J and Blanco-Míguez, Aitor
+               and Dubois, Leonard and Asnicar, Francesco and Maharjan, Sagun
+               and Mailyan, Ana and Manghi, Paolo and Scholz, Matthias and
+               Thomas, Andrew Maltez and Valles-Colomer, Mireia and Weingart,
+               George and Zhang, Yancong and Zolfo, Moreno and Huttenhower,
+               Curtis and Franzosa, Eric A and Segata, Nicola",
+  journal   = "eLife",
+  publisher = "eLife Sciences Publications, Ltd",
+  volume    =  10,
+  pages     = "e65088",
+  abstract  = "Culture-independent analyses of microbial communities have
+               progressed dramatically in the last decade, particularly due to
+               advances in methods for biological profiling via shotgun
+               metagenomics. Opportunities for improvement continue to
+               accelerate, with greater access to multi-omics, microbial
+               reference genomes, and strain-level diversity. To leverage these,
+               we present bioBakery 3, a set of integrated, improved methods for
+               taxonomic, strain-level, functional, and phylogenetic profiling
+               of metagenomes newly developed to build on the largest set of
+               reference sequences now available. Compared to current
+               alternatives, MetaPhlAn 3 increases the accuracy of taxonomic
+               profiling, and HUMAnN 3 improves that of functional potential and
+               activity. These methods detected novel disease-microbiome links
+               in applications to CRC (1262 metagenomes) and IBD (1635
+               metagenomes and 817 metatranscriptomes). Strain-level profiling
+               of an additional 4077 metagenomes with StrainPhlAn 3 and PanPhlAn
+               3 unraveled the phylogenetic and functional structure of the
+               common gut microbe Ruminococcus bromii, previously described by
+               only 15 isolate genomes. With open-source implementations and
+               cloud-deployable reproducible workflows, the bioBakery 3 platform
+               can help researchers deepen the resolution, scale, and accuracy
+               of multi-omic profiling for microbial community studies.",
+  month     =  may,
+  year      =  2021,
+  url       = "https://elifesciences.org/articles/65088/figures",
+  keywords  = "computational analysis; computational biology; human; infectious
+               disease; metagenomics; microbial genomics; microbiology;
+               microbiome; systems biology",
+  doi       = "10.7554/eLife.65088",
+  pmc       = "PMC8096432",
+  pmid      =  33944776,
+  issn      = "2050-084X",
+  language  = "en"
+}
+
+@ARTICLE{Ruscheweyh2022-hn,
+  title    = "Cultivation-independent genomes greatly expand taxonomic-profiling
+              capabilities of {mOTUs} across various environments",
+  author   = "Ruscheweyh, Hans-Joachim and Milanese, Alessio and Paoli, Lucas
+              and Karcher, Nicolai and Clayssen, Quentin and Keller, Marisa
+              Isabell and Wirbel, Jakob and Bork, Peer and Mende, Daniel R and
+              Zeller, Georg and Sunagawa, Shinichi",
+  journal  = "Microbiome",
+  volume   =  10,
+  number   =  1,
+  pages    =  212,
+  abstract = "BACKGROUND: Taxonomic profiling is a fundamental task in
+              microbiome research that aims to detect and quantify the relative
+              abundance of microorganisms in biological samples. Available
+              methods using shotgun metagenomic data generally depend on the
+              deposition of sequenced and taxonomically annotated genomes,
+              usually from cultures of isolated strains, in reference databases
+              (reference genomes). However, the majority of microorganisms have
+              not been cultured yet. Thus, a substantial fraction of microbial
+              community members remains unaccounted for during taxonomic
+              profiling, particularly in samples from underexplored
+              environments. To address this issue, we developed the mOTU
+              profiler, a tool that enables reference genome-independent
+              species-level profiling of metagenomes. As such, it supports the
+              identification and quantification of both ``known'' and
+              ``unknown'' species based on a set of select marker genes.
+              RESULTS: We present mOTUs3, a command line tool that enables the
+              profiling of metagenomes for >33,000 species-level operational
+              taxonomic units. To achieve this, we leveraged the reconstruction
+              of >600,000 draft genomes, most of which are metagenome-assembled
+              genomes (MAGs), from diverse microbiomes, including soil,
+              freshwater systems, and the gastrointestinal tract of ruminants
+              and other animals, which we found to be underrepresented by
+              reference genomes. Overall, two thirds of all species-level taxa
+              lacked a reference genome. The cumulative relative abundance of
+              these newly included taxa was low in well-studied microbiomes,
+              such as the human body sites (6-11\%). By contrast, they accounted
+              for substantial proportions (ocean, freshwater, soil: 43-63\%) or
+              even the majority (pig, fish, cattle: 60-80\%) of the relative
+              abundance across diverse non-human-associated microbiomes. Using
+              community-developed benchmarks and datasets, we found mOTUs3 to be
+              more accurate than other methods and to be more congruent with 16S
+              rRNA gene-based methods for taxonomic profiling. Furthermore, we
+              demonstrate that mOTUs3 increases the resolution of well-known
+              microbial groups into species-level taxa and helps identify new
+              differentially abundant taxa in comparative metagenomic studies.
+              CONCLUSIONS: We developed mOTUs3 to enable accurate species-level
+              profiling of metagenomes. Compared to other methods, it provides a
+              more comprehensive view of prokaryotic community diversity, in
+              particular for currently underexplored microbiomes. To facilitate
+              comparative analyses by the research community, it is released
+              with >11,000 precomputed profiles for publicly available
+              metagenomes and is freely available at:
+              https://github.com/motu-tool/mOTUs . Video Abstract.",
+  month    =  dec,
+  year     =  2022,
+  url      = "http://dx.doi.org/10.1186/s40168-022-01410-z",
+  keywords = "Benchmarking; Marker gene; Metagenome-assembled genome;
+              Metagenomics; Microbial community; Reference genome; Single-cell
+              genome; Taxonomic profiling",
+  doi      = "10.1186/s40168-022-01410-z",
+  pmc      = "PMC9721005",
+  pmid     =  36464731,
+  issn     = "2049-2618",
+  language = "en"
+}
+
+@ARTICLE{Blanco-Miguez2023-cq,
+  title     = "Extending and improving metagenomic taxonomic profiling with
+               uncharacterized species using {MetaPhlAn} 4",
+  author    = "Blanco-Míguez, Aitor and Beghini, Francesco and Cumbo, Fabio and
+               McIver, Lauren J and Thompson, Kelsey N and Zolfo, Moreno and
+               Manghi, Paolo and Dubois, Leonard and Huang, Kun D and Thomas,
+               Andrew Maltez and Nickols, William A and Piccinno, Gianmarco and
+               Piperni, Elisa and Punčochář, Michal and Valles-Colomer, Mireia
+               and Tett, Adrian and Giordano, Francesca and Davies, Richard and
+               Wolf, Jonathan and Berry, Sarah E and Spector, Tim D and
+               Franzosa, Eric A and Pasolli, Edoardo and Asnicar, Francesco and
+               Huttenhower, Curtis and Segata, Nicola",
+  journal   = "Nature biotechnology",
+  publisher = "Nature Publishing Group",
+  pages     = "1--12",
+  abstract  = "Metagenomic assembly enables new organism discovery from
+               microbial communities, but it can only capture few abundant
+               organisms from most metagenomes. Here we present MetaPhlAn 4,
+               which integrates information from metagenome assemblies and
+               microbial isolate genomes for more comprehensive metagenomic
+               taxonomic profiling. From a curated collection of 1.01 M
+               prokaryotic reference and metagenome-assembled genomes, we define
+               unique marker genes for 26,970 species-level genome bins, 4,992
+               of them taxonomically unidentified at the species level.
+               MetaPhlAn 4 explains ~20\% more reads in most international human
+               gut microbiomes and >40\% in less-characterized environments such
+               as the rumen microbiome and proves more accurate than available
+               alternatives on synthetic evaluations while also reliably
+               quantifying organisms with no cultured isolates. Application of
+               the method to >24,500 metagenomes highlights previously
+               undetected species to be strong biomarkers for host conditions
+               and lifestyles in human and mouse microbiomes and shows that even
+               previously uncharacterized species can be genetically profiled at
+               the resolution of single microbial strains.",
+  month     =  feb,
+  year      =  2023,
+  url       = "https://www.nature.com/articles/s41587-023-01688-w",
+  doi       = "10.1038/s41587-023-01688-w",
+  pmid      =  36823356,
+  issn      = "1087-0156,1546-1696",
+  language  = "en"
+}
+
+@ARTICLE{Ruscheweyh2022-hn,
+  title    = "Cultivation-independent genomes greatly expand taxonomic-profiling
+              capabilities of {mOTUs} across various environments",
+  author   = "Ruscheweyh, Hans-Joachim and Milanese, Alessio and Paoli, Lucas
+              and Karcher, Nicolai and Clayssen, Quentin and Keller, Marisa
+              Isabell and Wirbel, Jakob and Bork, Peer and Mende, Daniel R and
+              Zeller, Georg and Sunagawa, Shinichi",
+  journal  = "Microbiome",
+  volume   =  10,
+  number   =  1,
+  pages    =  212,
+  abstract = "BACKGROUND: Taxonomic profiling is a fundamental task in
+              microbiome research that aims to detect and quantify the relative
+              abundance of microorganisms in biological samples. Available
+              methods using shotgun metagenomic data generally depend on the
+              deposition of sequenced and taxonomically annotated genomes,
+              usually from cultures of isolated strains, in reference databases
+              (reference genomes). However, the majority of microorganisms have
+              not been cultured yet. Thus, a substantial fraction of microbial
+              community members remains unaccounted for during taxonomic
+              profiling, particularly in samples from underexplored
+              environments. To address this issue, we developed the mOTU
+              profiler, a tool that enables reference genome-independent
+              species-level profiling of metagenomes. As such, it supports the
+              identification and quantification of both ``known'' and
+              ``unknown'' species based on a set of select marker genes.
+              RESULTS: We present mOTUs3, a command line tool that enables the
+              profiling of metagenomes for >33,000 species-level operational
+              taxonomic units. To achieve this, we leveraged the reconstruction
+              of >600,000 draft genomes, most of which are metagenome-assembled
+              genomes (MAGs), from diverse microbiomes, including soil,
+              freshwater systems, and the gastrointestinal tract of ruminants
+              and other animals, which we found to be underrepresented by
+              reference genomes. Overall, two thirds of all species-level taxa
+              lacked a reference genome. The cumulative relative abundance of
+              these newly included taxa was low in well-studied microbiomes,
+              such as the human body sites (6-11\%). By contrast, they accounted
+              for substantial proportions (ocean, freshwater, soil: 43-63\%) or
+              even the majority (pig, fish, cattle: 60-80\%) of the relative
+              abundance across diverse non-human-associated microbiomes. Using
+              community-developed benchmarks and datasets, we found mOTUs3 to be
+              more accurate than other methods and to be more congruent with 16S
+              rRNA gene-based methods for taxonomic profiling. Furthermore, we
+              demonstrate that mOTUs3 increases the resolution of well-known
+              microbial groups into species-level taxa and helps identify new
+              differentially abundant taxa in comparative metagenomic studies.
+              CONCLUSIONS: We developed mOTUs3 to enable accurate species-level
+              profiling of metagenomes. Compared to other methods, it provides a
+              more comprehensive view of prokaryotic community diversity, in
+              particular for currently underexplored microbiomes. To facilitate
+              comparative analyses by the research community, it is released
+              with >11,000 precomputed profiles for publicly available
+              metagenomes and is freely available at:
+              https://github.com/motu-tool/mOTUs . Video Abstract.",
+  month    =  dec,
+  year     =  2022,
+  url      = "http://dx.doi.org/10.1186/s40168-022-01410-z",
+  keywords = "Benchmarking; Marker gene; Metagenome-assembled genome;
+              Metagenomics; Microbial community; Reference genome; Single-cell
+              genome; Taxonomic profiling",
+  doi      = "10.1186/s40168-022-01410-z",
+  pmc      = "PMC9721005",
+  pmid     =  36464731,
+  issn     = "2049-2618",
+  language = "en"
+}
+
+@ARTICLE{Piro2020-es,
+  title     = "Ganon: Precise metagenomics classification against large and
+               up-to-date sets of reference sequences",
+  author    = "Piro, Vitor C and Dadi, Temesgen H and Seiler, Enrico and
+               Reinert, Knut and Renard, Bernhard Y",
+  journal   = "Bioinformatics (Oxford, England)",
+  publisher = "Oxford University Press (OUP)",
+  volume    =  36,
+  number    = "Suppl\_1",
+  pages     = "i12--i20",
+  abstract  = "MOTIVATION: The exponential growth of assembled genome sequences
+               greatly benefits metagenomics studies. However, currently
+               available methods struggle to manage the increasing amount of
+               sequences and their frequent updates. Indexing the current RefSeq
+               can take days and hundreds of GB of memory on large servers. Few
+               methods address these issues thus far, and even though many can
+               theoretically handle large amounts of references, time/memory
+               requirements are prohibitive in practice. As a result, many
+               studies that require sequence classification use often outdated
+               and almost never truly up-to-date indices. RESULTS: Motivated by
+               those limitations, we created ganon, a k-mer-based read
+               classification tool that uses Interleaved Bloom Filters in
+               conjunction with a taxonomic clustering and a k-mer
+               counting/filtering scheme. Ganon provides an efficient method for
+               indexing references, keeping them updated. It requires <55 min to
+               index the complete RefSeq of bacteria, archaea, fungi and
+               viruses. The tool can further keep these indices up-to-date in a
+               fraction of the time necessary to create them. Ganon makes it
+               possible to query against very large reference sets and therefore
+               it classifies significantly more reads and identifies more
+               species than similar methods. When classifying a high-complexity
+               CAMI challenge dataset against complete genomes from RefSeq,
+               ganon shows strongly increased precision with equal or better
+               sensitivity compared with state-of-the-art tools. With the same
+               dataset against the complete RefSeq, ganon improved the F1-score
+               by 65\% at the genus level. It supports taxonomy- and
+               assembly-level classification, multiple indices and hierarchical
+               classification. AVAILABILITY AND IMPLEMENTATION: The software is
+               open-source and available at:
+               https://gitlab.com/rki\_bioinformatics/ganon. SUPPLEMENTARY
+               INFORMATION: Supplementary data are available at Bioinformatics
+               online.",
+  month     =  jul,
+  year      =  2020,
+  url       = "https://academic.oup.com/bioinformatics/article-pdf/36/Supplement_1/i12/33488711/btaa458.pdf",
+  doi       = "10.1093/bioinformatics/btaa458",
+  pmc       = "PMC7355301",
+  pmid      =  32657362,
+  issn      = "1367-4803,1367-4811",
+  language  = "en"
+}
+
+@ARTICLE{Shen2023-bk,
+  title     = "{KMCP}: accurate metagenomic profiling of both prokaryotic and
+               viral populations by pseudo-mapping",
+  author    = "Shen, Wei and Xiang, Hongyan and Huang, Tianquan and Tang, Hui
+               and Peng, Mingli and Cai, Dachuan and Hu, Peng and Ren, Hong",
+  journal   = "Bioinformatics",
+  publisher = "Oxford University Press (OUP)",
+  volume    =  39,
+  number    =  1,
+  pages     = "btac845",
+  abstract  = "MOTIVATION: The growing number of microbial reference genomes
+               enables the improvement of metagenomic profiling accuracy but
+               also imposes greater requirements on the indexing efficiency,
+               database size and runtime of taxonomic profilers. Additionally,
+               most profilers focus mainly on bacterial, archaeal and fungal
+               populations, while less attention is paid to viral communities.
+               RESULTS: We present KMCP (K-mer-based Metagenomic Classification
+               and Profiling), a novel k-mer-based metagenomic profiling tool
+               that utilizes genome coverage information by splitting the
+               reference genomes into chunks and stores k-mers in a modified and
+               optimized Compact Bit-Sliced Signature Index for fast
+               alignment-free sequence searching. KMCP combines k-mer similarity
+               and genome coverage information to reduce the false positive rate
+               of k-mer-based taxonomic classification and profiling methods.
+               Benchmarking results based on simulated and real data demonstrate
+               that KMCP, despite a longer running time than all other methods,
+               not only allows the accurate taxonomic profiling of prokaryotic
+               and viral populations but also provides more confident pathogen
+               detection in clinical samples of low depth. AVAILABILITY AND
+               IMPLEMENTATION: The software is open-source under the MIT license
+               and available at https://github.com/shenwei356/kmcp.
+               SUPPLEMENTARY INFORMATION: Supplementary data are available at
+               Bioinformatics online.",
+  month     =  jan,
+  year      =  2023,
+  url       = "https://academic.oup.com/bioinformatics/article/39/1/btac845/6965021",
+  doi       = "10.1093/bioinformatics/btac845",
+  pmc       = "PMC9828150",
+  pmid      =  36579886,
+  issn      = "1367-4803,1367-4811",
+  language  = "en"
+}
