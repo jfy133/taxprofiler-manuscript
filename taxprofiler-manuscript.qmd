@@ -231,11 +231,11 @@ By default, nf-core/taxprofiler produces the per-sample main taxonomic classific
 
 ### Post-profiling
 
-Metagenomic studies often must compare the profiles between many samples, and the results of multiple profiles are normally stored in 'taxon tables', i.e, counts per reference (rows), for each sample (columns). When available nf-core/taxprofiler can optionally produce the 'native' taxon table of each classification tool when multiple samples are run.
+In metagenomic studies, it is common practice to compare the profiles among many samples and the results of multiple profiles are normally stored in 'taxon tables', i.e, counts per reference (rows), for each sample (columns). When available, nf-core/taxprofiler supports the option to produce the 'native' taxon table of each classification tool when multiple samples are run.
 
-When researchers wish to compare between taxonomic classifiers or profilers, they must often deal with the heterogenous output formats that are produced by each tool, typically in the form of custom parser and merging scripts for each tool. To facilitate more user-friendly cross-comparison between tools, nf-core/taxprofiler utilises the TAXPASTA tool [@Beber2023-hk] to generate standardised profiles and generate multi-sample tables.
+One of the challenges that researchers are facing when comparing multipe taxonomic classifiers or profilers is the heterogenous output formats produced by each toolm typically in the form of custom parser and merging scripts for each tool.To facilitate more user-friendly cross-comparison between tools, nf-core/taxprofiler utilises the TAXPASTA tool [@Beber2023-hk] to generate standardised profiles and generate multi-sample tables.
 
-Summary statistics for the entire pipeline are visualised are displayed in a customisable MultiQC report [@Ewels2020-vi], when supported, to support user quality control of data and pipeline runs. Krona plots [@Ondov2011-se] can also optionally be generated for supported tools to help provide further visualisation of taxonomic profiles. <!-- TODO mention dynamic methods reporrting-->
+Summary statistics for the entire pipeline are visualised and displayed in a customisable MultiQC report [@Ewels2020-vi], when supported, to support user quality control of data and pipeline runs. Krona plots [@Ondov2011-se] can also optionally be generated for supported tools to help provide further visualisation of taxonomic profiles. <!-- TODO mention dynamic methods reporrting-->
 
 ### Output
 
