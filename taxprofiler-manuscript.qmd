@@ -202,7 +202,7 @@ Throughout all steps, relevant statistics and log files are generated and used b
 
 ### Profiling
 
-There are many types of metagenomic profile techniques, from profiling against whole-genome references with alignment or k-mer based approaches, to methods involving alignment to species-specific marker-gene families [@Quince2017-bl,@Ye2019-fl]. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. Which tools are used in a pipeline run is up to the user, with a tool being executed when both the corresponding database and `--run_<tool>` flag is provided. Specific classification settings for each tool and database are specified in the database CSV input sheet, however for some tools pipeline level command-line flags are available.
+There are many types of metagenomic profile techniques, from profiling against whole-genome references with alignment or k-mer based approaches, to methods involving alignment to species-specific marker-gene families [@Quince2017-bl,@Ye2019-fl]. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. The choice of tools used in a pipeline run is up to the user, with a tool being executed when both the corresponding database and `--run_<tool>` flag is provided. Specific classification settings for each tool and database are specified in the database CSV input sheet. Some tools pipeline level command-line flags are also available. <!--I split the sentences here -->
 
 As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk]. [@tbl-tool-summaries] summarises the category and reference database type for each tool.
 
@@ -223,11 +223,11 @@ As of version 1.1.0, the following classifiers and profilers are available: Krak
 | Nucleotide             | alignment based | marker-gene    | MetaPhlAn4 |
 | Nucleotide             | alignment based | marker-gene    | mOTUS      |
 
-: List of nf-core/taxprofiler supported taxonomic profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which 'alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). Method refers to the algorithm type used for matching. Reference type refers to the typical sequence type used in database construction of the tool. {#tbl-tool-summaries}
+: List of nf-core/taxprofiler supported taxonomic profilers as of version 1.1.0 and their method and support input database types. Sequencing matching type refers to which 'alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). <!--I do not understand what you mean with 'alphabet' here --> Method refers to the algorithm type used for matching. Reference type refers to the typical sequence type used in database construction of the tool. {#tbl-tool-summaries}
 
 <!-- EMPHASISE PARALLELISATION AND EFFICIENCY -->
 
-nf-core/taxprofiler by default produces the per-sample main taxonomic classification profile from a tool or a tool's report generation tool, normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.
+By default, nf-core/taxprofiler produces the per-sample main taxonomic classification profile from a tool or a tool's report generation tool. The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.
 
 ### Post-profiling
 
