@@ -2051,3 +2051,257 @@
   issn      = {2041-1723,2041-1723},
   language  = {en}
 }
+
+@article{Schaffer2018-be,
+  title     = {{VecScreen\_plus\_taxonomy}: imposing a tax(onomy) increase on
+               vector contamination screening},
+  author    = {Schäffer, Alejandro A and Nawrocki, Eric P and Choi, Yoon and
+               Kitts, Paul A and Karsch-Mizrachi, Ilene and McVeigh, Richard},
+  journal   = {Bioinformatics (Oxford, England)},
+  publisher = {Oxford Academic},
+  volume    = 34,
+  number    = 5,
+  pages     = {755--759},
+  abstract  = {Motivation: Nucleic acid sequences in public databases should not
+               contain vector contamination, but many sequences in GenBank do
+               (or did) contain vectors. The National Center for Biotechnology
+               Information uses the program VecScreen to screen submitted
+               sequences for contamination. Additional tools are needed to
+               distinguish true-positive (contamination) from false-positive
+               (not contamination) VecScreen matches. Results: A principal
+               reason for false-positive VecScreen matches is that the sequence
+               and the matching vector subsequence originate from closely
+               related or identical organisms (for example, both originate in
+               Escherichia coli). We collected information on the taxonomy of
+               sources of vector segments in the UniVec database used by
+               VecScreen. We used that information in two overlapping software
+               pipelines for retrospective analysis of contamination in GenBank
+               and for prospective analysis of contamination in new sequence
+               submissions. Using the retrospective pipeline, we identified and
+               corrected over 8000 contaminated sequences in the nonredundant
+               nucleotide database. The prospective analysis pipeline has been
+               in production use since April 2017 to evaluate some new GenBank
+               submissions. Availability and implementation: Data on the sources
+               of UniVec entries were included in release 10.0
+               (ftp://ftp.ncbi.nih.gov/pub/UniVec/). The main software is freely
+               available at
+               https://github.com/aaschaffer/vecscreen\_plus\_taxonomy. Contact:
+               aschaffe@helix.nih.gov. Supplementary information: Supplementary
+               data are available at Bioinformatics online.},
+  month     = mar,
+  year      = 2018,
+  url       = {https://academic.oup.com/bioinformatics/article-pdf/34/5/755/48914284/bioinformatics_34_5_755.pdf},
+  doi       = {10.1093/bioinformatics/btx669},
+  pmc       = {PMC6030928},
+  pmid      = 29069347,
+  issn      = {1367-4803,1367-4811},
+  language  = {en}
+}
+
+@article{Schmieder2011-ea,
+  title     = {Quality control and preprocessing of metagenomic datasets},
+  author    = {Schmieder, Robert and Edwards, Robert},
+  journal   = {Bioinformatics (Oxford, England)},
+  publisher = {Oxford University Press (OUP)},
+  volume    = 27,
+  number    = 6,
+  pages     = {863--864},
+  abstract  = {SUMMARY: Here, we present PRINSEQ for easy and rapid quality
+               control and data preprocessing of genomic and metagenomic
+               datasets. Summary statistics of FASTA (and QUAL) or FASTQ files
+               are generated in tabular and graphical form and sequences can be
+               filtered, reformatted and trimmed by a variety of options to
+               improve downstream analysis. AVAILABILITY AND IMPLEMENTATION:
+               This open-source application was implemented in Perl and can be
+               used as a stand alone version or accessed online through a
+               user-friendly web interface. The source code, user help and
+               additional information are available at
+               http://prinseq.sourceforge.net/.},
+  month     = mar,
+  year      = 2011,
+  url       = {https://academic.oup.com/bioinformatics/article-pdf/27/6/863/48863248/bioinformatics_27_6_863.pdf},
+  doi       = {10.1093/bioinformatics/btr026},
+  pmc       = {PMC3051327},
+  pmid      = 21278185,
+  issn      = {1367-4803,1367-4811},
+  language  = {en}
+}
+
+@article{Clarke2019-al,
+  title    = {Sunbeam: an extensible pipeline for analyzing metagenomic
+              sequencing experiments},
+  author   = {Clarke, Erik L and Taylor, Louis J and Zhao, Chunyu and Connell,
+              Andrew and Lee, Jung-Jin and Fett, Bryton and Bushman, Frederic D
+              and Bittinger, Kyle},
+  journal  = {Microbiome},
+  volume   = 7,
+  number   = 1,
+  pages    = 46,
+  abstract = {BACKGROUND: Analysis of mixed microbial communities using
+              metagenomic sequencing experiments requires multiple preprocessing
+              and analytical steps to interpret the microbial and genetic
+              composition of samples. Analytical steps include quality control,
+              adapter trimming, host decontamination, metagenomic
+              classification, read assembly, and alignment to reference genomes.
+              RESULTS: We present a modular and user-extensible pipeline called
+              Sunbeam that performs these steps in a consistent and reproducible
+              fashion. It can be installed in a single step, does not require
+              administrative access to the host computer system, and can work
+              with most cluster computing frameworks. We also introduce
+              Komplexity, a software tool to eliminate potentially problematic,
+              low-complexity nucleotide sequences from metagenomic data. A
+              unique component of the Sunbeam pipeline is an easy-to-use
+              extension framework that enables users to add custom processing or
+              analysis steps directly to the workflow. The pipeline and its
+              extension framework are well documented, in routine use, and
+              regularly updated. CONCLUSIONS: Sunbeam provides a foundation to
+              build more in-depth analyses and to enable comparisons in
+              metagenomic sequencing experiments by removing problematic,
+              low-complexity reads and standardizing post-processing and
+              analytical steps. Sunbeam is written in Python using the Snakemake
+              workflow management software and is freely available at
+              github.com/sunbeam-labs/sunbeam under the GPLv3.},
+  month    = mar,
+  year     = 2019,
+  url      = {http://dx.doi.org/10.1186/s40168-019-0658-x},
+  keywords = {Pipeline; Quality control; Shotgun metagenomic sequencing;
+              Software; Sunbeam},
+  doi      = {10.1186/s40168-019-0658-x},
+  pmid     = 30902113,
+  issn     = {2049-2618},
+  language = {en}
+}
+
+@article{Chiu2019-mv,
+  title     = {Clinical metagenomics},
+  author    = {Chiu, Charles Y and Miller, Steven A},
+  journal   = {Nature reviews. Genetics},
+  publisher = {Springer Science and Business Media LLC},
+  volume    = 20,
+  number    = 6,
+  pages     = {341--355},
+  abstract  = {Clinical metagenomic next-generation sequencing (mNGS), the
+               comprehensive analysis of microbial and host genetic material
+               (DNA and RNA) in samples from patients, is rapidly moving from
+               research to clinical laboratories. This emerging approach is
+               changing how physicians diagnose and treat infectious disease,
+               with applications spanning a wide range of areas, including
+               antimicrobial resistance, the microbiome, human host gene
+               expression (transcriptomics) and oncology. Here, we focus on the
+               challenges of implementing mNGS in the clinical laboratory and
+               address potential solutions for maximizing its impact on patient
+               care and public health.},
+  month     = jun,
+  year      = 2019,
+  url       = {https://www.nature.com/articles/s41576-019-0113-7},
+  doi       = {10.1038/s41576-019-0113-7},
+  pmc       = {PMC6858796},
+  pmid      = 30918369,
+  issn      = {1471-0056,1471-0064},
+  language  = {en}
+}
+
+@article{Kryukov2016-my,
+  title    = {Human Contamination in Public Genome Assemblies},
+  author   = {Kryukov, Kirill and Imanishi, Tadashi},
+  journal  = {PloS one},
+  volume   = 11,
+  number   = 9,
+  pages    = {e0162424},
+  abstract = {Contamination in genome assembly can lead to wrong or confusing
+              results when using such genome as reference in sequence
+              comparison. Although bacterial contamination is well known, the
+              problem of human-originated contamination received little
+              attention. In this study we surveyed 45,735 available genome
+              assemblies for evidence of human contamination. We used lineage
+              specificity to distinguish between contamination and conservation.
+              We found that 154 genome assemblies contain fragments that with
+              high confidence originate as contamination from human DNA.
+              Majority of contaminating human sequences were present in the
+              reference human genome assembly for over a decade. We recommend
+              that existing contaminated genomes should be revised to remove
+              contaminated sequence, and that new assemblies should be
+              thoroughly checked for presence of human DNA before submitting
+              them to public databases.},
+  month    = sep,
+  year     = 2016,
+  url      = {http://dx.doi.org/10.1371/journal.pone.0162424},
+  doi      = {10.1371/journal.pone.0162424},
+  pmc      = {PMC5017631},
+  pmid     = 27611326,
+  issn     = {1932-6203},
+  language = {en}
+}
+
+@article{Longo2011-qd,
+  title    = {Abundant human {DNA} contamination identified in non-primate
+              genome databases},
+  author   = {Longo, Mark S and O'Neill, Michael J and O'Neill, Rachel J},
+  journal  = {PloS one},
+  volume   = 6,
+  number   = 2,
+  pages    = {e16410},
+  abstract = {During routine screens of the NCBI databases using human
+              repetitive elements we discovered an unlikely level of nucleotide
+              identity across a broad range of phyla. To ascertain whether
+              databases containing DNA sequences, genome assemblies and trace
+              archive reads were contaminated with human sequences, we performed
+              an in depth search for sequences of human origin in non-human
+              species. Using a primate specific SINE, AluY, we screened 2,749
+              non-primate public databases from NCBI, Ensembl, JGI, and UCSC and
+              have found 492 to be contaminated with human sequence. These
+              represent species ranging from bacteria (B. cereus) to plants (Z.
+              mays) to fish (D. rerio) with examples found from most phyla. The
+              identification of such extensive contamination of human sequence
+              across databases and sequence types warrants caution among the
+              sequencing community in future sequencing efforts, such as human
+              re-sequencing. We discuss issues this may raise as well as present
+              data that gives insight as to how this may be occurring.},
+  month    = feb,
+  year     = 2011,
+  url      = {http://dx.doi.org/10.1371/journal.pone.0016410},
+  doi      = {10.1371/journal.pone.0016410},
+  pmc      = {PMC3040168},
+  pmid     = 21358816,
+  issn     = {1932-6203},
+  language = {en}
+}
+
+@article{Breitwieser2019-iz,
+  title    = {Human contamination in bacterial genomes has created thousands of
+              spurious proteins},
+  author   = {Breitwieser, Florian P and Pertea, Mihaela and Zimin, Aleksey and
+              Salzberg, Steven L},
+  journal  = {Genome research},
+  volume   = 29,
+  pages    = {954--960},
+  abstract = {Contaminant sequences that appear in published genomes can cause
+              numerous problems for downstream analyses, particularly for
+              evolutionary studies and metagenomics projects. Our large-scale
+              scan of complete and draft bacterial and archaeal genomes in the
+              NCBI RefSeq database reveals that 2250 genomes are contaminated by
+              human sequence. The contaminant sequences derive primarily from
+              high-copy human repeat regions, which themselves are not
+              adequately represented in the current human reference genome,
+              GRCh38. The absence of the sequences from the human assembly
+              offers a likely explanation for their presence in bacterial
+              assemblies. In some cases, the contaminating contigs have been
+              erroneously annotated as containing protein-coding sequences,
+              which over time have propagated to create spurious protein
+              ``families'' across multiple prokaryotic and eukaryotic genomes.
+              As a result, 3437 spurious protein entries are currently present
+              in the widely-used nr and TrEMBL protein databases. We report here
+              an extensive list of contaminant sequences in bacterial genome
+              assemblies and the proteins associated with them. We found that
+              nearly all contaminants occurred on small contigs in draft
+              genomes, which suggests that filtering out small contigs from
+              draft genome assemblies may mitigate the issue of contamination
+              while still keeping nearly all of the genuine genomic sequences.},
+  month    = may,
+  year     = 2019,
+  url      = {http://dx.doi.org/10.1101/gr.245373.118},
+  doi      = {10.1101/gr.245373.118},
+  pmid     = 31064768,
+  issn     = {1088-9051,1549-5469},
+  language = {en}
+}
