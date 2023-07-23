@@ -158,7 +158,7 @@ Here we present nf-core/taxprofiler, a highly parallelised taxonomic classificat
 
 Shotgun metagenomics offers strong benefits to the taxonomic classification of DNA samples over targeted approaches [@Eloe-Fadrosh2016-gz;@Breitwieser2019-ys]. While metabarcoding approaches targeting the 16S rRNA or other marker genes are widely due to low cost and large, diverse reference databases [@Yilmaz2014-js;@Lynch2015-mz], metagenomic approaches have been gaining popularity with the increasingly lower costs of shotgun sequencing. These metagenomic analyses have been shown to provide similar resolution on microbial genomes during taxonomic classification [@Hillmann2018-ud], with the added benefit of having greater reusability potential of the data, via whole genome reconstruction and also functional classification of metagenomics [@Sharpton2014-wy;@Quince2017-bl].
 
-Taxonomic classifiers (sometimes referred to as taxonomic binners) consists of identifying the original 'taxonomic source' of a given DNA sequence [@Ye2019-fl;@Meyer2022-dg;@Govender2022-td]. In metagenomics this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or 'k-mer matching' [@Sharpton2014-wy;@Sun2021-tq], with the most close match being considered the most likely original 'source' organism of that sequence. Taxonomic profilers profilers additionally will also try to infer species abundance of the organism in the original sample, based on the sequence abundance [@Nayfach2016-ej]. We will use classifiers and profilers interchangeably throughout the this publication.
+Taxonomic classifiers (sometimes referred to as taxonomic binners) consists of identifying the original 'taxonomic source' of a given DNA sequence [@Ye2019-fl;@Meyer2022-dg;@Govender2022-td]. In metagenomics this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or 'k-mer matching' [@Sharpton2014-wy;@Sun2021-tq], with the most close match being considered the most likely original 'source' organism of that sequence. Taxonomic profilers additionally will also try to infer species abundance of the organism in the original sample, based on the sequence abundance [@Nayfach2016-ej]. We will use classifiers and profilers interchangeably throughout the this publication.
 
 Due to the scale of the problem, taxonomic profiling remains an 'unresolved problem' in bioinformatics. Having to identify the original source of many sequences, against many reference genomes but in an _efficient_ manner is understandably a difficult problem. Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts that they have been developed in [@Sczyrba2017-ma;@Meyer2022-dg]. Additionally, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results. Thus, no established 'gold standard' method currently exists.
 
@@ -216,24 +216,24 @@ There are many types of metagenomic profile techniques, from profiling against w
 
 As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk]. [@tbl-tool-summaries] summarises the category and reference database type for each tool.
 
-<!-- TODO CHECK!!!!! AND maybe add classifier vs profiler? -->
+<!-- TODO CHECK!!!!! -->
 
-| Sequence Matching Type | Method          | Reference Type | Tool       |
-|------------------------|-----------------|----------------|------------|
-| Nucleotide             | k-mer based     | whole-genome   | Kraken2    |
-| Nucleotide             | k-mer based     | whole-genome   | Bracken    |
-| Nucleotide             | k-mer based     | whole-genome   | KrakenUniq |
-| Nucleotide             | k-mer based     | whole-genome   | ganon      |
-| Nucleotide             | k-mer based     | whole-genome   | KMCP       |
-| Amino Acid             | k-mer based     | whole-genome   | Kaiju      |
-| Nucleotide             | alignment based | whole-genome   | Centrifuge |
-| Nucleotide/Amino Acid  | alignment based | whole-genome   | MALT       |
-| Amino Acid             | alignment based | whole-genome   | DIAMOND    |
-| Nucleotide             | alignment based | marker-gene    | MetaPhlAn3 |
-| Nucleotide             | alignment based | marker-gene    | MetaPhlAn4 |
-| Nucleotide             | alignment based | marker-gene    | mOTUS      |
+| Sequence Matching Type | Primary Algorithm | Reference Type | Method         | Tool       |
+|------------------------|-------------------|----------------|----------------|------------|
+| Nucleotide             | k-mer based       | whole-genome   | classifier     | Kraken2    |
+| Amino Acid             | k-mer based       | whole-genome   | classifier     | Kaiju      |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | Bracken    |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | KrakenUniq |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | ganon      |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | KMCP       |
+| Nucleotide/Amino Acid  | alignment based   | whole-genome   | classifier     | MALT       |
+| Amino Acid             | alignment based   | whole-genome   | classifer      | DIAMOND    |
+| Nucleotide             | alignment based   | whole-genome   | profiler       | Centrifuge |
+| Nucleotide             | alignment based   | marker-gene    | profiler       | MetaPhlAn3 |
+| Nucleotide             | alignment based   | marker-gene    | profiler       | MetaPhlAn4 |
+| Nucleotide             | alignment based   | marker-gene    | profiler       | mOTUS      |
 
-: List of nf-core/taxprofiler supported taxonomic profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). Method refers to the algorithm type used for matching. Reference type refers to the typical sequence type used in database construction of the tool. {#tbl-tool-summaries}
+: List of nf-core/taxprofiler supported taxonomic classifers profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). Parimary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler) {#tbl-tool-summaries}
 
 By default, nf-core/taxprofiler produces the per-sample main taxonomic classification profile from a tool or a tool's report generation tool. The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.
 
@@ -289,7 +289,7 @@ All data used in this publication
 
 nf-core/taxprofiler source code is available on GitHub at [https://github.com/nf-core/taxprofiler](https://github.com/nf-core/taxprofiler), and each release is archived on Zenodo (DOI: [10.5281/zenodo.7728364](https://doi.org/10.5281/zenodo.7728364))
 
-The version of the pipeline described in this paper is version (<!-- VERSION -->) (Zenodo archive DOI: <!-- DOI -->)
+The version of the pipeline described in this paper is version (<!-- TODO VERSION -->) (Zenodo archive DOI: <!-- TODO DOI -->)
 
 ## Supplementary Data
 
