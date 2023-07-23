@@ -147,7 +147,6 @@ div.csl-indent {
   <li><a href="#post-profiling" id="toc-post-profiling" class="nav-link" data-scroll-target="#post-profiling">Post-profiling</a></li>
   <li><a href="#output" id="toc-output" class="nav-link" data-scroll-target="#output">Output</a></li>
   </ul></li>
-  <li><a href="#use-cases-and-benchmarking" id="toc-use-cases-and-benchmarking" class="nav-link" data-scroll-target="#use-cases-and-benchmarking">Use Cases and Benchmarking</a></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   <li><a href="#data-availability" id="toc-data-availability" class="nav-link" data-scroll-target="#data-availability">Data Availability</a></li>
@@ -295,7 +294,7 @@ div.csl-indent {
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Shotgun metagenomics offers strong benefits to the taxonomic classification of DNA samples over targeted approaches <span class="citation" data-cites="Eloe-Fadrosh2016-gz Breitwieser2019-ys">(<a href="#ref-Eloe-Fadrosh2016-gz" role="doc-biblioref">Eloe-Fadrosh et al. 2016</a>; <a href="#ref-Breitwieser2019-ys" role="doc-biblioref">Florian P. Breitwieser, Lu, and Salzberg 2019</a>)</span>. While metabarcoding approaches targeting the 16S rRNA or other marker genes are widely due to low cost and large, diverse reference databases <span class="citation" data-cites="Yilmaz2014-js Lynch2015-mz">(<a href="#ref-Yilmaz2014-js" role="doc-biblioref">Yilmaz et al. 2014</a>; <a href="#ref-Lynch2015-mz" role="doc-biblioref">Lynch and Neufeld 2015</a>)</span>, metagenomic approaches have been gaining popularity with the increasingly lower costs of shotgun sequencing. These metagenomic analyses have been shown to provide similar resolution on microbial genomes during taxonomic classification <span class="citation" data-cites="Hillmann2018-ud">(<a href="#ref-Hillmann2018-ud" role="doc-biblioref">Hillmann et al. 2018</a>)</span>, with the added benefit of having greater reusability potential of the data, via whole genome reconstruction and also functional classification of metagenomics <span class="citation" data-cites="Sharpton2014-wy Quince2017-bl">(<a href="#ref-Sharpton2014-wy" role="doc-biblioref">Sharpton 2014</a>; <a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>)</span>.</p>
-<p>Taxonomic classifiers (sometimes referred to as taxonomic binners) consists of identifying the original ‘taxonomic source’ of a given DNA sequence <span class="citation" data-cites="Ye2019-fl Meyer2022-dg Govender2022-td">(<a href="#ref-Ye2019-fl" role="doc-biblioref">Ye et al. 2019</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>; <a href="#ref-Govender2022-td" role="doc-biblioref">Govender and Eyre 2022</a>)</span>. In metagenomics this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or ‘k-mer matching’ <span class="citation" data-cites="Sharpton2014-wy Sun2021-tq">(<a href="#ref-Sharpton2014-wy" role="doc-biblioref">Sharpton 2014</a>; <a href="#ref-Sun2021-tq" role="doc-biblioref">Sun et al. 2021</a>)</span>, with the most close match being considered the most likely original ‘source’ organism of that sequence. Taxonomic profilers profilers additionally will also try to infer species abundance of the organism in the original sample, based on the sequence abundance <span class="citation" data-cites="Nayfach2016-ej">(<a href="#ref-Nayfach2016-ej" role="doc-biblioref">Nayfach and Pollard 2016</a>)</span>. We will use classifiers and profilers interchangeably throughout the this publication.</p>
+<p>Taxonomic classifiers (sometimes referred to as taxonomic binners) consists of identifying the original ‘taxonomic source’ of a given DNA sequence <span class="citation" data-cites="Ye2019-fl Meyer2022-dg Govender2022-td">(<a href="#ref-Ye2019-fl" role="doc-biblioref">Ye et al. 2019</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>; <a href="#ref-Govender2022-td" role="doc-biblioref">Govender and Eyre 2022</a>)</span>. In metagenomics this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or ‘k-mer matching’ <span class="citation" data-cites="Sharpton2014-wy Sun2021-tq">(<a href="#ref-Sharpton2014-wy" role="doc-biblioref">Sharpton 2014</a>; <a href="#ref-Sun2021-tq" role="doc-biblioref">Sun et al. 2021</a>)</span>, with the most close match being considered the most likely original ‘source’ organism of that sequence. Taxonomic profilers additionally will also try to infer species abundance of the organism in the original sample, based on the sequence abundance <span class="citation" data-cites="Nayfach2016-ej">(<a href="#ref-Nayfach2016-ej" role="doc-biblioref">Nayfach and Pollard 2016</a>)</span>. We will use classifiers and profilers interchangeably throughout the this publication.</p>
 <p>Due to the scale of the problem, taxonomic profiling remains an ‘unresolved problem’ in bioinformatics. Having to identify the original source of many sequences, against many reference genomes but in an <em>efficient</em> manner is understandably a difficult problem. Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts that they have been developed in <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(<a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>. Additionally, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results. Thus, no established ‘gold standard’ method currently exists.</p>
 <p>One solution to address the range of different tools is to run all of them in parallel, and cross compare the results. This can be useful both for benchmarking studies <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(e.g. <a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>, but also to build consensus profiles whereby confidence of a particular taxonomic identification can be increased when it is detected by multiple tools <span class="citation" data-cites="McIntyre2017-td Ye2019-fl">(<a href="#ref-McIntyre2017-td" role="doc-biblioref">McIntyre et al. 2017</a>; <a href="#ref-Ye2019-fl" role="doc-biblioref">Ye et al. 2019</a>)</span>.</p>
 <p>A second challenge in taxonomic classification is a question of databases. As with tools, there is no one set ‘gold standard’ database. Different questions and contexts may require different databases, such as when a researcher wants to search for both bacteria and viruses species in samples, and as an extension of this, taxonomic classifiers may need different settings for each database. Furthermore, as genomic sequencing becomes cheaper and more efficient, the number of publicly available reference genomes are rapidly increasing <span class="citation" data-cites="Nasko2018-cl">(<a href="#ref-Nasko2018-cl" role="doc-biblioref">Nasko et al. 2018</a>)</span>, making the size of databases taxonomic classifiers also a much larger and often outpacing the computational capacity available to researchers. In fact, while this was one of the main motivations behind classifiers such as Kraken2 <span class="citation" data-cites="Wood2019-mf">(<a href="#ref-Wood2019-mf" role="doc-biblioref">Wood, Lu, and Langmead 2019</a>)</span>, these algorithmic techniques are already becoming insufficient <span class="citation" data-cites="Wright2023-yr">(<a href="#ref-Wright2023-yr" role="doc-biblioref">Wright, Comeau, and Langille 2023</a>)</span>.</p>
@@ -347,21 +346,23 @@ div.csl-indent {
 <h3 class="anchored" data-anchor-id="profiling">Profiling</h3>
 <p>There are many types of metagenomic profile techniques, from profiling against whole-genome references with alignment or k-mer based approaches, to methods involving alignment to species-specific marker-gene families <span class="citation" data-cites="Quince2017-bl">Ye et al. (<a href="#ref-Ye2019-fl" role="doc-biblioref">2019</a>)</span>. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. The choice of tools used in a pipeline run is up to the user, with a tool being executed when both the corresponding database and <code>--run_&lt;tool&gt;</code> flag is provided. Specific classification settings for each tool and database are specified in the database CSV input sheet. Some tools also have pipeline level command-line flags for controlling certain aspects of output files.</p>
 <p>As of version 1.1.0, the following classifiers and profilers are available: Kraken2 <span class="citation" data-cites="Wood2019-mf">(<a href="#ref-Wood2019-mf" role="doc-biblioref">Wood, Lu, and Langmead 2019</a>)</span>, Bracken <span class="citation" data-cites="Lu2017-vc">(<a href="#ref-Lu2017-vc" role="doc-biblioref">Lu et al. 2017</a>)</span>, KrakenUniq <span class="citation" data-cites="Breitwieser2018-xg">(<a href="#ref-Breitwieser2018-xg" role="doc-biblioref">F. P. Breitwieser, Baker, and Salzberg 2018</a>)</span>, Centrifuge <span class="citation" data-cites="Kim2016-qc">(<a href="#ref-Kim2016-qc" role="doc-biblioref">Kim et al. 2016</a>)</span>, MALT <span class="citation" data-cites="Vagene2018-px">(<a href="#ref-Vagene2018-px" role="doc-biblioref">Vågene et al. 2018</a>)</span>, DIAMOND <span class="citation" data-cites="Buchfink2021-ks">(<a href="#ref-Buchfink2021-ks" role="doc-biblioref">Buchfink, Reuter, and Drost 2021</a>)</span>, Kaiju <span class="citation" data-cites="Menzel2016-xy">(<a href="#ref-Menzel2016-xy" role="doc-biblioref">Menzel, Ng, and Krogh 2016</a>)</span>, MetaPhlAn <span class="citation" data-cites="Blanco-Miguez2023-cq">(<a href="#ref-Blanco-Miguez2023-cq" role="doc-biblioref">Blanco-Míguez et al. 2023</a>)</span>, mOTUs <span class="citation" data-cites="Ruscheweyh2022-hn">(<a href="#ref-Ruscheweyh2022-hn" role="doc-biblioref">Ruscheweyh et al. 2022</a>)</span>, ganon <span class="citation" data-cites="Piro2020-es">(<a href="#ref-Piro2020-es" role="doc-biblioref">Piro et al. 2020</a>)</span>, KMCP <span class="citation" data-cites="Shen2023-bk">(<a href="#ref-Shen2023-bk" role="doc-biblioref">Shen et al. 2023</a>)</span>. <a href="#tbl-tool-summaries">Table&nbsp;1</a> summarises the category and reference database type for each tool.</p>
-<!-- TODO CHECK!!!!! AND maybe add classifier vs profiler? -->
+<!-- TODO CHECK!!!!! -->
 <div id="tbl-tool-summaries" class="anchored">
 <table class="table">
-<caption>Table&nbsp;1: List of nf-core/taxprofiler supported taxonomic profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which ‘molecular alphabet’ is primarily used for matching between a query (read) and a reference (genome/gene). Method refers to the algorithm type used for matching. Reference type refers to the typical sequence type used in database construction of the tool.</caption>
+<caption>Table&nbsp;1: List of nf-core/taxprofiler supported taxonomic classifers profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which ‘molecular alphabet’ is primarily used for matching between a query (read) and a reference (genome/gene). Parimary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler)</caption>
 <colgroup>
-<col style="width: 34%">
-<col style="width: 24%">
-<col style="width: 23%">
-<col style="width: 17%">
+<col style="width: 27%">
+<col style="width: 21%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Sequence Matching Type</th>
-<th>Method</th>
+<th>Primary Algorithm</th>
 <th>Reference Type</th>
+<th>Method</th>
 <th>Tool</th>
 </tr>
 </thead>
@@ -370,72 +371,84 @@ div.csl-indent {
 <td>Nucleotide</td>
 <td>k-mer based</td>
 <td>whole-genome</td>
+<td>classifier</td>
 <td>Kraken2</td>
-</tr>
-<tr class="even">
-<td>Nucleotide</td>
-<td>k-mer based</td>
-<td>whole-genome</td>
-<td>Bracken</td>
-</tr>
-<tr class="odd">
-<td>Nucleotide</td>
-<td>k-mer based</td>
-<td>whole-genome</td>
-<td>KrakenUniq</td>
-</tr>
-<tr class="even">
-<td>Nucleotide</td>
-<td>k-mer based</td>
-<td>whole-genome</td>
-<td>ganon</td>
-</tr>
-<tr class="odd">
-<td>Nucleotide</td>
-<td>k-mer based</td>
-<td>whole-genome</td>
-<td>KMCP</td>
 </tr>
 <tr class="even">
 <td>Amino Acid</td>
 <td>k-mer based</td>
 <td>whole-genome</td>
+<td>classifier</td>
 <td>Kaiju</td>
 </tr>
 <tr class="odd">
 <td>Nucleotide</td>
-<td>alignment based</td>
+<td>k-mer based</td>
 <td>whole-genome</td>
-<td>Centrifuge</td>
+<td>profiler</td>
+<td>Bracken</td>
 </tr>
 <tr class="even">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>KrakenUniq</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>ganon</td>
+</tr>
+<tr class="even">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>KMCP</td>
+</tr>
+<tr class="odd">
 <td>Nucleotide/Amino Acid</td>
 <td>alignment based</td>
 <td>whole-genome</td>
+<td>classifier</td>
 <td>MALT</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Amino Acid</td>
 <td>alignment based</td>
 <td>whole-genome</td>
+<td>classifer</td>
 <td>DIAMOND</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide</td>
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>Centrifuge</td>
 </tr>
 <tr class="even">
 <td>Nucleotide</td>
 <td>alignment based</td>
 <td>marker-gene</td>
+<td>profiler</td>
 <td>MetaPhlAn3</td>
 </tr>
 <tr class="odd">
 <td>Nucleotide</td>
 <td>alignment based</td>
 <td>marker-gene</td>
+<td>profiler</td>
 <td>MetaPhlAn4</td>
 </tr>
 <tr class="even">
 <td>Nucleotide</td>
 <td>alignment based</td>
 <td>marker-gene</td>
+<td>profiler</td>
 <td>mOTUS</td>
 </tr>
 </tbody>
@@ -455,13 +468,16 @@ div.csl-indent {
 <p>To summarise, the main default output from nf-core/taxprofiler are both classifier ‘native’ and standardised single- and multi-sample taxonomic profiles with counts per-taxon and an interactive MultiQC run report with all run statistics, in addition to the raw log files themselves where available.</p>
 <p>The MultiQC run report displays statistics and summary visualisations for all steps of the pipeline where possible, lists of versions for all tools of each step of the pipeline, and provides a dynamically-constructed text for the recommendeded ‘methods’ text for reporting how the pipeline was executed (including relevant citations) that users can use in their own publications.</p>
 <p>Optional outputs can include other types of profiles (e.g.&nbsp;per read classification) and in other formats as produced by the tools themselves, as well as raw reads from preprocessing steps and output visualisations from Krona. Nextflow resource usage and trace reports are also by default produced for users to check pipeline performance.</p>
+<!-- 
+
+## Use Cases and Benchmarking
+
+To demonstrate different uses of nf-core/taxprofiler, we ran the pipeline on datasets of XXXX  from XXX , on a XXXX .
+
+Run metric can be seen in Figure XXXXXX .
+
+-->
 </section>
-</section>
-<section id="use-cases-and-benchmarking" class="level2">
-<h2 class="anchored" data-anchor-id="use-cases-and-benchmarking">Use Cases and Benchmarking</h2>
-<p>To demonstrate different uses of nf-core/taxprofiler, we ran the pipeline on datasets of XXXX from XXX , on a XXXX .</p>
-<p>Run metric can be seen in Figure XXXXXX .</p>
-<p>–&gt;</p>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
@@ -483,7 +499,7 @@ div.csl-indent {
 <section id="code-availability" class="level2">
 <h2 class="anchored" data-anchor-id="code-availability">Code Availability</h2>
 <p>nf-core/taxprofiler source code is available on GitHub at <a href="https://github.com/nf-core/taxprofiler">https://github.com/nf-core/taxprofiler</a>, and each release is archived on Zenodo (DOI: <a href="https://doi.org/10.5281/zenodo.7728364">10.5281/zenodo.7728364</a>)</p>
-<p>The version of the pipeline described in this paper is version (<!-- VERSION -->) (Zenodo archive DOI: <!-- DOI -->)</p>
+<p>The version of the pipeline described in this paper is version (<!-- TODO VERSION -->) (Zenodo archive DOI: <!-- TODO DOI -->)</p>
 </section>
 <section id="supplementary-data" class="level2">
 <h2 class="anchored" data-anchor-id="supplementary-data">Supplementary Data</h2>

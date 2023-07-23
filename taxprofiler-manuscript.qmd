@@ -255,6 +255,8 @@ The MultiQC run report displays statistics and summary visualisations for all st
 
 Optional outputs can include other types of profiles (e.g. per read classification) and in other formats as produced by the tools themselves, as well as raw reads from preprocessing steps and output visualisations from Krona. Nextflow resource usage and trace reports are also by default produced for users to check pipeline performance.
 
+<!-- 
+
 ## Use Cases and Benchmarking
 
 To demonstrate different uses of nf-core/taxprofiler, we ran the pipeline on datasets of XXXX  from XXX , on a XXXX .
