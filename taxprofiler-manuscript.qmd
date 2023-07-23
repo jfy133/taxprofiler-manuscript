@@ -1,6 +1,5 @@
 ---
 title: "nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling"
-## TODO: author roles: https://quarto.org/docs/authoring/front-matter.html#roles
 author:
     - name: Sofia Stamouli
       given: Sofia
