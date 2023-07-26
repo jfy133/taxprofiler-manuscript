@@ -237,7 +237,7 @@ As of version 1.1.0, the following classifiers and profilers are available: Krak
 
 By default, nf-core/taxprofiler produces the per-sample main taxonomic classification profile from a tool or a tool's report generation tool. The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.
 
-The pipeline provides high efficiency, particularly during the metagenomic classification, stage through the inherant parallalisation provided by Nextflow. While metagenomic classification is comparatively computationally intensive (memory and execution time; due to a combination of sequencing depth and number of reference genomes),  Nextflow automatically optimises the execution order of all the the steps of pipeline, maximising the number parallel running of multiple profilers and/or databases at any one time, as far as the available computational resources allow. For local machines such as laptops or desktops, Nextflow will automatically detect all availble computational sources but this is customisable using custom Nextflow configuration files. For HPC and cloud infrastructure, users typically have to define the computational infrastructural environment the pipeline is being executed on (CPU or memory limitations, queues, instance types etc.). To reduce the time users must take to get the pipeline up and running, nf-core/taxprofiler supports pre-defined centralised generic and pipeline-specific institutional Nextflow configurations as provided by nf-core/configs ([https://nf-co.re/configs](https://nf-co.re/configs); more than 90 institutions at the time of writing). However users are still welcome to supply their own custom configuration files, further refining computational limitations or execution specifications. 
+The pipeline provides high efficiency, particularly during the metagenomic classification, stage through the inherant parallalisation provided by Nextflow. While metagenomic classification is comparatively computationally intensive (memory and execution time; due to a combination of sequencing depth and number of reference genomes),  Nextflow automatically optimises the execution order of all the the steps of pipeline, maximising the number parallel running of multiple profilers and/or databases at any one time, as far as the available computational resources allow. For local machines such as laptops or desktops, Nextflow will automatically detect all availble computational sources but this is customisable using custom Nextflow configuration files. For HPC and cloud infrastructure, users typically have to define the computational infrastructural environment the pipeline is being executed on (CPU or memory limitations, queues, instance types etc.). To reduce the time users must take to get the pipeline up and running, nf-core/taxprofiler supports pre-defined centralised generic and pipeline-specific institutional Nextflow configurations as provided by nf-core/configs ([https://nf-co.re/configs](https://nf-co.re/configs); more than 90 institutions at the time of writing). However users are still welcome to supply their own custom configuration files, further refining computational limitations or execution specifications.
 
 ### Post-profiling
 
@@ -255,7 +255,7 @@ The MultiQC run report displays statistics and summary visualisations for all st
 
 Optional outputs can include other types of profiles (e.g. per read classification) and in other formats as produced by the tools themselves, as well as raw reads from preprocessing steps and output visualisations from Krona. Nextflow resource usage and trace reports are also by default produced for users to check pipeline performance.
 
-<!-- 
+<!--
 
 ## Use Cases and Benchmarking
 
@@ -275,7 +275,13 @@ The pipeline has been developed in the nf-core community, providing strong and l
 
 A remaining major challenge for metagenomics researchers is the construction of databases for each profiling tool. Currently, nf-core/taxprofiler requires users to construct these manually and to supply to the pipeline. While we feel this is currently a reasonable investment as such databases can be repeatedly re-used, we are exploring the possibility to add including an additional complementary workflow in the pipeline to allow automated database construction of all classification tools, given a set of FASTA reference files.
 
-Finally, once an overall taxonomic profile is generated, researchers often wish to validate hits through more sensitive and accurate methods such as with read-mapping alignment. The pipeline could be easily extended to have a validation step where, utilising Nextflow's execution parallelism, the input sequences could be aligned back to the reference genomes of only those species with hits from the taxonomic classification. This step could also be particularly useful for researchers in palaeogenomics, where alignment information can be used to authenticate ancient DNA within their samples.
+
+Many of the current workflows and pipelines available are already using multiple taxonomic classifiers in their implementation and to our knowledge the crucial factor of database choice still remains a challenge.
+Some important advantages over existing pipelines and workflows <!--Name those pipelines--> is that nf-core/taxprofile is portable and easy to install, can be accessible to users not so experienced with command-line by offering a graphical user interface, uses docker and singularity containers to ensure reproducibility, and adresses the challenge of database choice that has been previously reported <!--reference here from one of the articles--> by enabling to use many databases in parallel.
+
+
+Finally, once an overall taxonomic profile is generated, researchers often wish to validate hits through more sensitive and accurate methods such as with read-mapping alignment. The pipeline could be easily extended to have a validation step where, utilising Nextflow's execution parallelism, the input sequences could be aligned back to the reference genomes of only those species with hits from the taxonomic classification. This step could be used in different contexts. It can be particularly used for researchers in palaeogenomics, where alignment information can be used to authenticate ancient DNA within their samples and in clinical metagenomics to identify potential pathogens.
+
 
 ## Conclusion
 
@@ -302,8 +308,8 @@ We thank Prof. Christina Warinner and the Microbiome Sciences group MPI-EVA for 
 ## Funding
 
 S.S. and L.A-L. were supported by Rapid establishment of comprehensive laboratory pandemic preparedness – RAPID-SEQ.
-This material is based upon work supported by the U.S. Department of Agriculture, Agricultural Research Service, under agreement No. 58-3022-0-001 (T.A.C II). 
-M.B. and J.A.F.Y were supported by the Max Planck Society. 
+This material is based upon work supported by the U.S. Department of Agriculture, Agricultural Research Service, under agreement No. 58-3022-0-001 (T.A.C II).
+M.B. and J.A.F.Y were supported by the Max Planck Society.
 J.A.F.Y was supported by the Werner Siemens-Stiftung ("Paleobiotechnology", Awarded to Prof. Pierre Stallforth and Prof. Christina Warinner).
 
 ## References
