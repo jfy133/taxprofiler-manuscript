@@ -54,13 +54,6 @@ author:
       affiliations:
       - ref: ki
       - ref: kuh
-    - name: Rafal Stepien
-      given: Rafal
-      family: Stepien
-      orcid:
-      roles: ['software', 'editing']
-      affiliations:
-      - ref: uv
     - name: nf-core community
       url: https://nf-co.re
       email: core@nf-co.re
@@ -113,26 +106,12 @@ affiliations:
     state: Thuringen
     postal-code: 07745
     country: Germany
-  - id: rog
-    name: Department of Clinical Microbiology, Region Östergötland
-    address: "S:t Larsgatan	49 B"
-    city: Linköping
-    state: Östergötland
-    postal-code: 58191
-    country: Sweden
   - id: ksu
     name: Veterinary Diagnostic Laboratory, Kansas State University College of Veterinary Medicine
     address: 1800 Denison Ave
     city: Manhattan
     state: KS
     postal-code: 66506
-    country: United States
-  - id: uv
-    name: Center for Public Health Genomics, University of Virginia
-    address: University Avenue 1827
-    city: Charlottesville
-    state: VA
-    postal-code: 22903
     country: United States
   - id: xx
 bibliography: refs.bib
@@ -290,7 +269,7 @@ The version of the pipeline described in this paper is version (<!-- TODO VERSIO
 
 ## Acknowledgments
 
-We thank Prof. Christina Warinner and the Microbiome Sciences group MPI-EVA for original discussions that lead to the pipeline. We are also grateful for the nf-core community for the original and ongoing support in the development in the pipeline, in particular for the contributions by Lauri Mesilaakso, Jianhong Ou.
+We thank Prof. Christina Warinner and the Microbiome Sciences group MPI-EVA for original discussions that lead to the pipeline. We are also grateful for the nf-core community for the original and ongoing support in the development in the pipeline, in particular for the contributions by Lauri Mesilaakso, Jianhong Ou, and Rafał Stępień.
 
 ## Funding
 
