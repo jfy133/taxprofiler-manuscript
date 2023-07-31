@@ -332,11 +332,13 @@ div.csl-indent {
 <section id="profiling" class="level3">
 <h3 class="anchored" data-anchor-id="profiling">Profiling</h3>
 <p>There are many types of metagenomic profiling techniques, from profiling against whole-genome references with alignment or k-mer based approaches, to methods involving alignment to species-specific marker-gene families <span class="citation" data-cites="Quince2017-bl">Ye et al. (<a href="#ref-Ye2019-fl" role="doc-biblioref">2019</a>)</span>. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. The choice of tools used in a pipeline run is up to the user, with a tool being executed when both the corresponding database and <code>--run_&lt;tool&gt;</code> flag is provided. Specific classification settings for each tool and database are specified in the database CSV input sheet. Some tools also have pipeline level command-line flags for controlling certain aspects of output files.</p>
-<p>As of version 1.1.0, the following classifiers and profilers are available: Kraken2 <span class="citation" data-cites="Wood2019-mf">(<a href="#ref-Wood2019-mf" role="doc-biblioref">Wood, Lu, and Langmead 2019</a>)</span>, Bracken <span class="citation" data-cites="Lu2017-vc">(<a href="#ref-Lu2017-vc" role="doc-biblioref">Lu et al. 2017</a>)</span>, KrakenUniq <span class="citation" data-cites="Breitwieser2018-xg">(<a href="#ref-Breitwieser2018-xg" role="doc-biblioref">F. P. Breitwieser, Baker, and Salzberg 2018</a>)</span>, Centrifuge <span class="citation" data-cites="Kim2016-qc">(<a href="#ref-Kim2016-qc" role="doc-biblioref">Kim et al. 2016</a>)</span>, MALT <span class="citation" data-cites="Vagene2018-px">(<a href="#ref-Vagene2018-px" role="doc-biblioref">Vågene et al. 2018</a>)</span>, DIAMOND <span class="citation" data-cites="Buchfink2021-ks">(<a href="#ref-Buchfink2021-ks" role="doc-biblioref">Buchfink, Reuter, and Drost 2021</a>)</span>, Kaiju <span class="citation" data-cites="Menzel2016-xy">(<a href="#ref-Menzel2016-xy" role="doc-biblioref">Menzel, Ng, and Krogh 2016</a>)</span>, MetaPhlAn <span class="citation" data-cites="Blanco-Miguez2023-cq">(<a href="#ref-Blanco-Miguez2023-cq" role="doc-biblioref">Blanco-Míguez et al. 2023</a>)</span>, mOTUs <span class="citation" data-cites="Ruscheweyh2022-hn">(<a href="#ref-Ruscheweyh2022-hn" role="doc-biblioref">Ruscheweyh et al. 2022</a>)</span>, ganon <span class="citation" data-cites="Piro2020-es">(<a href="#ref-Piro2020-es" role="doc-biblioref">Piro et al. 2020</a>)</span>, KMCP <span class="citation" data-cites="Shen2023-bk">(<a href="#ref-Shen2023-bk" role="doc-biblioref">Shen et al. 2023</a>)</span>. <strong>?@tbl-tool-summaries</strong> summarises the category and reference database type for each tool.</p>
+<p>As of version 1.1.0, the following classifiers and profilers are available: Kraken2 <span class="citation" data-cites="Wood2019-mf">(<a href="#ref-Wood2019-mf" role="doc-biblioref">Wood, Lu, and Langmead 2019</a>)</span>, Bracken <span class="citation" data-cites="Lu2017-vc">(<a href="#ref-Lu2017-vc" role="doc-biblioref">Lu et al. 2017</a>)</span>, KrakenUniq <span class="citation" data-cites="Breitwieser2018-xg">(<a href="#ref-Breitwieser2018-xg" role="doc-biblioref">F. P. Breitwieser, Baker, and Salzberg 2018</a>)</span>, Centrifuge <span class="citation" data-cites="Kim2016-qc">(<a href="#ref-Kim2016-qc" role="doc-biblioref">Kim et al. 2016</a>)</span>, MALT <span class="citation" data-cites="Vagene2018-px">(<a href="#ref-Vagene2018-px" role="doc-biblioref">Vågene et al. 2018</a>)</span>, DIAMOND <span class="citation" data-cites="Buchfink2021-ks">(<a href="#ref-Buchfink2021-ks" role="doc-biblioref">Buchfink, Reuter, and Drost 2021</a>)</span>, Kaiju <span class="citation" data-cites="Menzel2016-xy">(<a href="#ref-Menzel2016-xy" role="doc-biblioref">Menzel, Ng, and Krogh 2016</a>)</span>, MetaPhlAn <span class="citation" data-cites="Blanco-Miguez2023-cq">(<a href="#ref-Blanco-Miguez2023-cq" role="doc-biblioref">Blanco-Míguez et al. 2023</a>)</span>, mOTUs <span class="citation" data-cites="Ruscheweyh2022-hn">(<a href="#ref-Ruscheweyh2022-hn" role="doc-biblioref">Ruscheweyh et al. 2022</a>)</span>, ganon <span class="citation" data-cites="Piro2020-es">(<a href="#ref-Piro2020-es" role="doc-biblioref">Piro et al. 2020</a>)</span>, KMCP <span class="citation" data-cites="Shen2023-bk">(<a href="#ref-Shen2023-bk" role="doc-biblioref">Shen et al. 2023</a>)</span>. <a href="#tbl-tool-summaries">Table&nbsp;1</a> summarises the category and reference database type for each tool.</p>
 <!-- TODO CHECK!!!!! -->
 
 <!-- The table looks good to me /sofstam-->
+<div id="tbl-tool-summaries" class="anchored">
 <table class="table">
+<caption>Table&nbsp;1: List of nf-core/taxprofiler supported taxonomic classifers profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which ‘molecular alphabet’ is primarily used for matching between a query (read) and a reference (genome/gene). Primary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler)</caption>
 <colgroup>
 <col style="width: 27%">
 <col style="width: 21%">
@@ -422,16 +424,9 @@ div.csl-indent {
 <td>alignment based</td>
 <td>marker-gene</td>
 <td>profiler</td>
-<td>MetaPhlAn3</td>
+<td>MetaPhlAn</td>
 </tr>
 <tr class="odd">
-<td>Nucleotide</td>
-<td>alignment based</td>
-<td>marker-gene</td>
-<td>profiler</td>
-<td>MetaPhlAn4</td>
-</tr>
-<tr class="even">
 <td>Nucleotide</td>
 <td>alignment based</td>
 <td>marker-gene</td>
@@ -440,8 +435,7 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-<!--Do we need both metaphlan3 and metaphlan4 in the list?-->
-<p>: List of nf-core/taxprofiler supported taxonomic classifers profilers as of version 1.1 and their method and support input database types. Sequencing matching type refers to which ‘molecular alphabet’ is primarily used for matching between a query (read) and a reference (genome/gene). Primary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler) {#tbl-tool-summaries}</p>
+</div>
 <p>By default, nf-core/taxprofiler produces the per-sample main taxonomic classification profile from a tool or a tool’s report generation tool. The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.</p>
 <p>The pipeline provides high efficiency, particularly during the metagenomic classification stage, through the inherent parallalisation provided by Nextflow. While metagenomic classification is comparatively computationally intensive (in terms of memory and execution time; due to a combination of sequencing depth and number of reference genomes), Nextflow automatically optimises the execution order of all the steps in pipeline, maximising the number parallel running of multiple profilers and/or databases at any given time point, as far as the available computational resources allow. For local machines such as laptops or desktops, Nextflow will automatically detect all available computational sources but this is customisable using custom Nextflow configuration files. For HPC and cloud infrastructure, users typically have to define the computational infrastructural environment the pipeline is being executed on (CPU or memory limitations, queues, instance types etc.). To facilitate the pipeline set-up, nf-core/taxprofiler supports pre-defined centralised generic and pipeline-specific institutional Nextflow configurations as provided by nf-core/configs (<a href="https://nf-co.re/configs">https://nf-co.re/configs</a>; more than 90 institutions at the time of writing). However, users are still welcome to supply their own custom configuration files, further refining computational limitations or execution specifications.</p>
 </section>
