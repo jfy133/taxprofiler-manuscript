@@ -2305,3 +2305,263 @@
   issn     = {1088-9051,1549-5469},
   language = {en}
 }
+
+@article{Clarke2019-al,
+  title    = {Sunbeam: an extensible pipeline for analyzing metagenomic
+              sequencing experiments},
+  author   = {Clarke, Erik L and Taylor, Louis J and Zhao, Chunyu and Connell,
+              Andrew and Lee, Jung-Jin and Fett, Bryton and Bushman, Frederic D
+              and Bittinger, Kyle},
+  journal  = {Microbiome},
+  volume   = 7,
+  number   = 1,
+  pages    = 46,
+  abstract = {BACKGROUND: Analysis of mixed microbial communities using
+              metagenomic sequencing experiments requires multiple preprocessing
+              and analytical steps to interpret the microbial and genetic
+              composition of samples. Analytical steps include quality control,
+              adapter trimming, host decontamination, metagenomic
+              classification, read assembly, and alignment to reference genomes.
+              RESULTS: We present a modular and user-extensible pipeline called
+              Sunbeam that performs these steps in a consistent and reproducible
+              fashion. It can be installed in a single step, does not require
+              administrative access to the host computer system, and can work
+              with most cluster computing frameworks. We also introduce
+              Komplexity, a software tool to eliminate potentially problematic,
+              low-complexity nucleotide sequences from metagenomic data. A
+              unique component of the Sunbeam pipeline is an easy-to-use
+              extension framework that enables users to add custom processing or
+              analysis steps directly to the workflow. The pipeline and its
+              extension framework are well documented, in routine use, and
+              regularly updated. CONCLUSIONS: Sunbeam provides a foundation to
+              build more in-depth analyses and to enable comparisons in
+              metagenomic sequencing experiments by removing problematic,
+              low-complexity reads and standardizing post-processing and
+              analytical steps. Sunbeam is written in Python using the Snakemake
+              workflow management software and is freely available at
+              github.com/sunbeam-labs/sunbeam under the GPLv3.},
+  month    = mar,
+  year     = 2019,
+  url      = {http://dx.doi.org/10.1186/s40168-019-0658-x},
+  keywords = {Pipeline; Quality control; Shotgun metagenomic sequencing;
+              Software; Sunbeam},
+  doi      = {10.1186/s40168-019-0658-x},
+  pmid     = 30902113,
+  issn     = {2049-2618},
+  language = {en}
+}
+
+@misc{Boulund2023-ct,
+  title     = {ctmrbio/stag-mwc: {StaG} {v0}.7.0},
+  author    = {Boulund, Fredrik and Arzoomand, Aron and Debelius, Justine and
+               {chrsb} and Olsson, Lisa},
+  publisher = {Zenodo},
+  abstract  = {This StaG release is a considered a major release due to the
+               removal of several main workflow sections, specifically all
+               antibiotic resistance gene tools and the assembly workflow have
+               been removed. Users interested in AMR profiling should consider
+               using the BBMap or Bowtie2-based mapping workflows in StaG, or
+               turn to another Snakemake or Nextflow workflow for that type of
+               profiling (e.g. the latest AMR++ release). This StaG release also
+               adds a new feature: host removal using Bowtie2, intended to be
+               used for high-host microbiome samples in combination with Kraken2
+               because it is very sensitive to remaining host contamination left
+               behind after kraken2 host removal. We find that if performing
+               taxonomic profiling with MetaPhlAn4 the quality of host removal
+               has no substantial impact on the quality of the taxonomic
+               profiles and users can benefit from continuing to use Kraken2 for
+               host removal to save some time and compute resources in those
+               cases. In addition, there is a critical bug fix when running
+               HUMAnN3 that all users should upgrade to. The previous StaG
+               release, v0.6.1 was two weeks ago. The v0.7.0 release modifies
+               approximately 35 files and removes approximately 1472 lines of
+               code, with 381 new lines. [0.7.0] 2023-06-13 Added Host removal:
+               Bowtie2 now available as an option for host removal. \#\#\#\#
+               Fixed HUMAnN3: Fixed critical bug leading to entire system-wide
+               temporary directory being emptied after successful HUMAnN run.
+               Singularity: All Singularity definition files should from now on
+               get version bumps in the description labels when conda
+               environments built inside them are updated to reduce the risk of
+               Singularity reusing old cached copies of images instead of
+               download the latest version. \#\#\#\# Changed Preprocessing
+               summary: Preprocessing summary script can now output a table of
+               read counts regardless of which combination of read QC and host
+               removal is used. \#\#\#\# Removed AMR++, Groot: All tools for
+               antibiotic resistance gene profiling have been removed entirely
+               because they were out of date and had few active users. Users
+               wanting to perform antibiotic resistance gene profiling are
+               suggested to use the mapper modules with a suitable reference
+               database or run the latest version of AMR++ separately. Assembly:
+               The MetaWRAP-based assembly parts of the workflow have been
+               removed entirely.},
+  month     = jun,
+  year      = 2023,
+  url       = {https://zenodo.org/record/8032462},
+  doi       = {10.5281/ZENODO.8032462}
+}
+
+@article{Sim2020-ja,
+  title     = {{TAMA}: improved metagenomic sequence classification through
+               meta-analysis},
+  author    = {Sim, Mikang and Lee, Jongin and Lee, Daehwan and Kwon, Daehong
+               and Kim, Jaebum},
+  journal   = {BMC bioinformatics},
+  publisher = {Springer Science and Business Media LLC},
+  volume    = 21,
+  number    = 1,
+  pages     = 185,
+  abstract  = {BACKGROUND: Microorganisms are important occupants of many
+               different environments. Identifying the composition of microbes
+               and estimating their abundance promote understanding of
+               interactions of microbes in environmental samples. To understand
+               their environments more deeply, the composition of microorganisms
+               in environmental samples has been studied using metagenomes,
+               which are the collections of genomes of the microorganisms.
+               Although many tools have been developed for taxonomy analysis
+               based on different algorithms, variability of analysis outputs of
+               existing tools from the same input metagenome datasets is the
+               main obstacle for many researchers in this field. RESULTS: Here,
+               we present a novel meta-analysis tool for metagenome taxonomy
+               analysis, called TAMA, by intelligently integrating outputs from
+               three different taxonomy analysis tools. Using an integrated
+               reference database, TAMA performs taxonomy assignment for input
+               metagenome reads based on a meta-score by integrating scores of
+               taxonomy assignment from different taxonomy classification tools.
+               TAMA outperformed existing tools when evaluated using various
+               benchmark datasets. It was also successfully applied to obtain
+               relative species abundance profiles and difference in composition
+               of microorganisms in two types of cheese metagenome and human gut
+               metagenome. CONCLUSION: TAMA can be easily installed and used for
+               metagenome read classification and the prediction of relative
+               species abundance from multiple numbers and types of metagenome
+               read samples. TAMA can be used to more accurately uncover the
+               composition of microorganisms in metagenome samples collected
+               from various environments, especially when the use of a single
+               taxonomy analysis tool is unreliable. TAMA is an open source
+               tool, and can be downloaded at https://github.com/jkimlab/TAMA.},
+  month     = may,
+  year      = 2020,
+  url       = {https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-020-3533-7},
+  keywords  = {Meta-analysis; Metagenome; Taxonomy analysis},
+  doi       = {10.1186/s12859-020-3533-7},
+  pmc       = {PMC7218625},
+  pmid      = 32397982,
+  issn      = {1471-2105},
+  language  = {en}
+}
+
+@article{Rose2019-jf,
+  title     = {Flexible design of multiple metagenomics classification pipelines
+               with {UGENE}},
+  author    = {Rose, Rebecca and Golosova, Olga and Sukhomlinov, Dmitrii and
+               Tiunov, Aleksey and Prosperi, Mattia},
+  journal   = {Bioinformatics (Oxford, England)},
+  publisher = {Oxford University Press (OUP)},
+  volume    = 35,
+  number    = 11,
+  pages     = {1963--1965},
+  abstract  = {SUMMARY: UGENE is a free, open-source, cross-platform
+               bioinformatics software. UGENE deploys pre-defined pipelines and
+               a flexible instrument to design new workflows and visually build
+               multi-step analytics pipelines. The new UGENE v.1.31 release
+               offers graphical, user-friendly wrapping of a number of popular
+               command-line metagenomics classification programs (Kraken, CLARK,
+               DIAMOND), combinable serially and in parallel through the
+               workflow designer, with multiple, customizable reference
+               databases. Ensemble classification voting is available through
+               the WEVOTE algorithm, with augmented output in the form of
+               detailed table reports. Pre-built workflows (which include all
+               steps from data cleaning to summaries) are included with the
+               installation and a tutorial is available on the UGENE website.
+               Further expansion with multiple visualization tools for reports
+               is planned. AVAILABILITY AND IMPLEMENTATION: UGENE is available
+               at http://ugene.net/, implemented in C++ and Qt, and released
+               under GNU General Public License (GPL) version 2.},
+  month     = jun,
+  year      = 2019,
+  url       = {https://academic.oup.com/bioinformatics/article-pdf/35/11/1963/48935088/bioinformatics_35_11_1963.pdf},
+  doi       = {10.1093/bioinformatics/bty901},
+  pmid      = 30358807,
+  issn      = {1367-4803,1367-4811},
+  language  = {en}
+}
+@article{Wratten2021-es,
+  title     = {Reproducible, scalable, and shareable analysis pipelines with
+               bioinformatics workflow managers},
+  author    = {Wratten, Laura and Wilm, Andreas and Göke, Jonathan},
+  journal   = {Nature methods},
+  publisher = {Springer Science and Business Media LLC},
+  volume    = 18,
+  number    = 10,
+  pages     = {1161--1168},
+  abstract  = {The rapid growth of high-throughput technologies has transformed
+               biomedical research. With the increasing amount and complexity of
+               data, scalability and reproducibility have become essential not
+               just for experiments, but also for computational analysis.
+               However, transforming data into information involves running a
+               large number of tools, optimizing parameters, and integrating
+               dynamically changing reference data. Workflow managers were
+               developed in response to such challenges. They simplify pipeline
+               development, optimize resource usage, handle software
+               installation and versions, and run on different compute
+               platforms, enabling workflow portability and sharing. In this
+               Perspective, we highlight key features of workflow managers,
+               compare commonly used approaches for bioinformatics workflows,
+               and provide a guide for computational and noncomputational users.
+               We outline community-curated pipeline initiatives that enable
+               novice and experienced users to perform complex, best-practice
+               analyses without having to manually assemble workflows. In sum,
+               we illustrate how workflow managers contribute to making
+               computational analysis in biomedical research shareable,
+               scalable, and reproducible.},
+  month     = oct,
+  year      = 2021,
+  url       = {https://www.nature.com/articles/s41592-021-01254-9},
+  doi       = {10.1038/s41592-021-01254-9},
+  pmid      = 34556866,
+  issn      = {1548-7091,1548-7105},
+  language  = {en}
+}
+@article{Molder2021-et,
+  title    = {Sustainable data analysis with Snakemake},
+  author   = {Mölder, Felix and Jablonski, Kim Philipp and Letcher, Brice and
+              Hall, Michael B and Tomkins-Tinch, Christopher H and Sochat,
+              Vanessa and Forster, Jan and Lee, Soohyun and Twardziok, Sven O
+              and Kanitz, Alexander and Wilm, Andreas and Holtgrewe, Manuel and
+              Rahmann, Sven and Nahnsen, Sven and Köster, Johannes},
+  journal  = {F1000Research},
+  volume   = 10,
+  pages    = 33,
+  abstract = {Data analysis often entails a multitude of heterogeneous steps,
+              from the application of various command line tools to the usage of
+              scripting languages like R or Python for the generation of plots
+              and tables. It is widely recognized that data analyses should
+              ideally be conducted in a reproducible way. Reproducibility
+              enables technical validation and regeneration of results on the
+              original or even new data. However, reproducibility alone is by no
+              means sufficient to deliver an analysis that is of lasting impact
+              (i.e., sustainable) for the field, or even just one research
+              group. We postulate that it is equally important to ensure
+              adaptability and transparency. The former describes the ability to
+              modify the analysis to answer extended or slightly different
+              research questions. The latter describes the ability to understand
+              the analysis in order to judge whether it is not only technically,
+              but methodologically valid. Here, we analyze the properties needed
+              for a data analysis to become reproducible, adaptable, and
+              transparent. We show how the popular workflow management system
+              Snakemake can be used to guarantee this, and how it enables an
+              ergonomic, combined, unified representation of all steps involved
+              in data analysis, ranging from raw data processing, to quality
+              control and fine-grained, interactive exploration and plotting of
+              final results.},
+  month    = jan,
+  year     = 2021,
+  url      = {http://dx.doi.org/10.12688/f1000research.29032.2},
+  keywords = {adaptability; data analysis; reproducibility; scalability;
+              sustainability; transparency; workflow management},
+  doi      = {10.12688/f1000research.29032.2},
+  pmc      = {PMC8114187},
+  pmid     = 34035898,
+  issn     = {2046-1402},
+  language = {en}
+}

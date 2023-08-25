@@ -173,7 +173,7 @@ All relevant preprocessing statistics are displayed in an interactive and dynami
 
 ### Input and Execution
 
-The pipeline can be executed via typical Nextflow commands, or using the standard nf-core 'launch' GUI ([https://nf-co.re/taxprofiler/launch](https://nf-co.re/taxprofiler/launch)), making the pipeline accessible for both computationally experienced as well as less experienced researchers.
+The pipeline can be executed via typical Nextflow commands, or using the standard nf-core 'launch' graphical-user-interface (GUI) ([https://nf-co.re/taxprofiler/launch](https://nf-co.re/taxprofiler/launch)), making the pipeline accessible for both computationally experienced as well as less experienced researchers.
 In addition to the general usage and parameter documentation of the pipeline (https://nf-co.re/taxprofiler).
 The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameter(s) are being modified for each pipeline parameter ([@fig-launch-page]).
 The GUI also includes controlled user input by providing strict drop-down lists and input validation prior execution of the pipeline to reduce the risk of typos and other mistakes (in contrast to the command-line interface (CLI) that only includes validation at pipeline run-time).
@@ -198,7 +198,7 @@ $ nextflow run nf-core/taxprofiler -r 1.1.0 \
 ```
 
 All nf-core pipelines are strictly versioned (specified with the Nextflow `-r` flag), and to ensure reproducibility, each version of the pipeline has a fixed set of software used for each step of the pipeline.
-The fixed set of software are controlled through the use of the conda package manager and containers (e.g., docker, singularity) from the stable Bioconda [@Gruning2018-vr] and BioContainers [@Da_Veiga_Leprevost2017-gl] repositories.
+The fixed set of software are controlled through the use of the conda package manager and containers (e.g., Docker, Apptainer [previously known as Singularity]) from the stable Bioconda [@Gruning2018-vr] and BioContainers [@Da_Veiga_Leprevost2017-gl] repositories.
 This, coupled with the intrinsic Nextflow ability to execute on most infrastructure whether that is a local laptop (resource requirements permitting), traditional HPC, as well across common cloud providers also makes nf-core/taxprofiler a very portable pipeline that can be used across many contexts.
 
 ### Preprocessing
@@ -252,10 +252,10 @@ As of version 1.1.0, the following classifiers and profilers are available: Krak
 | Nucleotide/Amino Acid  | alignment based   | whole-genome   | classifier     | MALT       |
 | Amino Acid             | alignment based   | whole-genome   | classifer      | DIAMOND    |
 | Nucleotide             | alignment based   | whole-genome   | profiler       | Centrifuge |
-| Nucleotide             | alignment based   | marker-gene    | profiler       | MetaPhlAn |
+| Nucleotide             | alignment based   | marker-gene    | profiler       | MetaPhlAn  |
 | Nucleotide             | alignment based   | marker-gene    | profiler       | mOTUS      |
 
-: List of nf-core/taxprofiler supported taxonomic classifers profilers as of version 1.1 and their method and support input database types.
+: List of nf-core/taxprofiler supported taxonomic classifiers profilers as of version 1.1 and their approximate method and supported input database types.
 Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene).
 Primary algorithm refers to the algorithm type used for sequencing matching.
 Reference type refers to the typical sequence type used in database construction of the tool.
@@ -265,7 +265,7 @@ By default, nf-core/taxprofiler produces the per-sample main taxonomic classific
 The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.).
 Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.
 
-The pipeline provides high efficiency, particularly during the metagenomic classification stage, through the inherent parallalisation provided by Nextflow.
+The pipeline provides high efficiency, particularly during the metagenomic classification stage, through the inherent parallelisation provided by Nextflow.
 While metagenomic classification is comparatively computationally intensive (in terms of memory and execution time; due to a combination of sequencing depth and number of reference genomes), Nextflow automatically optimises the execution order of all the steps in pipeline, maximising the number parallel running of multiple profilers and/or databases at any given time point, as far as the available computational resources allow.
 For local machines such as laptops or desktops, Nextflow will automatically detect all available computational sources but this is customisable using custom Nextflow configuration files.
 For HPC and cloud infrastructure, users typically have to define the computational infrastructural environment the pipeline is being executed on (CPU or memory limitations, queues, instance types etc.).
@@ -294,6 +294,8 @@ Nextflow resource usage and trace reports are also by default produced for users
 
 <!--
 
+TODO: Version 2 of preprint
+
 ## Use Cases and Benchmarking
 
 To demonstrate different uses of nf-core/taxprofiler, we ran the pipeline on datasets of XXXX  from XXX , on a XXXX .
@@ -313,11 +315,33 @@ While other types of taxonomic profiling data such as 16S amplicon sequencing ar
 Despite this, tools such as METAXA2 [@Bengtsson-Palme2015-ar] that use shotgun sequencing reads to recover 16S sequences from metagenomic samples.
 
 A range of pipelines already exist for taxonomic profiling, however each have their own particular purpose and abilities.
-Here we will review some of the functional similarities and differences between such of these pipelines.
-Some important advantages over existing pipelines and workflows <!--Name those pipelines--> is that nf-core/taxprofile is portable and easy to install, can be accessible to users not so experienced with command-line by offering a graphical user interface, uses Docker and Singularity containers to ensure reproducibility.
-In contrast pipelines such as <!-- examples -->, still require manual install of the tools in their workflow.
-Many of the current workflows and pipelines available are already use multiple taxonomic classifiers in their implementation and to our knowledge the crucial factor of database choice still remains a challenge.
-nf-core/taxprofiler partly adresses the challenge of database choice that has been previously reported <!--reference here from one of the articles--> by enabling the use many databases in parallel.
+Here we compare the functionality of nf-core/taxprofiler against four other recently published or released pipelines, selected based on their similarity of purpose to nf-core/taxprofiler.
+We searched Google Scholar for open-source pipelines published or released in the last 5 years (at the time of writing, since 2018) that were designed primarily for metagenomic classification screening, that supported at least 2 classifiers, had at laest one preprocessing step and was not specificaly targeted at read classification of specific domains of taxa (e.g. virus or bacteriophage only).
+We also included an additional pipeline at the recommendations of the authors of the pipeline due to the functional overlap to nf-core/taxprofiler. We then evaluted the pipelines based on their publications and documentation for typical metagenomic profiling workflow steps, and a range criteria related to expectations of modern bioinformatic workflows that can be summarised in the following four criteria: reproducibility, accessibility, scalability, and portability [@Wratten2021-es].
+
+After searching, we selected the following pipelines for comparison with nf-core/taxprofiler: sunbeam [v4; @Clarke2019-al], Unipro UGENE [v48; @Rose2019-jf], TAMA [githash: 3a22c8f; @Sim2020-ja], and StaG-mwc [0.7.0; @Boulund2023-ct].
+
+In terms of accessibility, all pipelines had documentation describing installation, usage, and output.
+However, there was varying levels of detail and comprehensiveness. In particular, StaG-mwc and nf-core/taxprofiler had the most detailed descriptions of all possible output files for every supported module, whereas Unipro UGENE and sunbeam had very minimal to possibly unfinished output documentation.
+For execution options, most of the pipelines offer CLI execution, except for Unipro UGENE offers only GUI based pipeline set up (despite a command-line execution of the GUI generated configuration), with nf-core/taxprofiler being the only pipeline providing both CLI and GUI interfaces for pipeline run execution.
+
+Criteria covering portability also overlaps with accessibility, as it implies the options and ease that different users can run on different types of computing infrastructure, whether that is on their own laptop, on a HPC cluster or in the cloud.
+Unipro UGENE is the only pipeline that supports execution on all three major operating systems (Linux, OSX, Windows), whereas StaG-mwc and nf-core/taxprofiler can be run on unix operating systems, and sunbeam and TAMA only being supported on Linux.
+While all pipelines supported 'local' machine execution (e.g. personal laptops or desktops), a large portion of academic users execute computationally intensive bioinformatic tasks on HPC clusters.
+In these contexts pipeline task submissions are normally managed by job schedulers, thus integration with schedulers is an important criteria for running large multi-step and parallelised pipelines.
+The three pipelines leveraging workflow managers (Snakemake [@Molder2021-et] and Nextflow) support integration with schedulers (StaG-mwc, sunbeam, and nf-core/taxprofiler), however nf-core/taxprofiler supported the most by far ([>10 scheduling systems](https://www.nextflow.io/docs/latest/executor.html)) as natively offered by Nextflow, allowing the greatest possible choice or users in terms of which HPC infrastructure they could execute their pipeline on.
+As an extension of this, only nf-core/taxprofiler has explicitly described support for cloud computing (e.g. AWS or Microsoft Azure), again maximising user choice and accessibility to running the pipeline.
+
+For scalability, the aforementioned integration with schedulers and cloud computing support implicit maximises efficiency and parallellisation of pipeline runs, providing good scalability for varying numbers of input files and steps in the pipeline. Again, the three workflow manager based pipelines provide scalability, whereas there was no mention neither Unipro UGENE nor TAMA in reference to parallel task execution. All pipelines except TAMA allowed per-process customisation of computational resources, something critical for maximising efficient scalability to ensure only resources required for a given step of a pipeline are requested.
+
+In terms of reproducibility, all five pipelines were good at ensuring reproducibility in terms of pipeline and software versioning (allowing re-execution of pipeline runs using the same software), with only tama not having stable versioned releases. However, installing software manually across different infrastructures can result in variability in the execution of each software [^2] [@Di_Tommaso2017-xu]. The current most popular solution to the problem of inconsistent software environments is to use container engines such as Docker or Apptainer. These allow 'snapshotting' of a operating system and all configuration and fixed versions of all software required for the pipeline. Only Unipro UGENE did not document the use of a container system, however again nf-core/taxprofiler offers the biggest choice for users courtsey of Nextflow (6 different engine systems at the time of writing).
+
+Finally
+
+
+
+We note there exists a range of other pipelines that also include some form of taxonomic classification. However often these pipelines do not hold XXXX include taxonomic profiling as an 'extra analysis' or XXXX
+
 
 ### Development roadmap
 
@@ -336,6 +360,8 @@ This step could also be particularly useful for researchers in palaeogenomics, w
 
 <!-- additional post-processing steps? e.g. decontamination estimates? -->
 
+Anther motivation for developing nf-core/taxprofiler, despite the large number of existing metagenomics pipelines performing similar functions is by building a taxonomic profiling pipeline within the nf-core ecosystem, we can start building both standalone integrated suite of powerful pipelines for the major stages of metagenomic workflows. Other microbial- and metagenomics- related pipelines already exist within the nf-core initiative, such as nf-core/ampliseq, nf-core/mag, and nf-core/funcscan. We expect over time the ability to link inputs and outputs of each workflow to develop comphrensive metagenomic analyses, while still maintaing powerful standalone pipelines, providing maximal user choice.   
+
 ## Conclusion
 
 nf-core/taxprofiler is an accessible and efficient pipeline for metagenomic taxonomic classification and profiling that can be executed on anywhere from laptops to the cloud provided there are sufficient computing resources.
@@ -346,7 +372,7 @@ We hope that through detailed documentation and a range of execution options, nf
 
 ## Data Availability
 
-All data used in this publication
+All data used in this publication <!-- TODO --> 
 
 ## Code Availability
 
@@ -372,5 +398,9 @@ J.A.F.Y was supported by the Werner Siemens-Stiftung ("Paleobiotechnology", Awar
 
 [^1]: For an 'infamous' case of adapter sequences in a published eukaryotic genome, see the following blog posts
 
-    Graham Etherington: [https://web.archive.org/web/20201121104759/http://grahametherington.blogspot.com/2014/09/](https://web.archive.org/web/20201121104759/http://grahametherington.blogspot.com/2014/09/)why-you-should-qc-your-reads-and-your.html
+    Graham Etherington: [https://web.archive.org/web/20201219022000/http://grahametherington.blogspot.com/2014/09/why-you-should-qc-your-reads-and-your.html?m=1](https://web.archive.org/web/20201219022000/http://grahametherington.blogspot.com/2014/09/why-you-should-qc-your-reads-and-your.html?m=1)why-you-should-qc-your-reads-and-your.html
     Sixing Huang: [https://web.archive.org/web/20220904205331/https://dgg32.medium.com/carp-in-the-soil-1168818d2191](https://web.archive.org/web/20220904205331/https://dgg32.medium.com/carp-in-the-soil-1168818d2191)
+
+    (Accessed 2023-08-25)
+
+[^2]: As demonstrated in this blogpost from Paweł Przytuła: [https://web.archive.org/web/20230320223436/https://appsilon.com/reproducible-research-when-your-results-cant-be-reproduced/](https://web.archive.org/web/20230320223436/https://appsilon.com/reproducible-research-when-your-results-cant-be-reproduced/) (Accessed 2023-08-25)
