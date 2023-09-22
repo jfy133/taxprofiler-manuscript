@@ -34,7 +34,7 @@ author:
     - name: Lili Andersson-Li
       given: Lili
       family: Andersson-Li
-      orcid:
+      orcid: 0000-0002-6059-4192
       roles: ['software', 'editing']
       affiliations:
       - ref: ki
