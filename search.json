@@ -53,7 +53,7 @@
     "href": "taxprofiler-manuscript.html#code-availability",
     "title": "nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling",
     "section": "Code Availability",
-    "text": "Code Availability\nnf-core/taxprofiler source code is available on GitHub at https://github.com/nf-core/taxprofiler, and each release is archived on Zenodo (DOI: 10.5281/zenodo.7728364)\nThe version of the pipeline described in this paper is version (1.1.0) (Zenodo archive DOI: )"
+    "text": "Code Availability\nnf-core/taxprofiler source code is available on GitHub at https://github.com/nf-core/taxprofiler, and each release is archived on Zenodo (latest version DOI: 10.5281/zenodo.7728364)\nThe version of the pipeline described in this paper is version (1.1.0) (release specific Zenodo archive DOI: 10.5281/zenodo.8358147)"
   },
   {
     "objectID": "taxprofiler-manuscript.html#supplementary-data",
