@@ -394,9 +394,9 @@ All data used in this publication <!-- TODO : Version 2 of preprint -->
 
 ## Code Availability
 
-nf-core/taxprofiler source code is available on GitHub at [https://github.com/nf-core/taxprofiler](https://github.com/nf-core/taxprofiler), and each release is archived on Zenodo (DOI: [10.5281/zenodo.7728364](https://doi.org/10.5281/zenodo.7728364))
+nf-core/taxprofiler source code is available on GitHub at [https://github.com/nf-core/taxprofiler](https://github.com/nf-core/taxprofiler), and each release is archived on Zenodo (latest version DOI: [10.5281/zenodo.7728364](https://doi.org/10.5281/zenodo.7728364))
 
-The version of the pipeline described in this paper is version (1.1.0) (Zenodo archive DOI: <!-- TODO DOI -->)
+The version of the pipeline described in this paper is version (1.1.0) (release specific Zenodo archive DOI: [10.5281/zenodo.8358147](https://doi.org/10.5281/zenodo.8358147))
 
 ## Supplementary Data
 
