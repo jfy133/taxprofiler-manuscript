@@ -10,18 +10,19 @@ format:
   html:
     toc: true
     html-math-method: katex
-  # pdf:
-  #   documentclass: article
-  #   colorlinks: true
-  #   highlight-style: github
-  #   fontfamily: libertinus
-  #   keep-tex: true
-  #   template-partials:
-  #     - title.tex
-  #   include-in-header:
-  #     text: |
-  #       \usepackage[noblocks]{authblk}
-  #       \renewcommand*{\Authsep}{, }
-  #       \renewcommand*{\Authand}{, }
-  #       \renewcommand*{\Authands}{, }
-  #       \renewcommand\Affilfont{\small}
+  pdf:
+    documentclass: article
+    colorlinks: true
+    highlight-style: github
+    fontfamily: libertinus
+    keep-tex: true
+    template-partials:
+      - title.tex
+    include-in-header:
+      text: |
+        \usepackage{lineno}\linenumbers
+        \usepackage[noblocks]{authblk}
+        \renewcommand*{\Authsep}{, }
+        \renewcommand*{\Authand}{, }
+        \renewcommand*{\Authands}{, }
+        \renewcommand\Affilfont{\small}

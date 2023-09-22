@@ -118,6 +118,8 @@ bibliography: refs.bib
 license: "CC BY"
 crossref:
   lst-prefix: "Code Block"
+number-sections: true
+
 ---
 
 ## Abstract
