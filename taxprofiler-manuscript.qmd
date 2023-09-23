@@ -212,11 +212,11 @@ This, coupled with the intrinsic Nextflow ability to execute on most infrastruct
 
 ### Preprocessing
 
-Preprocessing steps in nf-core/taxprofiler are aimed at removing laboratory and sequencing artefacts that may influence taxonomically profiling, either for computing resource consumption and/or false-positive or false-negative classification reasons.
+Preprocessing steps in nf-core/taxprofiler are aimed at removing laboratory and sequencing artefacts that may influence taxonomic profiling, either for computing resource consumption or binary classification reasons.
 First sequencing quality control with FastQC [@Andrews2010-pd] or Falco [@De_Sena_Brandine2021-pi] is carried out.
-Falco was included in for reduced memory requirements, in particular for long reads sequencing.
-Artificial library adapter sequences added during sequencing reduces accuracy during alignment by reducing sequence specificity, and in some cases, may result in false-positive hits due to adapter sequence contamination in reference genomes [@Schaffer2018-be;@Breitwieser2018-xg] [^1].
-Additionally, the paired-end merging may provide longer sequences that will allow more specific classification when paired-end alignment is not supported by a given classifier.
+Falco was included for reduced memory requirements, in particular for long read sequencing.
+Artificial library adapter sequences added during sequencing reduce alignment accuracy by reducing sequence specificity, and in some cases, may result in false-positive hits due to adapter sequence contamination in reference genomes [@Schaffer2018-be;@Breitwieser2018-xg] [^1].
+Additionally, paired-end merging may provide longer sequences that will allow for more specific classification when paired-end alignment is not supported by a given classifier.
 For these tasks nf-core/taxprofiler can apply either fastp [@Chen2018-vg] or AdapterRemoval2 [@Schubert2016-qv] for short-reads, and currently Porechop [@Wick2017-cn] for Oxford Nanopore long-read data.
 For both short- and long-reads FastQC or Falco is run again to allow assessment on the performance of the adapter removal and/or pair-merging step.
 
