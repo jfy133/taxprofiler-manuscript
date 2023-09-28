@@ -238,30 +238,7 @@ The choice of tools used in a pipeline run is up to the user, with a tool being 
 Specific classification settings for each tool and database are specified in the database CSV input sheet.
 Some tools also have pipeline level command-line flags for controlling certain aspects of output files.
 
-As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk]. [@tbl-tool-summaries] summarises the category and reference database type for each tool.
-
-<!-- TODO CHECK!!!!! -->
-<!-- The table looks good to me /sofstam-->
-
-| Sequence Matching Type | Primary Algorithm | Reference Type | Method         | Tool       |
-|------------------------|-------------------|----------------|----------------|------------|
-| Nucleotide             | k-mer based       | whole-genome   | classifier     | Kraken2    |
-| Amino Acid             | k-mer based       | whole-genome   | classifier     | Kaiju      |
-| Nucleotide             | k-mer based       | whole-genome   | profiler       | Bracken    |
-| Nucleotide             | k-mer based       | whole-genome   | profiler       | KrakenUniq |
-| Nucleotide             | k-mer based       | whole-genome   | profiler       | ganon      |
-| Nucleotide             | k-mer based       | whole-genome   | profiler       | KMCP       |
-| Nucleotide/Amino Acid  | alignment based   | whole-genome   | classifier     | MALT       |
-| Amino Acid             | alignment based   | whole-genome   | classifer      | DIAMOND    |
-| Nucleotide             | alignment based   | whole-genome   | profiler       | Centrifuge |
-| Nucleotide             | alignment based   | marker-gene    | profiler       | MetaPhlAn  |
-| Nucleotide             | alignment based   | marker-gene    | profiler       | mOTUS      |
-
-: List of nf-core/taxprofiler supported taxonomic/classifiers profilers as of version 1.1 and their approximate method and supported input database types.
-Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene).
-Primary algorithm refers to the algorithm type used for sequencing matching.
-Reference type refers to the typical sequence type used in database construction of the tool.
-Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler) {#tbl-tool-summaries}
+As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk]. [@tbl-tool-summaries] in Supplementary Data summarises the category and reference database type for each tool.
 
 By default, nf-core/taxprofiler produces the per-sample main taxonomic classification profile from a tool or a tool's report generation tool.
 The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.).
@@ -394,6 +371,26 @@ nf-core/taxprofiler source code is available on GitHub at [https://github.com/nf
 The version of the pipeline described in this paper is version (1.1.0) (release specific Zenodo archive DOI: [10.5281/zenodo.8358147](https://doi.org/10.5281/zenodo.8358147))
 
 ## Supplementary Data
+
+| Sequence Matching Type | Primary Algorithm | Reference Type | Method         | Tool       |
+|------------------------|-------------------|----------------|----------------|------------|
+| Nucleotide             | k-mer based       | whole-genome   | classifier     | Kraken2    |
+| Amino Acid             | k-mer based       | whole-genome   | classifier     | Kaiju      |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | Bracken    |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | KrakenUniq |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | ganon      |
+| Nucleotide             | k-mer based       | whole-genome   | profiler       | KMCP       |
+| Nucleotide/Amino Acid  | alignment based   | whole-genome   | classifier     | MALT       |
+| Amino Acid             | alignment based   | whole-genome   | classifer      | DIAMOND    |
+| Nucleotide             | alignment based   | whole-genome   | profiler       | Centrifuge |
+| Nucleotide             | alignment based   | marker-gene    | profiler       | MetaPhlAn  |
+| Nucleotide             | alignment based   | marker-gene    | profiler       | mOTUS      |
+
+: List of nf-core/taxprofiler supported taxonomic/classifiers profilers as of version 1.1 and their approximate method and supported input database types.
+Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene).
+Primary algorithm refers to the algorithm type used for sequencing matching.
+Reference type refers to the typical sequence type used in database construction of the tool.
+Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler) {#tbl-tool-summaries}
 
 ## Acknowledgments
 

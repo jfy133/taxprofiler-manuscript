@@ -283,7 +283,7 @@ for metagenomic taxonomic classification and profiling}
 \date{}
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, borderline west={3pt}{0pt}{shadecolor}, sharp corners, interior hidden, boxrule=0pt, enhanced, breakable]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, frame hidden, enhanced, interior hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, breakable]}{\end{tcolorbox}}\fi
 
 \hypertarget{abstract}{%
 \section{Abstract}\label{abstract}}
@@ -619,69 +619,8 @@ Centrifuge (Kim et al. 2016), MALT (Vågene et al. 2018), DIAMOND
 (Buchfink, Reuter, and Drost 2021), Kaiju (Menzel, Ng, and Krogh 2016),
 MetaPhlAn (Blanco-Míguez et al. 2023), mOTUs (Ruscheweyh et al. 2022),
 ganon (Piro et al. 2020), KMCP (Shen et al. 2023).
-Table~\ref{tbl-tool-summaries} summarises the category and reference
-database type for each tool.
-
-\hypertarget{tbl-tool-summaries}{}
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2759}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2184}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1839}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1839}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1379}}@{}}
-\caption{\label{tbl-tool-summaries}List of nf-core/taxprofiler supported
-taxonomic/classifiers profilers as of version 1.1 and their approximate
-method and supported input database types. Sequencing matching type
-refers to which `molecular alphabet' is primarily used for matching
-between a query (read) and a reference (genome/gene). Primary algorithm
-refers to the algorithm type used for sequencing matching. Reference
-type refers to the typical sequence type used in database construction
-of the tool. Method refers to whether the tool performs just read
-classification (classifier) or additionally abundance estimation
-(profiler)}\tabularnewline
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Sequence Matching Type
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Primary Algorithm
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Reference Type
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Method
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Tool
-\end{minipage} \\
-\midrule\noalign{}
-\endfirsthead
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Sequence Matching Type
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Primary Algorithm
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Reference Type
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Method
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Tool
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Nucleotide & k-mer based & whole-genome & classifier & Kraken2 \\
-Amino Acid & k-mer based & whole-genome & classifier & Kaiju \\
-Nucleotide & k-mer based & whole-genome & profiler & Bracken \\
-Nucleotide & k-mer based & whole-genome & profiler & KrakenUniq \\
-Nucleotide & k-mer based & whole-genome & profiler & ganon \\
-Nucleotide & k-mer based & whole-genome & profiler & KMCP \\
-Nucleotide/Amino Acid & alignment based & whole-genome & classifier &
-MALT \\
-Amino Acid & alignment based & whole-genome & classifer & DIAMOND \\
-Nucleotide & alignment based & whole-genome & profiler & Centrifuge \\
-Nucleotide & alignment based & marker-gene & profiler & MetaPhlAn \\
-Nucleotide & alignment based & marker-gene & profiler & mOTUS \\
-\end{longtable}
+Table~\ref{tbl-tool-summaries} in Supplementary Data summarises the
+category and reference database type for each tool.
 
 By default, nf-core/taxprofiler produces the per-sample main taxonomic
 classification profile from a tool or a tool's report generation tool.
@@ -1034,6 +973,67 @@ The version of the pipeline described in this paper is version (1.1.0)
 
 \hypertarget{supplementary-data}{%
 \section{Supplementary Data}\label{supplementary-data}}
+
+\hypertarget{tbl-tool-summaries}{}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2759}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2184}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1839}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1839}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1379}}@{}}
+\caption{\label{tbl-tool-summaries}List of nf-core/taxprofiler supported
+taxonomic/classifiers profilers as of version 1.1 and their approximate
+method and supported input database types. Sequencing matching type
+refers to which `molecular alphabet' is primarily used for matching
+between a query (read) and a reference (genome/gene). Primary algorithm
+refers to the algorithm type used for sequencing matching. Reference
+type refers to the typical sequence type used in database construction
+of the tool. Method refers to whether the tool performs just read
+classification (classifier) or additionally abundance estimation
+(profiler)}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Sequence Matching Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Primary Algorithm
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reference Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tool
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Sequence Matching Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Primary Algorithm
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reference Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tool
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Nucleotide & k-mer based & whole-genome & classifier & Kraken2 \\
+Amino Acid & k-mer based & whole-genome & classifier & Kaiju \\
+Nucleotide & k-mer based & whole-genome & profiler & Bracken \\
+Nucleotide & k-mer based & whole-genome & profiler & KrakenUniq \\
+Nucleotide & k-mer based & whole-genome & profiler & ganon \\
+Nucleotide & k-mer based & whole-genome & profiler & KMCP \\
+Nucleotide/Amino Acid & alignment based & whole-genome & classifier &
+MALT \\
+Amino Acid & alignment based & whole-genome & classifer & DIAMOND \\
+Nucleotide & alignment based & whole-genome & profiler & Centrifuge \\
+Nucleotide & alignment based & marker-gene & profiler & MetaPhlAn \\
+Nucleotide & alignment based & marker-gene & profiler & mOTUS \\
+\end{longtable}
 
 \hypertarget{acknowledgments}{%
 \section{Acknowledgments}\label{acknowledgments}}

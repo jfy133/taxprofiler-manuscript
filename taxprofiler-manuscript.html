@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="quarto-1.3.433" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+<meta name="author" content="Sofia Stamouli" />
+<meta name="author" content="Moritz E. Beber" />
+<meta name="author" content="Tanja Normark" />
+<meta name="author" content="Thomas A. Christensen II" />
+<meta name="author" content="Lili Andersson-Li" />
+<meta name="author" content="Maxime Borry" />
+<meta name="author" content="Mahwash Jamy" />
+<meta name="author" content="nf-core community" />
+<meta name="author" content="James A. Fellows Yates" />
+
+<title>taxprofiler-manuscript – nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<!-- htmldependencies:E3FAD763 -->
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body>
+
+<div id="quarto-search-results"></div>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <div id="quarto-toc-target"></div>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Sofia Stamouli <a href="https://orcid.org/0009-0006-0893-3771" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Microbiology, Tumor and Cell Biology, Karolinkska Institutet
+          </p>
+        <p class="affiliation">
+            Department of Clinical Microbiology, Karolinska University Hospital
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Moritz E. Beber <a href="https://orcid.org/0000-0003-2406-1978" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Unseen Bio ApS
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Tanja Normark </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Microbiology, Tumor and Cell Biology, Karolinkska Institutet
+          </p>
+        <p class="affiliation">
+            Department of Clinical Microbiology, Karolinska University Hospital
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Thomas A. Christensen II <a href="https://orcid.org/0000-0003-1219-9320" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Veterinary Diagnostic Laboratory, Kansas State University College of Veterinary Medicine
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Lili Andersson-Li <a href="https://orcid.org/0000-0002-6059-4192" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Microbiology, Tumor and Cell Biology, Karolinkska Institutet
+          </p>
+        <p class="affiliation">
+            Department of Clinical Microbiology, Karolinska University Hospital
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Maxime Borry <a href="https://orcid.org/0000-0001-9140-7559" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Archaeogenetics, Max Planck Institute for Evolutionary Anthropology
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Mahwash Jamy </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Microbiology, Tumor and Cell Biology, Karolinkska Institutet
+          </p>
+        <p class="affiliation">
+            Department of Clinical Microbiology, Karolinska University Hospital
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://nf-co.re">nf-core community</a> </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">James A. Fellows Yates <a href="https://orcid.org/0000-0001-5585-6277" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Department of Archaeogenetics, Max Planck Institute for Evolutionary Anthropology
+          </p>
+        <p class="affiliation">
+            Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+<nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#abstract" id="toc-abstract"><span class="header-section-number">1</span> Abstract</a></li>
+  <li><a href="#introduction" id="toc-introduction"><span class="header-section-number">2</span> Introduction</a></li>
+  <li><a href="#implementation" id="toc-implementation"><span class="header-section-number">3</span> Implementation</a>
+  <ul>
+  <li><a href="#input-and-execution" id="toc-input-and-execution"><span class="header-section-number">3.1</span> Input and Execution</a></li>
+  <li><a href="#preprocessing" id="toc-preprocessing"><span class="header-section-number">3.2</span> Preprocessing</a></li>
+  <li><a href="#profiling" id="toc-profiling"><span class="header-section-number">3.3</span> Profiling</a></li>
+  <li><a href="#post-profiling" id="toc-post-profiling"><span class="header-section-number">3.4</span> Post-profiling</a></li>
+  <li><a href="#output" id="toc-output"><span class="header-section-number">3.5</span> Output</a></li>
+  </ul></li>
+  <li><a href="#discussion" id="toc-discussion"><span class="header-section-number">4</span> Discussion</a>
+  <ul>
+  <li><a href="#comparison-with-other-solutions" id="toc-comparison-with-other-solutions"><span class="header-section-number">4.1</span> Comparison with other solutions</a></li>
+  <li><a href="#development-roadmap" id="toc-development-roadmap"><span class="header-section-number">4.2</span> Development roadmap</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion"><span class="header-section-number">5</span> Conclusion</a></li>
+  <li><a href="#data-availability" id="toc-data-availability"><span class="header-section-number">6</span> Data Availability</a></li>
+  <li><a href="#code-availability" id="toc-code-availability"><span class="header-section-number">7</span> Code Availability</a></li>
+  <li><a href="#supplementary-data" id="toc-supplementary-data"><span class="header-section-number">8</span> Supplementary Data</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments"><span class="header-section-number">9</span> Acknowledgments</a></li>
+  <li><a href="#funding" id="toc-funding"><span class="header-section-number">10</span> Funding</a></li>
+  <li><a href="#references" id="toc-references"><span class="header-section-number">11</span> References</a></li>
+  </ul>
+</nav>
+<section id="abstract" class="level2" data-number="1">
+<h2 data-number="1"><span class="header-section-number">1</span> Abstract</h2>
+<p>Metagenomic classification tackles the problem of characterising the taxonomic source of all DNA sequencing reads in a sample. A common approach to address the differences and biases between the many different taxonomic classification tools is to run metagenomic data through multiple classification tools and databases. This, however, is a very time-consuming task when performed manually - particularly when combined with the appropriate preprocessing of sequencing reads before the classification.</p>
+<p>Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases within a single pipeline run. Implemented in Nextflow and as part of the nf-core initiative, the pipeline benefits from high levels of scalability and portability, allowing for large and small projects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline, keeping up with the field of metagenomics.</p>
+</section>
+<section id="introduction" class="level2" data-number="2">
+<h2 data-number="2"><span class="header-section-number">2</span> Introduction</h2>
+<p>Shotgun metagenomics offers strong benefits to the taxonomic classification of DNA samples over targeted approaches <span class="citation" data-cites="Eloe-Fadrosh2016-gz Breitwieser2019-ys">(<a href="#ref-Eloe-Fadrosh2016-gz" role="doc-biblioref">Eloe-Fadrosh et al. 2016</a>; <a href="#ref-Breitwieser2019-ys" role="doc-biblioref">Florian P. Breitwieser, Lu, and Salzberg 2019</a>)</span>. While metabarcoding approaches targeting the 16S rRNA or other marker genes are widely due to low cost and large, diverse reference databases <span class="citation" data-cites="Yilmaz2014-js Lynch2015-mz">(<a href="#ref-Yilmaz2014-js" role="doc-biblioref">Yilmaz et al. 2014</a>; <a href="#ref-Lynch2015-mz" role="doc-biblioref">Lynch and Neufeld 2015</a>)</span>, metagenomic approaches have been gaining popularity with the increasingly lower costs of shotgun sequencing. These metagenomic analyses have been shown to provide similar resolution on microbial genomes during taxonomic classification <span class="citation" data-cites="Hillmann2018-ud">(<a href="#ref-Hillmann2018-ud" role="doc-biblioref">Hillmann et al. 2018</a>)</span>, with the added benefit of having greater reusability potential of the data, via whole genome reconstruction and also functional classification of metagenomics <span class="citation" data-cites="Sharpton2014-wy Quince2017-bl">(<a href="#ref-Sharpton2014-wy" role="doc-biblioref">Sharpton 2014</a>; <a href="#ref-Quince2017-bl" role="doc-biblioref">Quince et al. 2017</a>)</span>.</p>
+<p>Taxonomic classifiers (sometimes referred to as taxonomic binners) consists of identifying the original ‘taxonomic source’ of a given DNA sequence <span class="citation" data-cites="Ye2019-fl Meyer2022-dg Govender2022-td">(<a href="#ref-Ye2019-fl" role="doc-biblioref">Ye et al. 2019</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>; <a href="#ref-Govender2022-td" role="doc-biblioref">Govender and Eyre 2022</a>)</span>. In metagenomics, this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or ‘k-mer matching’ <span class="citation" data-cites="Sharpton2014-wy Sun2021-tq">(<a href="#ref-Sharpton2014-wy" role="doc-biblioref">Sharpton 2014</a>; <a href="#ref-Sun2021-tq" role="doc-biblioref">Sun et al. 2021</a>)</span>, with the most close match being considered the most likely original ‘source’ organism of that sequence. Taxonomic profilers additionally will also try to infer species abundance of the organism in the original sample, based on the sequence abundance <span class="citation" data-cites="Nayfach2016-ej">(<a href="#ref-Nayfach2016-ej" role="doc-biblioref">Nayfach and Pollard 2016</a>)</span>. We will use classifiers and profilers interchangeably throughout the publication.</p>
+<p>Due to the scale of the problem, taxonomic profiling remains an ‘unresolved problem’ in bioinformatics. Having to identify the original source of many sequences out of many reference genomes, but in an <em>efficient</em> manner, is understandably a difficult problem. Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(<a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>. Additionally, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results. Thus, no established ‘gold standard’ method currently exists.</p>
+<p>One solution to address the range of different tools is to run all of them in parallel, and cross compare the results. This can be useful both for benchmarking studies <span class="citation" data-cites="Sczyrba2017-ma Meyer2022-dg">(e.g. <a href="#ref-Sczyrba2017-ma" role="doc-biblioref">Sczyrba et al. 2017</a>; <a href="#ref-Meyer2022-dg" role="doc-biblioref">Meyer et al. 2022</a>)</span>, but also to build consensus profiles whereby confidence of a particular taxonomic identification can be increased when it is detected by multiple tools <span class="citation" data-cites="McIntyre2017-td Ye2019-fl">(<a href="#ref-McIntyre2017-td" role="doc-biblioref">McIntyre et al. 2017</a>; <a href="#ref-Ye2019-fl" role="doc-biblioref">Ye et al. 2019</a>)</span>.</p>
+<p>A second challenge in taxonomic classification is a question of databases. As with tools, there is no one set ‘gold standard’ database. Different questions and contexts may require different databases, such as when a researcher wants to search for both bacterial and virus species in samples, and as an extension of this, taxonomic classifiers may need different settings for each database. Furthermore, as genomic sequencing becomes cheaper and more efficient, the number of publicly available reference genomes are rapidly increasing <span class="citation" data-cites="Nasko2018-cl">(<a href="#ref-Nasko2018-cl" role="doc-biblioref">Nasko et al. 2018</a>)</span>, making the size of databases taxonomic classifiers also much larger and often outpacing the computational capacity available to researchers. In fact, while this was one of the main motivations behind classifiers such as Kraken2 <span class="citation" data-cites="Wood2019-mf">(<a href="#ref-Wood2019-mf" role="doc-biblioref">Wood, Lu, and Langmead 2019</a>)</span>, these algorithmic techniques are already becoming insufficient <span class="citation" data-cites="Wright2023-yr">(<a href="#ref-Wright2023-yr" role="doc-biblioref">Wright, Comeau, and Langille 2023</a>)</span>.</p>
+<p>Finally, with the decrease of costs, the possibility for larger and larger metagenome sequencing datasets increases, leading to increasing sample sizes in studies, as exemplified by the doubling of the number of metagenomes on the European Bioinformatic Institute’s MGnify database in two years <span class="citation" data-cites="Mitchell2019-kt">(<a href="#ref-Mitchell2019-kt" role="doc-biblioref">Mitchell et al. 2019</a>)</span>. Altogether this highlights the need for methods to efficiently profile many samples using many tools. Manually setting up bioinformatic jobs for classification tasks for each database and settings against different tools on traditional academic computing infrastructure (e.g. high performance computing clusters or ‘HPC’ clusters) can be very tedious. Additionally, particularly for very large sample sets, there is increasing use of cloud platforms that have greater scalability than traditional HPCs. Being able to reliably and reproducibly execute taxonomic classification tasks across infrastructure with minimal intervention would therefore be a boon for the metagenomics field.</p>
+<p>Here we present nf-core/taxprofiler, a pipeline designed to allow users to efficiently and simultaneously taxonomically classify and profile short- and long-read sequencing data against multiple tools and databases in a single pipeline run. nf-core/taxprofiler utilises Nextflow <span class="citation" data-cites="Di_Tommaso2017-xu">(<a href="#ref-Di_Tommaso2017-xu" role="doc-biblioref">Di Tommaso et al. 2017</a>)</span> to ensure efficiency, portability, and scalability, and has been developed within the nf-core initiative of Nextflow pipelines <span class="citation" data-cites="Ewels2020-vi">(<a href="#ref-Ewels2020-vi" role="doc-biblioref">Ewels et al. 2020</a>)</span> to ensure high quality coding practises and user accessibility, including detailed documentation and a graphical-user-interface (GUI) execution interface.</p>
+</section>
+<section id="implementation" class="level2" data-number="3">
+<h2 data-number="3"><span class="header-section-number">3</span> Implementation</h2>
+<p>nf-core/taxprofiler aims to facilitate three main steps of a typical shotgun metagenomic workflow <span class="citation" data-cites="Chiu2019-mv">(<a href="#ref-Chiu2019-mv" role="doc-biblioref">Chiu and Miller 2019</a>)</span>. Taking in short- (e.g. Illumina) or long-read (e.g. Nanopore) FASTQ or FASTA files, it can (1) perform a range of appropriate read preprocessing steps, (2) perform taxonomic classification and profiling against a range of different tools depending on user preferences, and finally (3) perform post-classification aggregation and standardisation of the resulting profiles with the possibility of visualisation to the outputs (<a href="#fig-workflow-diagram">Figure 1</a>). All relevant preprocessing statistics are displayed in an interactive and dynamic MultiQC report <span class="citation" data-cites="Ewels2020-vi">(<a href="#ref-Ewels2020-vi" role="doc-biblioref">Ewels et al. 2020</a>)</span>.</p>
+<div id="fig-workflow-diagram" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="taxprofiler_tube.png" class="img-fluid" alt="Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control, read preprocessing, complexity filtering, host removal, and run merging before going into taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are additionally standardised into a common taxon table format and some with visualisation of profiles." /></p>
+<figcaption>Figure 1: Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control (e.g. with FastQC), read preprocessing (e.g. removal of adapters), complexity filtering, host removal, and run merging before performing taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are standardised into a common taxon table format, and when supported visualisations of the profiles are generated.</figcaption>
+</figure>
+</div>
+<section id="input-and-execution" class="level3" data-number="3.1">
+<h3 data-number="3.1"><span class="header-section-number">3.1</span> Input and Execution</h3>
+<p>The pipeline can be executed via typical Nextflow commands, or using the standard nf-core ‘launch’ graphical-user-interface (GUI) (<a href="https://nf-co.re/taxprofiler/launch">https://nf-co.re/taxprofiler/launch</a>), making the pipeline accessible for both computationally experienced as well as less experienced researchers. In addition to the general usage and parameter documentation of the pipeline (https://nf-co.re/taxprofiler). The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameter(s) are being modified for each pipeline parameter (<a href="#fig-launch-page">Figure 2</a>). The GUI also includes controlled user input by providing strict drop-down lists and input validation prior execution of the pipeline to reduce the risk of typos and other mistakes (in contrast to the command-line interface (CLI) that only includes validation at pipeline run-time).</p>
+<div id="fig-launch-page" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img src="taxprofiler_launchpage.png" class="img-fluid" alt="Screenshot of the nf-core pipeline launch graphical user interface with nf-core/taxprofiler options displayed. The web browser-based interface provides guidance for how to configure each pipeline parameter by providing both short and long help descriptions to help guide users in which contexts to configure each parameter. Additional elements such as radio buttons, drop down menus, and background regular expressions check for validity of input. When pressing launch, a prepared configuration file and command is provided that can be copied and pasted by the user into the terminal" /></p>
+<figcaption>Figure 2: Screenshot of the nf-core pipeline launch graphical user interface with nf-core/taxprofiler options displayed. The web browser-based interface provides guidance for how to configure each pipeline parameter by providing both short and long help descriptions to help guide users in which contexts to configure each parameter. Additional elements such as radio buttons, drop down menus, and background regular expressions check for validity of input. When pressing launch, a prepared configuration file and command is provided that can be copied and pasted by the user into the terminal</figcaption>
+</figure>
+</div>
+<p>An example nf-core command line execution of the pipeline can be seen in figure (<a href="#lst-example-cmd">Code Block 1</a>), where two input files are supplied: one file specifying paths of FASTQ files of metagenomic samples and necessary metadata for preprocessing (such as sample ID and sequencing platform), and the second file specifying paths to the user-defined databases with per-database classification parameters. Various parameters are available to optionally turn on different preprocessing steps, and provide additional configurations such as tool selection and value options. Note that even if a user supplies a given database in the database input sheet, the corresponding profiling tool must still be activated with the corresponding pipeline parameter (e.g. <code>--run_kraken2</code>). Per-classifier flags are also available for the optional saving of additional non-profile output files.</p>
+<div id="lst-example-cmd" class="listing">
+<p>Listing 1: Example nf-core/taxprofiler command for running short-read quality control, removal of host DNA and executing the k-mer based Kraken2 and marker gene alignment MetaPhlAn3 tools.</p>
+<div class="sourceCode" id="lst-example-cmd" data-lst-cap="Example nf-core/taxprofiler command for running short-read quality control, removal of host DNA and executing the k-mer based Kraken2 and marker gene alignment MetaPhlAn3 tools."><pre class="sourceCode bash"><code class="sourceCode bash"><span id="lst-example-cmd-1"><a href="#lst-example-cmd-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> nextflow run nf-core/taxprofiler <span class="at">-r</span> 1.1.0 <span class="dt">\</span></span>
+<span id="lst-example-cmd-2"><a href="#lst-example-cmd-2" aria-hidden="true" tabindex="-1"></a>-profile singularity,<span class="op">&lt;</span>institute<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="lst-example-cmd-3"><a href="#lst-example-cmd-3" aria-hidden="true" tabindex="-1"></a>--input <span class="op">&lt;</span>samplesheet.csv<span class="op">&gt;</span> --databases <span class="op">&lt;</span>database.csv<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="lst-example-cmd-4"><a href="#lst-example-cmd-4" aria-hidden="true" tabindex="-1"></a>--perform_shortread_qc  <span class="at">--shortread_qc_minlength</span> 20 <span class="at">--preprocessing_qc_tool</span> falco <span class="dt">\</span></span>
+<span id="lst-example-cmd-5"><a href="#lst-example-cmd-5" aria-hidden="true" tabindex="-1"></a>--run_host_removal <span class="at">--hostremoval_reference</span> <span class="st">&#39;host_genome.fasta&#39;</span> <span class="dt">\</span></span>
+<span id="lst-example-cmd-6"><a href="#lst-example-cmd-6" aria-hidden="true" tabindex="-1"></a>--run_kraken2 <span class="at">--kraken2_save_reads</span> <span class="dt">\</span></span>
+<span id="lst-example-cmd-7"><a href="#lst-example-cmd-7" aria-hidden="true" tabindex="-1"></a>--run_metaphlan3 <span class="dt">\</span></span>
+<span id="lst-example-cmd-8"><a href="#lst-example-cmd-8" aria-hidden="true" tabindex="-1"></a>--run_krona <span class="dt">\</span></span>
+<span id="lst-example-cmd-9"><a href="#lst-example-cmd-9" aria-hidden="true" tabindex="-1"></a>--run_profile_standardisation <span class="dt">\</span></span></code></pre></div>
+</div>
+<p>All nf-core pipelines are strictly versioned (specified with the Nextflow <code>-r</code> flag), and to ensure reproducibility, each version of the pipeline has a fixed set of software used for each step of the pipeline. The fixed set of software are controlled through the use of the conda package manager and containers (e.g., Docker, Apptainer [previously known as Singularity]) from the stable Bioconda <span class="citation" data-cites="Gruning2018-vr">(<a href="#ref-Gruning2018-vr" role="doc-biblioref">Grüning et al. 2018</a>)</span> and BioContainers <span class="citation" data-cites="Da_Veiga_Leprevost2017-gl">(<a href="#ref-Da_Veiga_Leprevost2017-gl" role="doc-biblioref">Veiga Leprevost et al. 2017</a>)</span> repositories. This, coupled with the intrinsic Nextflow ability to execute on most infrastructure whether that is a local laptop (resource requirements permitting), traditional HPC, as well across common cloud providers also makes nf-core/taxprofiler a very portable pipeline that can be used across many contexts.</p>
+</section>
+<section id="preprocessing" class="level3" data-number="3.2">
+<h3 data-number="3.2"><span class="header-section-number">3.2</span> Preprocessing</h3>
+<p>Preprocessing steps in nf-core/taxprofiler are aimed at removing laboratory and sequencing artefacts that may influence taxonomically profiling, either for computing resource consumption and/or false-positive or false-negative classification reasons. First sequencing quality control with FastQC <span class="citation" data-cites="Andrews2010-pd">(<a href="#ref-Andrews2010-pd" role="doc-biblioref">Andrews 2010</a>)</span> or Falco <span class="citation" data-cites="De_Sena_Brandine2021-pi">(<a href="#ref-De_Sena_Brandine2021-pi" role="doc-biblioref">Sena Brandine and Smith 2021</a>)</span> is carried out. Falco was included in for reduced memory requirements, in particular for long reads sequencing. Artificial library adapter sequences added during sequencing reduces accuracy during alignment by reducing sequence specificity, and in some cases, may result in false-positive hits due to adapter sequence contamination in reference genomes <span class="citation" data-cites="Schaffer2018-be Breitwieser2018-xg">(<a href="#ref-Schaffer2018-be" role="doc-biblioref">Schäffer et al. 2018</a>; <a href="#ref-Breitwieser2018-xg" role="doc-biblioref">F. P. Breitwieser, Baker, and Salzberg 2018</a>)</span> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. Additionally, the paired-end merging may provide longer sequences that will allow more specific classification when paired-end alignment is not supported by a given classifier. For these tasks nf-core/taxprofiler can apply either fastp <span class="citation" data-cites="Chen2018-vg">(<a href="#ref-Chen2018-vg" role="doc-biblioref">Chen et al. 2018</a>)</span> or AdapterRemoval2 <span class="citation" data-cites="Schubert2016-qv">(<a href="#ref-Schubert2016-qv" role="doc-biblioref">Schubert, Lindgreen, and Orlando 2016</a>)</span> for short-reads, and currently Porechop <span class="citation" data-cites="Wick2017-cn">(<a href="#ref-Wick2017-cn" role="doc-biblioref">Wick et al. 2017</a>)</span> for Oxford Nanopore long-read data. For both short- and long-reads FastQC or Falco is run again to allow assessment on the performance of the adapter removal and/or pair-merging step.</p>
+<p>Low complexity sequences, e.g. sequences containing long stretches mono- or di-nucleotide repeats provide little specific genetic information that contribute to taxonomic identification, as they can align to many different reference genomes <span class="citation" data-cites="Schmieder2011-ea Clarke2019-al">(<a href="#ref-Schmieder2011-ea" role="doc-biblioref">Schmieder and Edwards 2011</a>; <a href="#ref-Clarke2019-al" role="doc-biblioref">Clarke et al. 2019</a>)</span>. Including such reads during taxonomic profiling can increase run-time and memory usage for little gain, as during lowest-common-ancestor (LCA) classification steps they will be assigned to high-level taxonomic levels (e.g. Kingdom). nf-core/taxprofiler performs removal of these reads through complexity filtering algorithms as provided by fastp, BBDuk <span class="citation" data-cites="Bushnell2022-pf">(<a href="#ref-Bushnell2022-pf" role="doc-biblioref">Bushnell 2022</a>)</span>, or PRINSEQ++ <span class="citation" data-cites="Cantu2019-lh">(<a href="#ref-Cantu2019-lh" role="doc-biblioref">Cantu, Sadural, and Edwards 2019</a>)</span>. Long read sequences often do not have such reads as lengths are sufficient enough to capture greater sequence diversity - but it is sometimes desired to only classify reads longer than a certain length - as these provide more precise taxonomic information <span class="citation" data-cites="Dilthey2019-ps Portik2022-jp">(<a href="#ref-Dilthey2019-ps" role="doc-biblioref">Dilthey et al. 2019</a>; <a href="#ref-Portik2022-jp" role="doc-biblioref">Portik, Brown, and Pierce-Ward 2022</a>)</span>. Therefore, nf-core/taxprofiler can remove reads shorter than a user-defined length using Filtlong.</p>
+<p>Removing host DNA is another common preprocessing step in metagenomic studies. This can help speed up run-time, particularly in microbiome studies, where detection of microbes are of interest. Furthermore, host-contamination of reference genomes in public databases is common <span class="citation" data-cites="Longo2011-qd Kryukov2016-my Breitwieser2019-iz">(<a href="#ref-Longo2011-qd" role="doc-biblioref">Longo, O’Neill, and O’Neill 2011</a>; <a href="#ref-Kryukov2016-my" role="doc-biblioref">Kryukov and Imanishi 2016</a>; <a href="#ref-Breitwieser2019-iz" role="doc-biblioref">Florian P. Breitwieser et al. 2019</a>)</span> and therefore the removal of such sequences can also decrease the risk of false positive taxonomic assignment. To remove multiple hosts or other sequences, all reference genomes can be combined into a single FASTA reference file. Short-read host removal can be carried out with Bowtie2 <span class="citation" data-cites="Langmead2012-ik Langmead2019-ej">(<a href="#ref-Langmead2012-ik" role="doc-biblioref">Langmead and Salzberg 2012</a>; <a href="#ref-Langmead2019-ej" role="doc-biblioref">Langmead et al. 2019</a>)</span> and minimap2 <span class="citation" data-cites="Li2018-qq">(<a href="#ref-Li2018-qq" role="doc-biblioref">Li 2018</a>)</span> for long-reads, both in combination with SAMtools <span class="citation" data-cites="Li2009-wy Danecek2021-gj">(<a href="#ref-Li2009-wy" role="doc-biblioref">Li et al. 2009</a>; <a href="#ref-Danecek2021-gj" role="doc-biblioref">Danecek et al. 2021</a>)</span>, where reads are aligned against the reference genome and the off-target (unaligned) reads are then converted back to FASTQ format for classification.</p>
+<p>Finally, nf-core/taxprofiler can optionally perform run merging where libraries have been sequenced over multiple lanes to generate one profile per sample or library. The final set of reads used for profiling can be optionally saved for downstream re-use.</p>
+<p>Throughout all steps, relevant statistics and log files are generated and used both for the final pipeline run report as well as saved into the results directory of the pipeline run for further inspection where necessary.</p>
+</section>
+<section id="profiling" class="level3" data-number="3.3">
+<h3 data-number="3.3"><span class="header-section-number">3.3</span> Profiling</h3>
+<p>There are many types of metagenomic profiling techniques, from profiling against whole-genome references with alignment or k-mer based approaches, to methods involving alignment to species-specific marker-gene families <span class="citation" data-cites="Quince2017-bl">Ye et al. (<a href="#ref-Ye2019-fl" role="doc-biblioref">2019</a>)</span>. nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community. The choice of tools used in a pipeline run is up to the user, with a tool being executed when both the corresponding database and <code>--run_&lt;tool&gt;</code> flag is provided. Specific classification settings for each tool and database are specified in the database CSV input sheet. Some tools also have pipeline level command-line flags for controlling certain aspects of output files.</p>
+<p>As of version 1.1.0, the following classifiers and profilers are available: Kraken2 <span class="citation" data-cites="Wood2019-mf">(<a href="#ref-Wood2019-mf" role="doc-biblioref">Wood, Lu, and Langmead 2019</a>)</span>, Bracken <span class="citation" data-cites="Lu2017-vc">(<a href="#ref-Lu2017-vc" role="doc-biblioref">Lu et al. 2017</a>)</span>, KrakenUniq <span class="citation" data-cites="Breitwieser2018-xg">(<a href="#ref-Breitwieser2018-xg" role="doc-biblioref">F. P. Breitwieser, Baker, and Salzberg 2018</a>)</span>, Centrifuge <span class="citation" data-cites="Kim2016-qc">(<a href="#ref-Kim2016-qc" role="doc-biblioref">Kim et al. 2016</a>)</span>, MALT <span class="citation" data-cites="Vagene2018-px">(<a href="#ref-Vagene2018-px" role="doc-biblioref">Vågene et al. 2018</a>)</span>, DIAMOND <span class="citation" data-cites="Buchfink2021-ks">(<a href="#ref-Buchfink2021-ks" role="doc-biblioref">Buchfink, Reuter, and Drost 2021</a>)</span>, Kaiju <span class="citation" data-cites="Menzel2016-xy">(<a href="#ref-Menzel2016-xy" role="doc-biblioref">Menzel, Ng, and Krogh 2016</a>)</span>, MetaPhlAn <span class="citation" data-cites="Blanco-Miguez2023-cq">(<a href="#ref-Blanco-Miguez2023-cq" role="doc-biblioref">Blanco-Míguez et al. 2023</a>)</span>, mOTUs <span class="citation" data-cites="Ruscheweyh2022-hn">(<a href="#ref-Ruscheweyh2022-hn" role="doc-biblioref">Ruscheweyh et al. 2022</a>)</span>, ganon <span class="citation" data-cites="Piro2020-es">(<a href="#ref-Piro2020-es" role="doc-biblioref">Piro et al. 2020</a>)</span>, KMCP <span class="citation" data-cites="Shen2023-bk">(<a href="#ref-Shen2023-bk" role="doc-biblioref">Shen et al. 2023</a>)</span>. <a href="#tbl-tool-summaries">Table 1</a> in Supplementary Data summarises the category and reference database type for each tool.</p>
+<p>By default, nf-core/taxprofiler produces the per-sample main taxonomic classification profile from a tool or a tool’s report generation tool. The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.). Users can also optionally request output of per-read classification output, and output such as classified and unclassified reads in FASTQ format, where supported.</p>
+<p>The pipeline provides high efficiency, particularly during the metagenomic classification stage, through the inherent parallelisation provided by Nextflow. While metagenomic classification is comparatively computationally intensive (in terms of memory and execution time; due to a combination of sequencing depth and number of reference genomes), Nextflow automatically optimises the execution order of all the steps in pipeline, maximising the number parallel running of multiple profilers and/or databases at any given time point, as far as the available computational resources allow. For local machines such as laptops or desktops, Nextflow will automatically detect all available computational sources but this is customisable using custom Nextflow configuration files. For HPC and cloud infrastructure, users typically have to define the computational infrastructural environment the pipeline is being executed on (CPU or memory limitations, queues, instance types etc.). To facilitate the pipeline set-up, nf-core/taxprofiler supports pre-defined centralised generic and pipeline-specific institutional Nextflow configurations as provided by nf-core/configs (<a href="https://nf-co.re/configs">https://nf-co.re/configs</a>; more than 90 institutions at the time of writing). However, users are still welcome to supply their own custom configuration files, further refining computational limitations or execution specifications.</p>
+</section>
+<section id="post-profiling" class="level3" data-number="3.4">
+<h3 data-number="3.4"><span class="header-section-number">3.4</span> Post-profiling</h3>
+<p>In metagenomic studies, it is common practise to compare the profiles among many samples, and the results of multiple profiles are normally stored in ‘taxon tables’, i.e, counts per reference (rows), for each sample (columns). When available, nf-core/taxprofiler supports the option to produce the ‘native’ taxon table of each classification tool when multiple samples are run.</p>
+<p>One of the challenges that researchers face when comparing multiple taxonomic classifiers or profilers is the heterogenous output formats that are produced, and often requires custom parser and merging scripts for each tool to standardise. To facilitate more user-friendly cross-comparison between tools, nf-core/taxprofiler utilises the TAXPASTA tool <span class="citation" data-cites="Beber2023-hk">(<a href="#ref-Beber2023-hk" role="doc-biblioref">Beber et al. 2023</a>)</span> to generate standardised profiles and generate multi-sample tables.</p>
+<p>Summary statistics for the entire pipeline are visualised and displayed in a customisable MultiQC report <span class="citation" data-cites="Ewels2020-vi">(<a href="#ref-Ewels2020-vi" role="doc-biblioref">Ewels et al. 2020</a>)</span>, when supported, to support user quality control of data and pipeline runs. Krona plots <span class="citation" data-cites="Ondov2011-se">(<a href="#ref-Ondov2011-se" role="doc-biblioref">Ondov, Bergman, and Phillippy 2011</a>)</span> can also optionally be generated for supported tools to help provide further visualisation of taxonomic profiles.</p>
+</section>
+<section id="output" class="level3" data-number="3.5">
+<h3 data-number="3.5"><span class="header-section-number">3.5</span> Output</h3>
+<p>To summarise, the main default output from nf-core/taxprofiler are both classifier ‘native’ and standardised single- and multi-sample taxonomic profiles with counts per-taxon and an interactive MultiQC run report with all run statistics, in addition to the raw log files themselves where available.</p>
+<p>The MultiQC run report displays statistics and summary visualisations for all steps of the pipeline where possible, lists of versions for all tools of each step of the pipeline, and provides a dynamically-constructed text for the recommendeded ‘methods’ text for reporting how the pipeline was executed (including relevant citations) that users can use in their own publications.</p>
+<p>Optional outputs can include other types of profiles (e.g. per read classification) and in other formats as produced by the tools themselves, as well as raw reads from preprocessing steps and output visualisations from Krona. Nextflow resource usage and trace reports are also by default produced for users to check pipeline performance.</p>
+<!--
+
+TODO: Version 2 of preprint
+
+## Use Cases and Benchmarking
+
+To demonstrate different uses of nf-core/taxprofiler, we ran the pipeline on datasets of XXXX  from XXX , on a XXXX .
+
+Run metric can be seen in Figure XXXXXX .
+
+-->
+</section>
+</section>
+<section id="discussion" class="level2" data-number="4">
+<h2 data-number="4"><span class="header-section-number">4</span> Discussion</h2>
+<section id="comparison-with-other-solutions" class="level3" data-number="4.1">
+<h3 data-number="4.1"><span class="header-section-number">4.1</span> Comparison with other solutions</h3>
+<p>nf-core/taxprofiler has been specifically developed for the analysis of <em>metagenomic</em> data. While other types of taxonomic profiling data such as 16S amplicon sequencing are well established fields with a range of popular high-quality and best-practise tools pipelines (e.g. <span class="citation" data-cites="Blanco-Miguez2023-cq Schloss2009-vk">(<a href="#ref-Blanco-Miguez2023-cq" role="doc-biblioref">Blanco-Míguez et al. 2023</a>; <a href="#ref-Schloss2009-vk" role="doc-biblioref">Schloss et al. 2009</a>)</span>) and databases <span class="citation" data-cites="DeSantis2006-cm Yilmaz2014-js">(<a href="#ref-DeSantis2006-cm" role="doc-biblioref">DeSantis et al. 2006</a>; <a href="#ref-Yilmaz2014-js" role="doc-biblioref">Yilmaz et al. 2014</a>)</span>, whereas ‘gold standard’ tools and databases for metagenomics remains are much less established - thus the need for highly-multiplexed classification is more desirable for the newer metagenomics methods. Despite this, tools such as METAXA2 <span class="citation" data-cites="Bengtsson-Palme2015-ar">(<a href="#ref-Bengtsson-Palme2015-ar" role="doc-biblioref">Bengtsson-Palme et al. 2015</a>)</span> that use shotgun sequencing reads to recover 16S sequences from metagenomic samples.</p>
+<p>A range of pipelines already exist for taxonomic profiling, however each have their own particular purpose and abilities. Here we compare the functionality of nf-core/taxprofiler against four other recently published or released pipelines, selected based on their similarity of purpose to nf-core/taxprofiler. We searched Google Scholar for open-source pipelines published or released in the last 5 years (at the time of writing, since 2018) that were designed primarily for metagenomic classification screening, that supported at least 2 classifiers, had at laest one preprocessing step and was not specificaly targeted at read classification of specific domains of taxa (e.g. virus or bacteriophage only). We also included an additional pipeline at the recommendations of the authors of the pipeline due to the functional overlap to nf-core/taxprofiler. We then evaluted the pipelines based on their publications and documentation for typical metagenomic profiling workflow steps, and a range criteria related to expectations of modern bioinformatic workflows that can be summarised in the following four criteria: reproducibility, accessibility, scalability, and portability <span class="citation" data-cites="Wratten2021-es">(<a href="#ref-Wratten2021-es" role="doc-biblioref">Wratten, Wilm, and Göke 2021</a>)</span>. After searching, we selected the following pipelines for comparison with nf-core/taxprofiler: sunbeam [v4; <span class="citation" data-cites="Clarke2019-al">Clarke et al. (<a href="#ref-Clarke2019-al" role="doc-biblioref">2019</a>)</span>], Unipro UGENE [v48; <span class="citation" data-cites="Rose2019-jf">Rose et al. (<a href="#ref-Rose2019-jf" role="doc-biblioref">2019</a>)</span>], TAMA [githash: 3a22c8f; <span class="citation" data-cites="Sim2020-ja">Sim et al. (<a href="#ref-Sim2020-ja" role="doc-biblioref">2020</a>)</span>], and StaG-mwc [0.7.0; <span class="citation" data-cites="Boulund2023-ct">Boulund et al. (<a href="#ref-Boulund2023-ct" role="doc-biblioref">2023</a>)</span>].</p>
+<p>In terms of accessibility, all pipelines have documentation describing the installation steps, usage instructions, and output files. However, there are varying levels of detail and comprehensiveness. In particular, StaG-mwc and nf-core/taxprofiler have the most detailed descriptions of all possible output files for every supported module, whereas Unipro UGENE and sunbeam have very minimal to possibly unfinished output documentation. For execution options, most of the pipelines provide CLI execution, except for Unipro UGENE offers only GUI-based pipeline set-up (despite a command-line execution of the GUI generated configuration). In particular, nf-core/taxprofiler is the only pipeline providing both CLI and GUI interfaces for pipeline run execution.</p>
+<p>Criteria covering portability also overlaps with accessibility, as it implies the options and ease that different users can run on different types of computing infrastructure, whether that is on their own laptop, on a HPC cluster or in the cloud. Unipro UGENE is the only pipeline that supports execution on all three major operating systems (Linux, OSX, Windows), whereas StaG-mwc and nf-core/taxprofiler can be run on unix operating systems, and sunbeam and TAMA are only being supported on Linux. While all pipelines support ‘local’ machine execution (e.g. personal laptops or desktops), a large portion of academic users execute computationally intensive bioinformatic tasks on HPC clusters. In these contexts, pipeline task submissions are normally managed by job schedulers, thus integration with schedulers is an important criteria for running large multi-step and parallelised pipelines. The three pipelines leveraging workflow managers (Snakemake <span class="citation" data-cites="Molder2021-et">(<a href="#ref-Molder2021-et" role="doc-biblioref">Mölder et al. 2021</a>)</span> and Nextflow) support integration with schedulers (StaG-mwc, sunbeam, and nf-core/taxprofiler) with nf-core/taxprofiler supporting the most by far (<a href="https://www.nextflow.io/docs/latest/executor.html">&gt;10 scheduling systems</a>) as natively offered by Nextflow. This allows the greatest possible choice or users in terms of which HPC infrastructure they could execute their pipeline on. As an extension of this, only nf-core/taxprofiler has explicitly described support for cloud computing (e.g. AWS or Microsoft Azure), again maximising user choice and accessibility when it comes to running the pipeline.</p>
+<p>In terms of scalability, the aforementioned integration with schedulers and cloud computing support implicit maximises efficiency and parallellisation of pipeline runs, providing good scalability for varying numbers of input files and steps in the pipeline. Again, the three workflow manager based pipelines provide scalability, whereas there is no mention neither Unipro UGENE nor TAMA in reference to parallel task execution. Furthemore, all pipelines except TAMA, allowed per-process customisation of computational resources, something critical for maximising efficient scalability to ensure only the necessary resources for a given step of a pipeline are requested.</p>
+<p>In terms of reproducibility, all five pipelines are good at ensuring reproducibility in terms of pipeline and software versioning (allowing re-execution of pipeline runs using the same software), with only tama not having stable versioned releases. However, installing software manually across different infrastructures can result in variability in the execution of each software <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> <span class="citation" data-cites="Di_Tommaso2017-xu">(<a href="#ref-Di_Tommaso2017-xu" role="doc-biblioref">Di Tommaso et al. 2017</a>)</span>.The current most popular solution to the problem of inconsistent software environments is to use container engines such as Docker or Apptainer. These allow ‘snapshotting’ of a operating system and all configuration and fixed versions of all software required for the pipeline. Only Unipro UGENE does not document the use of a container system with nf-core/taxprofiler offering the biggest choice for users courtsey of Nextflow (6 different engine systems at the time of writing).</p>
+<p>Finally we compared metagenomics related functionality between the pipelines. All pipelines support short-read FASTQ input, but only nf-core/taxprofiler explicitly reports long-read support, while the documentation in Unipro UGENE states that assembled contigs are possible input to some of the profilers. All pipelines support read preprocessing (adapter clipping, and merging). In terms of tools used for preprocessing, Trimmomatic <span class="citation" data-cites="Bolger2014-pm">(<a href="#ref-Bolger2014-pm" role="doc-biblioref">Bolger, Lohse, and Usadel 2014</a>)</span> is popular across the other pipelines but is not supported in nf-core/taxprofiler. Only sunbeam and nf-core/taxprofiler support complexity filtering to remove low sequence diversity reads. In fact within the development of sunbeam, the developers developed their own dedicated performant complexity filtering tool Komplexity <span class="citation" data-cites="Clarke2019-al">(<a href="#ref-Clarke2019-al" role="doc-biblioref">Clarke et al. 2019</a>)</span>, which may be of interest for adding to nf-core/taxprofiler if containers are created. Most pipelines support some form of host removal (only TAMA did not support this), and it is likely possible with Unipro UGENE through user customisation of the workflow. In all cases, this consists of mapping processed reads with an aligner and taking the off-target reads (as implemented in nf-core/taxprofiler), however StaG-mwc has an additional separate metagenomic host removal step with Kraken2. nf-core/taxprofiler supports by far the largest number of taxonomic classifers and profilers at 11 as of v1.1.0 - providing the greatest choice to users - with StaG-mwc offering 7, and the remaining pipelines only 3. Only nf-core/taxprofiler and partly StaG-mwc explicitly supports running each profiler with multiple databases.nf-core/taxprofiler is the only pipeline that supports running an arbitrary number of different metagenomic profiler databases each with their own settings - making it useful for tool parameter comparison, testing different databases, or reducing the size of each database (e.g. per domain) to make it more flexibility for running on smaller computational infrastructure. StaG-mwc allows multiple references for their short-read alignment steps rather than the metagenomic profilers. For output, nf-core/taxprofiler, StaG-mwc, and sunbeam (via an extension) support a singular run report for summarising all preprocessing step. Only nf-core/taxprofiler and tama produce standardised output for all taxonomic profilers (via TAXPASTA). However Unipro UGENE additionally offers a ‘consensus’ profile using WEVOTE <span class="citation" data-cites="Metwally2016-tm">(<a href="#ref-Metwally2016-tm" role="doc-biblioref">Metwally et al. 2016</a>)</span>.</p>
+<p>To summarise, many of the pipelines reviewed here offer similar functionality, with particularly StaG-mwc having a strong overlap with nf-core/taxprofiler. Thus, users in most cases will be able to select the pipeline depending on which pipeline framework they feel most comfortable with. However the advantages of nf-core/taxprofiler mainly comes from the offering of the greatest choice of tools, the benefits provided by Nextflow whereby it provides the greatest number of computational infrastructure types the pipeline can be executed on and container systems can be used to ensure reproducibility, and the support of the nf-core community due to the centralised pool of ‘plug-and-play’ modules to make it easier to update the pipeline overtime to add new tool.</p>
+<p>The functionality offered by other pipelines not currently supported by nf-core/taxprofiler include sequencing saturation estimation (StaG-mwc), taxonomy-free composition comparison (StaG-mwc), functional profiling (StaG-mwc), <em>de novo</em> assembly (sunbeam), and reference mapping (StaG-mwc, sunbeam). We do not plan to support <em>de novo</em> assembly or functional profiling in nf-core/taxprofiler as we feel this better served by other existing dedicated pipelines <span class="citation" data-cites="Uritskiy2018-ut Krakau2022-we">(e.g. <a href="#ref-Uritskiy2018-ut" role="doc-biblioref">Uritskiy, DiRuggiero, and Taylor 2018</a>; <a href="#ref-Krakau2022-we" role="doc-biblioref">Krakau et al. 2022</a>)</span>.</p>
+<p>We note there exists a range of other pipelines that also include some form of taxonomic classification. However often these pipelines have been developed with a different main purpose (e.g. Assembly and binning for nf-core/mag <span class="citation" data-cites="Krakau2022-we">(<a href="#ref-Krakau2022-we" role="doc-biblioref">Krakau et al. 2022</a>)</span>, MetaWRAP <span class="citation" data-cites="Uritskiy2018-ut">(<a href="#ref-Uritskiy2018-ut" role="doc-biblioref">Uritskiy, DiRuggiero, and Taylor 2018</a>)</span>, SqueezeMeta <span class="citation" data-cites="Tamames2018-zq">(<a href="#ref-Tamames2018-zq" role="doc-biblioref">Tamames and Puente-Sánchez 2018</a>)</span>, or MEDUSA <span class="citation" data-cites="Morais2022-rt">(<a href="#ref-Morais2022-rt" role="doc-biblioref">Morais et al. 2022</a>)</span>; Metagenomic read alignment with CCMetaGen <span class="citation" data-cites="Marcelino2020-rg">(<a href="#ref-Marcelino2020-rg" role="doc-biblioref">Marcelino et al. 2020</a>)</span> and Wochenende <span class="citation" data-cites="Rosenboom2022-bt">(<a href="#ref-Rosenboom2022-bt" role="doc-biblioref">Rosenboom et al. 2022</a>)</span>).</p>
+</section>
+<section id="development-roadmap" class="level3" data-number="4.2">
+<h3 data-number="4.2"><span class="header-section-number">4.2</span> Development roadmap</h3>
+<p>An important advantage of nf-core/taxprofiler is that it is being developed within the nf-core community (<a href="https://nf-co.re">https://nf-co.re</a>), that provides a strong and long term support for the continued community-based development and maintenance of the pipeline. In this framework, we will continue to add additional preprocessing and metagenomic classification and profiling tools as they become established and as requested by the metagenomics community. For example, we feel inclusion of steps such as sequencing saturation estimation as already being performed by StaG-mwc would be beneficial to the nf-core/taxprofiler workflow (possibly with dedicated tools such as Nonpariel <span class="citation" data-cites="Rodriguez-R2018-rm">(<a href="#ref-Rodriguez-R2018-rm" role="doc-biblioref">Rodriguez-R et al. 2018</a>)</span> once gzipped FASTQ input is supported), and/or more performant complexity filtering tools such as Komplexity as offered by sunbeam (once software containers are offered for this tool). This also applies to extend support to other sequencing platforms; nf-core/taxprofiler already supports Nanopore long-read data, however the use of long-read PacBio data for metagenomic data is growing in interest <span class="citation" data-cites="Portik2022-jp">(<a href="#ref-Portik2022-jp" role="doc-biblioref">Portik, Brown, and Pierce-Ward 2022</a>)</span>. We are therefore considering adding dedicated preprocessing steps for this type of sequencing data.</p>
+<p>A remaining major challenge for metagenomics researchers (and not supported in the same workflow by any of the compared pipelines above) is the construction of databases for each profiling tool. Given there still are no curated, high-quality ‘gold standard’ databases in metagenomics, and while nf-core/taxprofiler allows the profiling against multiple databases and settings in parallel, currently the pipeline still requires users to construct these manually and to supply to the pipeline. While we feel this is currently a reasonable investment as such databases can be repeatedly re-used, we are exploring the possibility to add an additional complementary workflow in the pipeline to allow automated database construction of all classification tools, given a set of FASTA reference files.</p>
+<p>Finally, once an overall taxonomic profile is generated, researchers often wish to validate hits through more sensitive and accurate methods such as with read-mapping alignment. While read alignment is supported by other pipelines such as StaG-mwc, this happens in-parallel to the taxonomic profiling and requires prior expectation of which reference genomes to map against. Instead, nf-core/profiler could be easily extended to have a validation step similar to that of the ancient DNA metagenomic pipeline aMeta <span class="citation" data-cites="Pochon2022-hj">(<a href="#ref-Pochon2022-hj" role="doc-biblioref">Pochon et al. 2022</a>)</span> where, utilising Nextflow’s execution parallelism, the input sequences could be aligned back to the reference genomes of only those species with hits from the taxonomic classification with dedicated accurate short- or long-read aligners. In addition to the more precise classification, post-classification read-alignment could also be particularly useful for researchers in palaeogenomics who wish to use other tools other than KrakenUniq for initial classification (as in aMeta), where alignment information can be used to authenticate ancient DNA within their samples but also in clinical metagenomics to identify potential pathogens at a much finer resolution (e.g. down to strain level).</p>
+<!-- TODO additional post-processing steps? e.g. decontamination estimates? -->
+<p>Another motivation for developing nf-core/taxprofiler, despite the large number of existing metagenomics pipelines is by establishing a taxonomic profiling pipeline within the nf-core ecosystem, it is possible to begin building both standalone but also an integrated suite of powerful interconnected pipelines for the major stages of metagenomic workflows. Existing microbial- and metagenomics- related pipelines within the nf-core initiative include nf-core/ampliseq, nf-core/mag, and nf-core/funcscan. We expect over time the ability to link inputs and outputs of each workflow to develop comphrensive metagenomic analyses, while still maintaing powerful standalone pipelines, providing maximal user choice.</p>
+</section>
+</section>
+<section id="conclusion" class="level2" data-number="5">
+<h2 data-number="5"><span class="header-section-number">5</span> Conclusion</h2>
+<p>nf-core/taxprofiler is an accessible, efficient, and scalable pipeline for metagenomic taxonomic classification and profiling that can be executed on anywhere from laptops to the cloud. Offering, to our knowledge, the largest number of taxonomic profilers across similar pipelines, it provides flexibility for users not just on choice of profiling tool but also with databases and database settings, with any number being able to be supplied to the pipeline in a single run. We hope that through detailed documentation and a range of execution options, nf-core/taxprofiler will make reproducible and high-throughput metagenomics more accessible for a wide range of disciplines.</p>
+<!-- TODO make this last sentence better, it's a bit poop -->
+</section>
+<section id="data-availability" class="level2" data-number="6">
+<h2 data-number="6"><span class="header-section-number">6</span> Data Availability</h2>
+<p>All data used in this publication <!-- TODO : Version 2 of preprint --></p>
+</section>
+<section id="code-availability" class="level2" data-number="7">
+<h2 data-number="7"><span class="header-section-number">7</span> Code Availability</h2>
+<p>nf-core/taxprofiler source code is available on GitHub at <a href="https://github.com/nf-core/taxprofiler">https://github.com/nf-core/taxprofiler</a>, and each release is archived on Zenodo (latest version DOI: <a href="https://doi.org/10.5281/zenodo.7728364">10.5281/zenodo.7728364</a>)</p>
+<p>The version of the pipeline described in this paper is version (1.1.0) (release specific Zenodo archive DOI: <a href="https://doi.org/10.5281/zenodo.8358147">10.5281/zenodo.8358147</a>)</p>
+</section>
+<section id="supplementary-data" class="level2" data-number="8">
+<h2 data-number="8"><span class="header-section-number">8</span> Supplementary Data</h2>
+<div id="tbl-tool-summaries">
+<table>
+<caption>Table 1: List of nf-core/taxprofiler supported taxonomic/classifiers profilers as of version 1.1 and their approximate method and supported input database types. Sequencing matching type refers to which ‘molecular alphabet’ is primarily used for matching between a query (read) and a reference (genome/gene). Primary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler)</caption>
+<colgroup>
+<col style="width: 27%" />
+<col style="width: 21%" />
+<col style="width: 18%" />
+<col style="width: 18%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Sequence Matching Type</th>
+<th>Primary Algorithm</th>
+<th>Reference Type</th>
+<th>Method</th>
+<th>Tool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>classifier</td>
+<td>Kraken2</td>
+</tr>
+<tr class="even">
+<td>Amino Acid</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>classifier</td>
+<td>Kaiju</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>Bracken</td>
+</tr>
+<tr class="even">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>KrakenUniq</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>ganon</td>
+</tr>
+<tr class="even">
+<td>Nucleotide</td>
+<td>k-mer based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>KMCP</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide/Amino Acid</td>
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>classifier</td>
+<td>MALT</td>
+</tr>
+<tr class="even">
+<td>Amino Acid</td>
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>classifer</td>
+<td>DIAMOND</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide</td>
+<td>alignment based</td>
+<td>whole-genome</td>
+<td>profiler</td>
+<td>Centrifuge</td>
+</tr>
+<tr class="even">
+<td>Nucleotide</td>
+<td>alignment based</td>
+<td>marker-gene</td>
+<td>profiler</td>
+<td>MetaPhlAn</td>
+</tr>
+<tr class="odd">
+<td>Nucleotide</td>
+<td>alignment based</td>
+<td>marker-gene</td>
+<td>profiler</td>
+<td>mOTUS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="acknowledgments" class="level2" data-number="9">
+<h2 data-number="9"><span class="header-section-number">9</span> Acknowledgments</h2>
+<p>We thank Prof. Christina Warinner and the Microbiome Sciences group MPI-EVA for original discussions that lead to the pipeline. We are also grateful for the nf-core community for the original and ongoing support in the development in the pipeline, in particular for the contributions by Lauri Mesilaakso, Jianhong Ou, and Rafał Stępień.</p>
+</section>
+<section id="funding" class="level2" data-number="10">
+<h2 data-number="10"><span class="header-section-number">10</span> Funding</h2>
+<p>S.S. and L.A-L. were supported by Rapid establishment of comprehensive laboratory pandemic preparedness – RAPID-SEQ. This material is based upon work supported by the U.S. Department of Agriculture, Agricultural Research Service, under agreement No. 58-3022-0-001 (T.A.C II). M.B. and J.A.F.Y were supported by the Max Planck Society. J.A.F.Y was supported by the Werner Siemens-Stiftung (“Paleobiotechnology”, Awarded to Prof. Pierre Stallforth and Prof. Christina Warinner).</p>
+</section>
+<section id="references" class="level2" data-number="11">
+<h2 data-number="11"><span class="header-section-number">11</span> References</h2>
+<div id="quarto-navigation-envelope" class="hidden">
+<p><span class="hidden" data-render-id="quarto-int-sidebar-title">taxprofiler-manuscript</span> <span class="hidden" data-render-id="quarto-int-navbar-title">taxprofiler-manuscript</span></p>
+</div>
+<div id="quarto-meta-markdown" class="hidden">
+<p><span class="hidden" data-render-id="quarto-metatitle">taxprofiler-manuscript - nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling</span> <span class="hidden" data-render-id="quarto-twittercardtitle">taxprofiler-manuscript - nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling</span> <span class="hidden" data-render-id="quarto-ogcardtitle">taxprofiler-manuscript - nf-core/taxprofiler: highly parallelised and flexible pipeline for metagenomic taxonomic classification and profiling</span> <span class="hidden" data-render-id="quarto-metasitename">taxprofiler-manuscript</span> <span class="hidden" data-render-id="quarto-twittercarddesc"></span> <span class="hidden" data-render-id="quarto-ogcardddesc"></span></p>
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Andrews2010-pd" class="csl-entry" role="listitem">
+Andrews, Simon. 2010. <span>“<span>FastQC</span>: A Quality Control Tool for High Throughput Sequence Data.”</span> <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/">http://www.bioinformatics.babraham.ac.uk/projects/fastqc/</a>.
+</div>
+<div id="ref-Beber2023-hk" class="csl-entry" role="listitem">
+Beber, Moritz E, Maxime Borry, Sofia Stamouli, and James A Fellows Yates. 2023. <span>“<span>TAXPASTA</span>: <span>TAXonomic</span> Profile Aggregation and <span>STAndardisation</span>.”</span> <em>Journal of Open Source Software</em> 8 (87): 5627. <a href="https://doi.org/10.21105/joss.05627">https://doi.org/10.21105/joss.05627</a>.
+</div>
+<div id="ref-Bengtsson-Palme2015-ar" class="csl-entry" role="listitem">
+Bengtsson-Palme, Johan, Martin Hartmann, Karl Martin Eriksson, Chandan Pal, Kaisa Thorell, Dan Göran Joakim Larsson, and Rolf Henrik Nilsson. 2015. <span>“<span>METAXA2</span>: Improved Identification and Taxonomic Classification of Small and Large Subunit <span class="nocase">rRNA</span> in Metagenomic Data.”</span> <em>Molecular Ecology Resources</em> 15 (6): 1403–14. <a href="https://doi.org/10.1111/1755-0998.12399">https://doi.org/10.1111/1755-0998.12399</a>.
+</div>
+<div id="ref-Blanco-Miguez2023-cq" class="csl-entry" role="listitem">
+Blanco-Míguez, Aitor, Francesco Beghini, Fabio Cumbo, Lauren J McIver, Kelsey N Thompson, Moreno Zolfo, Paolo Manghi, et al. 2023. <span>“Extending and Improving Metagenomic Taxonomic Profiling with Uncharacterized Species Using <span>MetaPhlAn</span> 4.”</span> <em>Nature Biotechnology</em>, February, 1–12. <a href="https://doi.org/10.1038/s41587-023-01688-w">https://doi.org/10.1038/s41587-023-01688-w</a>.
+</div>
+<div id="ref-Bolger2014-pm" class="csl-entry" role="listitem">
+Bolger, Anthony M, Marc Lohse, and Bjoern Usadel. 2014. <span>“Trimmomatic: A Flexible Trimmer for Illumina Sequence Data.”</span> <em>Bioinformatics (Oxford, England)</em> 30 (15): 2114–20. <a href="https://doi.org/10.1093/bioinformatics/btu170">https://doi.org/10.1093/bioinformatics/btu170</a>.
+</div>
+<div id="ref-Boulund2023-ct" class="csl-entry" role="listitem">
+Boulund, Fredrik, Aron Arzoomand, Justine Debelius, chrsb, and Lisa Olsson. 2023. <span>“Ctmrbio/Stag-Mwc: <span>StaG</span> <span class="nocase">v0</span>.7.0.”</span> Zenodo. <a href="https://doi.org/10.5281/ZENODO.8032462">https://doi.org/10.5281/ZENODO.8032462</a>.
+</div>
+<div id="ref-Breitwieser2018-xg" class="csl-entry" role="listitem">
+Breitwieser, F P, D N Baker, and S L Salzberg. 2018. <span>“<span>KrakenUniq</span>: Confident and Fast Metagenomics Classification Using Unique k-Mer Counts.”</span> <em>Genome Biology</em> 19 (1): 198. <a href="https://doi.org/10.1186/s13059-018-1568-0">https://doi.org/10.1186/s13059-018-1568-0</a>.
+</div>
+<div id="ref-Breitwieser2019-ys" class="csl-entry" role="listitem">
+Breitwieser, Florian P, Jennifer Lu, and Steven L Salzberg. 2019. <span>“A Review of Methods and Databases for Metagenomic Classification and Assembly.”</span> <em>Briefings in Bioinformatics</em> 20 (4): 1125–36. <a href="https://doi.org/10.1093/bib/bbx120">https://doi.org/10.1093/bib/bbx120</a>.
+</div>
+<div id="ref-Breitwieser2019-iz" class="csl-entry" role="listitem">
+Breitwieser, Florian P, Mihaela Pertea, Aleksey Zimin, and Steven L Salzberg. 2019. <span>“Human Contamination in Bacterial Genomes Has Created Thousands of Spurious Proteins.”</span> <em>Genome Research</em> 29 (May): 954–60. <a href="https://doi.org/10.1101/gr.245373.118">https://doi.org/10.1101/gr.245373.118</a>.
+</div>
+<div id="ref-Buchfink2021-ks" class="csl-entry" role="listitem">
+Buchfink, Benjamin, Klaus Reuter, and Hajk-Georg Drost. 2021. <span>“Sensitive Protein Alignments at Tree-of-Life Scale Using <span>DIAMOND</span>.”</span> <em>Nature Methods</em> 18 (4): 366–68. <a href="https://doi.org/10.1038/s41592-021-01101-x">https://doi.org/10.1038/s41592-021-01101-x</a>.
+</div>
+<div id="ref-Bushnell2022-pf" class="csl-entry" role="listitem">
+Bushnell, Brian. 2022. <span>“<span>BBMap</span>.”</span> <a href="https://sourceforge.net/projects/bbmap/" class="uri">https://sourceforge.net/projects/bbmap/</a>.
+</div>
+<div id="ref-Cantu2019-lh" class="csl-entry" role="listitem">
+Cantu, Vito Adrian, Jeffrey Sadural, and Robert Edwards. 2019. <span>“<span>PRINSEQ++</span>, a Multi-Threaded Tool for Fast and Efficient Quality Control and Preprocessing of Sequencing Datasets.”</span> e27553v1. PeerJ Preprints; PeerJ Inc. <a href="https://doi.org/10.7287/peerj.preprints.27553v1">https://doi.org/10.7287/peerj.preprints.27553v1</a>.
+</div>
+<div id="ref-Chen2018-vg" class="csl-entry" role="listitem">
+Chen, Shifu, Yanqing Zhou, Yaru Chen, and Jia Gu. 2018. <span>“Fastp: An Ultra-Fast All-in-One <span>FASTQ</span> Preprocessor.”</span> <em>Bioinformatics</em> 34 (17): i884–90. <a href="https://doi.org/10.1093/bioinformatics/bty560">https://doi.org/10.1093/bioinformatics/bty560</a>.
+</div>
+<div id="ref-Chiu2019-mv" class="csl-entry" role="listitem">
+Chiu, Charles Y, and Steven A Miller. 2019. <span>“Clinical Metagenomics.”</span> <em>Nature Reviews. Genetics</em> 20 (6): 341–55. <a href="https://doi.org/10.1038/s41576-019-0113-7">https://doi.org/10.1038/s41576-019-0113-7</a>.
+</div>
+<div id="ref-Clarke2019-al" class="csl-entry" role="listitem">
+Clarke, Erik L, Louis J Taylor, Chunyu Zhao, Andrew Connell, Jung-Jin Lee, Bryton Fett, Frederic D Bushman, and Kyle Bittinger. 2019. <span>“Sunbeam: An Extensible Pipeline for Analyzing Metagenomic Sequencing Experiments.”</span> <em>Microbiome</em> 7 (1): 46. <a href="https://doi.org/10.1186/s40168-019-0658-x">https://doi.org/10.1186/s40168-019-0658-x</a>.
+</div>
+<div id="ref-Danecek2021-gj" class="csl-entry" role="listitem">
+Danecek, Petr, James K Bonfield, Jennifer Liddle, John Marshall, Valeriu Ohan, Martin O Pollard, Andrew Whitwham, et al. 2021. <span>“Twelve Years of <span>SAMtools</span> and <span>BCFtools</span>.”</span> <em>GigaScience</em> 10 (2). <a href="https://doi.org/10.1093/gigascience/giab008">https://doi.org/10.1093/gigascience/giab008</a>.
+</div>
+<div id="ref-DeSantis2006-cm" class="csl-entry" role="listitem">
+DeSantis, T Z, P Hugenholtz, N Larsen, M Rojas, E L Brodie, K Keller, T Huber, D Dalevi, P Hu, and G L Andersen. 2006. <span>“Greengenes, a Chimera-Checked <span>16S</span> <span class="nocase">rRNA</span> Gene Database and Workbench Compatible with <span>ARB</span>.”</span> <em>Applied and Environmental Microbiology</em> 72 (7): 5069–72. <a href="https://doi.org/10.1128/AEM.03006-05">https://doi.org/10.1128/AEM.03006-05</a>.
+</div>
+<div id="ref-Di_Tommaso2017-xu" class="csl-entry" role="listitem">
+Di Tommaso, Paolo, Maria Chatzou, Evan W Floden, Pablo Prieto Barja, Emilio Palumbo, and Cedric Notredame. 2017. <span>“Nextflow Enables Reproducible Computational Workflows.”</span> <em>Nature Biotechnology</em> 35 (4): 316–19. <a href="https://doi.org/10.1038/nbt.3820">https://doi.org/10.1038/nbt.3820</a>.
+</div>
+<div id="ref-Dilthey2019-ps" class="csl-entry" role="listitem">
+Dilthey, Alexander T, Chirag Jain, Sergey Koren, and Adam M Phillippy. 2019. <span>“Strain-Level Metagenomic Assignment and Compositional Estimation for Long Reads with <span>MetaMaps</span>.”</span> <em>Nature Communications</em> 10 (1): 3066. <a href="https://doi.org/10.1038/s41467-019-10934-2">https://doi.org/10.1038/s41467-019-10934-2</a>.
+</div>
+<div id="ref-Eloe-Fadrosh2016-gz" class="csl-entry" role="listitem">
+Eloe-Fadrosh, Emiley A, Natalia N Ivanova, Tanja Woyke, and Nikos C Kyrpides. 2016. <span>“Metagenomics Uncovers Gaps in Amplicon-Based Detection of Microbial Diversity.”</span> <em>Nature Microbiology</em> 1 (4): 15032. <a href="https://doi.org/10.1038/nmicrobiol.2015.32">https://doi.org/10.1038/nmicrobiol.2015.32</a>.
+</div>
+<div id="ref-Ewels2020-vi" class="csl-entry" role="listitem">
+Ewels, Philip A, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso, and Sven Nahnsen. 2020. <span>“The Nf-Core Framework for Community-Curated Bioinformatics Pipelines.”</span> <em>Nature Biotechnology</em> 38 (3): 276–78. <a href="https://doi.org/10.1038/s41587-020-0439-x">https://doi.org/10.1038/s41587-020-0439-x</a>.
+</div>
+<div id="ref-Govender2022-td" class="csl-entry" role="listitem">
+Govender, Kumeren N, and David W Eyre. 2022. <span>“Benchmarking Taxonomic Classifiers with Illumina and Nanopore Sequence Data for Clinical Metagenomic Diagnostic Applications.”</span> <em>Microbial Genomics</em> 8 (10): 000886. <a href="https://doi.org/10.1099/mgen.0.000886">https://doi.org/10.1099/mgen.0.000886</a>.
+</div>
+<div id="ref-Gruning2018-vr" class="csl-entry" role="listitem">
+Grüning, Björn, Ryan Dale, Andreas Sjödin, Brad A Chapman, Jillian Rowe, Christopher H Tomkins-Tinch, Renan Valieris, Johannes Köster, and Bioconda Team. 2018. <span>“Bioconda: Sustainable and Comprehensive Software Distribution for the Life Sciences.”</span> <em>Nature Methods</em> 15 (7): 475–76. <a href="https://doi.org/10.1038/s41592-018-0046-7">https://doi.org/10.1038/s41592-018-0046-7</a>.
+</div>
+<div id="ref-Hillmann2018-ud" class="csl-entry" role="listitem">
+Hillmann, Benjamin, Gabriel A Al-Ghalith, Robin R Shields-Cutler, Qiyun Zhu, Daryl M Gohl, Kenneth B Beckman, Rob Knight, and Dan Knights. 2018. <span>“Evaluating the Information Content of Shallow Shotgun Metagenomics.”</span> <em>mSystems</em> 3 (6). <a href="https://doi.org/10.1128/mSystems.00069-18">https://doi.org/10.1128/mSystems.00069-18</a>.
+</div>
+<div id="ref-Kim2016-qc" class="csl-entry" role="listitem">
+Kim, Daehwan, Li Song, Florian P Breitwieser, and Steven L Salzberg. 2016. <span>“Centrifuge: Rapid and Sensitive Classification of Metagenomic Sequences.”</span> <em>Genome Research</em> 26 (12): 1721–29. <a href="https://doi.org/10.1101/gr.210641.116">https://doi.org/10.1101/gr.210641.116</a>.
+</div>
+<div id="ref-Krakau2022-we" class="csl-entry" role="listitem">
+Krakau, Sabrina, Daniel Straub, Hadrien Gourlé, Gisela Gabernet, and Sven Nahnsen. 2022. <span>“Nf-Core/Mag: A Best-Practice Pipeline for Metagenome Hybrid Assembly and Binning.”</span> <em>NAR Genomics and Bioinformatics</em> 4 (1). <a href="https://doi.org/10.1093/nargab/lqac007">https://doi.org/10.1093/nargab/lqac007</a>.
+</div>
+<div id="ref-Kryukov2016-my" class="csl-entry" role="listitem">
+Kryukov, Kirill, and Tadashi Imanishi. 2016. <span>“Human Contamination in Public Genome Assemblies.”</span> <em>PloS One</em> 11 (9): e0162424. <a href="https://doi.org/10.1371/journal.pone.0162424">https://doi.org/10.1371/journal.pone.0162424</a>.
+</div>
+<div id="ref-Langmead2012-ik" class="csl-entry" role="listitem">
+Langmead, Ben, and Steven L Salzberg. 2012. <span>“Fast Gapped-Read Alignment with Bowtie 2.”</span> <em>Nature Methods</em> 9 (4): 357–59. <a href="https://doi.org/10.1038/nmeth.1923">https://doi.org/10.1038/nmeth.1923</a>.
+</div>
+<div id="ref-Langmead2019-ej" class="csl-entry" role="listitem">
+Langmead, Ben, Christopher Wilks, Valentin Antonescu, and Rone Charles. 2019. <span>“Scaling Read Aligners to Hundreds of Threads on General-Purpose Processors.”</span> <em>Bioinformatics</em> 35 (3): 421–32. <a href="https://doi.org/10.1093/bioinformatics/bty648">https://doi.org/10.1093/bioinformatics/bty648</a>.
+</div>
+<div id="ref-Li2018-qq" class="csl-entry" role="listitem">
+Li, Heng. 2018. <span>“<span>Minimap2</span>: Pairwise Alignment for Nucleotide Sequences.”</span> <em>Bioinformatics</em> 34 (18): 3094–3100. <a href="https://doi.org/10.1093/bioinformatics/bty191">https://doi.org/10.1093/bioinformatics/bty191</a>.
+</div>
+<div id="ref-Li2009-wy" class="csl-entry" role="listitem">
+Li, Heng, Bob Handsaker, Alec Wysoker, Tim Fennell, Jue Ruan, Nils Homer, Gabor Marth, Goncalo Abecasis, Richard Durbin, and 1000 Genome Project Data Processing Subgroup. 2009. <span>“The Sequence Alignment/Map Format and <span>SAMtools</span>.”</span> <em>Bioinformatics</em> 25 (16): 2078–79. <a href="https://doi.org/10.1093/bioinformatics/btp352">https://doi.org/10.1093/bioinformatics/btp352</a>.
+</div>
+<div id="ref-Longo2011-qd" class="csl-entry" role="listitem">
+Longo, Mark S, Michael J O’Neill, and Rachel J O’Neill. 2011. <span>“Abundant Human <span>DNA</span> Contamination Identified in Non-Primate Genome Databases.”</span> <em>PloS One</em> 6 (2): e16410. <a href="https://doi.org/10.1371/journal.pone.0016410">https://doi.org/10.1371/journal.pone.0016410</a>.
+</div>
+<div id="ref-Lu2017-vc" class="csl-entry" role="listitem">
+Lu, Jennifer, Florian P Breitwieser, Peter Thielen, and Steven L Salzberg. 2017. <span>“Bracken: Estimating Species Abundance in Metagenomics Data.”</span> <em>PeerJ. Computer Science</em> 3 (e104): e104. <a href="https://doi.org/10.7717/peerj-cs.104">https://doi.org/10.7717/peerj-cs.104</a>.
+</div>
+<div id="ref-Lynch2015-mz" class="csl-entry" role="listitem">
+Lynch, Michael D J, and Josh D Neufeld. 2015. <span>“Ecology and Exploration of the Rare Biosphere.”</span> <em>Nature Reviews. Microbiology</em> 13 (4): 217–29. <a href="https://doi.org/10.1038/nrmicro3400">https://doi.org/10.1038/nrmicro3400</a>.
+</div>
+<div id="ref-Marcelino2020-rg" class="csl-entry" role="listitem">
+Marcelino, Vanessa R, Philip T L C Clausen, Jan P Buchmann, Michelle Wille, Jonathan R Iredell, Wieland Meyer, Ole Lund, Tania C Sorrell, and Edward C Holmes. 2020. <span>“<span>CCMetagen</span>: Comprehensive and Accurate Identification of Eukaryotes and Prokaryotes in Metagenomic Data.”</span> <em>Genome Biology</em> 21 (1): 103. <a href="https://doi.org/10.1186/s13059-020-02014-2">https://doi.org/10.1186/s13059-020-02014-2</a>.
+</div>
+<div id="ref-McIntyre2017-td" class="csl-entry" role="listitem">
+McIntyre, Alexa B R, Rachid Ounit, Ebrahim Afshinnekoo, Robert J Prill, Elizabeth Hénaff, Noah Alexander, Samuel S Minot, et al. 2017. <span>“Comprehensive Benchmarking and Ensemble Approaches for Metagenomic Classifiers.”</span> <em>Genome Biology</em> 18 (1): 182. <a href="https://doi.org/10.1186/s13059-017-1299-7">https://doi.org/10.1186/s13059-017-1299-7</a>.
+</div>
+<div id="ref-Menzel2016-xy" class="csl-entry" role="listitem">
+Menzel, Peter, Kim Lee Ng, and Anders Krogh. 2016. <span>“Fast and Sensitive Taxonomic Classification for Metagenomics with Kaiju.”</span> <em>Nature Communications</em> 7 (April): 11257. <a href="https://doi.org/10.1038/ncomms11257">https://doi.org/10.1038/ncomms11257</a>.
+</div>
+<div id="ref-Metwally2016-tm" class="csl-entry" role="listitem">
+Metwally, Ahmed A, Yang Dai, Patricia W Finn, and David L Perkins. 2016. <span>“<span>WEVOTE</span>: Weighted <span>VOting</span> Taxonomic <span class="nocase">idEntification</span> Method of Microbial Sequences.”</span> <em>PloS One</em> 11 (9): e0163527. <a href="https://doi.org/10.1371/journal.pone.0163527">https://doi.org/10.1371/journal.pone.0163527</a>.
+</div>
+<div id="ref-Meyer2022-dg" class="csl-entry" role="listitem">
+Meyer, Fernando, Adrian Fritz, Zhi-Luo Deng, David Koslicki, Till Robin Lesker, Alexey Gurevich, Gary Robertson, et al. 2022. <span>“Critical Assessment of Metagenome Interpretation: The Second Round of Challenges.”</span> <em>Nature Methods</em> 19 (4): 429–40. <a href="https://doi.org/10.1038/s41592-022-01431-4">https://doi.org/10.1038/s41592-022-01431-4</a>.
+</div>
+<div id="ref-Mitchell2019-kt" class="csl-entry" role="listitem">
+Mitchell, Alex L, Alexandre Almeida, Martin Beracochea, Miguel Boland, Josephine Burgin, Guy Cochrane, Michael R Crusoe, et al. 2019. <span>“<span>MGnify</span>: The Microbiome Analysis Resource in 2020.”</span> <em>Nucleic Acids Research</em>, November. <a href="https://doi.org/10.1093/nar/gkz1035">https://doi.org/10.1093/nar/gkz1035</a>.
+</div>
+<div id="ref-Molder2021-et" class="csl-entry" role="listitem">
+Mölder, Felix, Kim Philipp Jablonski, Brice Letcher, Michael B Hall, Christopher H Tomkins-Tinch, Vanessa Sochat, Jan Forster, et al. 2021. <span>“Sustainable Data Analysis with Snakemake.”</span> <em>F1000Research</em> 10 (January): 33. <a href="https://doi.org/10.12688/f1000research.29032.2">https://doi.org/10.12688/f1000research.29032.2</a>.
+</div>
+<div id="ref-Morais2022-rt" class="csl-entry" role="listitem">
+Morais, Diego A A, João V F Cavalcante, Shênia S Monteiro, Matheus A B Pasquali, and Rodrigo J S Dalmolin. 2022. <span>“<span>MEDUSA</span>: A Pipeline for Sensitive Taxonomic Classification and Flexible Functional Annotation of Metagenomic Shotgun Sequences.”</span> <em>Frontiers in Genetics</em> 13 (March): 814437. <a href="https://doi.org/10.3389/fgene.2022.814437">https://doi.org/10.3389/fgene.2022.814437</a>.
+</div>
+<div id="ref-Nasko2018-cl" class="csl-entry" role="listitem">
+Nasko, Daniel J, Sergey Koren, Adam M Phillippy, and Todd J Treangen. 2018. <span>“<span>RefSeq</span> Database Growth Influences the Accuracy of k-Mer-Based Lowest Common Ancestor Species Identification.”</span> <em>Genome Biology</em> 19 (1): 165. <a href="https://doi.org/10.1186/s13059-018-1554-6">https://doi.org/10.1186/s13059-018-1554-6</a>.
+</div>
+<div id="ref-Nayfach2016-ej" class="csl-entry" role="listitem">
+Nayfach, Stephen, and Katherine S Pollard. 2016. <span>“Toward Accurate and Quantitative Comparative Metagenomics.”</span> <em>Cell</em> 166 (5): 1103–16. <a href="https://doi.org/10.1016/j.cell.2016.08.007">https://doi.org/10.1016/j.cell.2016.08.007</a>.
+</div>
+<div id="ref-Ondov2011-se" class="csl-entry" role="listitem">
+Ondov, Brian D, Nicholas H Bergman, and Adam M Phillippy. 2011. <span>“Interactive Metagenomic Visualization in a Web Browser.”</span> <em>BMC Bioinformatics</em> 12 (1): 385. <a href="https://doi.org/10.1186/1471-2105-12-385">https://doi.org/10.1186/1471-2105-12-385</a>.
+</div>
+<div id="ref-Piro2020-es" class="csl-entry" role="listitem">
+Piro, Vitor C, Temesgen H Dadi, Enrico Seiler, Knut Reinert, and Bernhard Y Renard. 2020. <span>“Ganon: Precise Metagenomics Classification Against Large and up-to-Date Sets of Reference Sequences.”</span> <em>Bioinformatics (Oxford, England)</em> 36 (Suppl_1): i12–20. <a href="https://doi.org/10.1093/bioinformatics/btaa458">https://doi.org/10.1093/bioinformatics/btaa458</a>.
+</div>
+<div id="ref-Pochon2022-hj" class="csl-entry" role="listitem">
+Pochon, Zoé, Nora Bergfeldt, Emrah Kırdök, Mário Vicente, Thijessen Naidoo, Tom van der Valk, N Ezgi Altınışık, et al. 2022. <span>“<span class="nocase">aMeta</span>: An Accurate and Memory-Efficient Ancient Metagenomic Profiling Workflow.”</span> <em>bioRxiv</em>. <a href="https://doi.org/10.1101/2022.10.03.510579">https://doi.org/10.1101/2022.10.03.510579</a>.
+</div>
+<div id="ref-Portik2022-jp" class="csl-entry" role="listitem">
+Portik, Daniel M, C Titus Brown, and N Tessa Pierce-Ward. 2022. <span>“Evaluation of Taxonomic Classification and Profiling Methods for Long-Read Shotgun Metagenomic Sequencing Datasets.”</span> <em>BMC Bioinformatics</em> 23 (1): 541. <a href="https://doi.org/10.1186/s12859-022-05103-0">https://doi.org/10.1186/s12859-022-05103-0</a>.
+</div>
+<div id="ref-Quince2017-bl" class="csl-entry" role="listitem">
+Quince, Christopher, Alan W Walker, Jared T Simpson, Nicholas J Loman, and Nicola Segata. 2017. <span>“Shotgun Metagenomics, from Sampling to Analysis.”</span> <em>Nature Biotechnology</em> 35 (9): 833–44. <a href="https://doi.org/10.1038/nbt.3935">https://doi.org/10.1038/nbt.3935</a>.
+</div>
+<div id="ref-Rodriguez-R2018-rm" class="csl-entry" role="listitem">
+Rodriguez-R, Luis M, Santosh Gunturu, James M Tiedje, James R Cole, and Konstantinos T Konstantinidis. 2018. <span>“Nonpareil 3: Fast Estimation of Metagenomic Coverage and Sequence Diversity.”</span> <em>mSystems</em> 3 (3). <a href="https://doi.org/10.1128/mSystems.00039-18">https://doi.org/10.1128/mSystems.00039-18</a>.
+</div>
+<div id="ref-Rose2019-jf" class="csl-entry" role="listitem">
+Rose, Rebecca, Olga Golosova, Dmitrii Sukhomlinov, Aleksey Tiunov, and Mattia Prosperi. 2019. <span>“Flexible Design of Multiple Metagenomics Classification Pipelines with <span>UGENE</span>.”</span> <em>Bioinformatics (Oxford, England)</em> 35 (11): 1963–65. <a href="https://doi.org/10.1093/bioinformatics/bty901">https://doi.org/10.1093/bioinformatics/bty901</a>.
+</div>
+<div id="ref-Rosenboom2022-bt" class="csl-entry" role="listitem">
+Rosenboom, Ilona, Tobias Scheithauer, Fabian C Friedrich, Sophia Pörtner, Lisa Hollstein, Marie-Madlen Pust, Konstantinos Sifakis, et al. 2022. <span>“Wochenende - Modular and Flexible Alignment-Based Shotgun Metagenome Analysis.”</span> <em>BMC Genomics</em> 23 (1): 748. <a href="https://doi.org/10.1186/s12864-022-08985-9">https://doi.org/10.1186/s12864-022-08985-9</a>.
+</div>
+<div id="ref-Ruscheweyh2022-hn" class="csl-entry" role="listitem">
+Ruscheweyh, Hans-Joachim, Alessio Milanese, Lucas Paoli, Nicolai Karcher, Quentin Clayssen, Marisa Isabell Keller, Jakob Wirbel, et al. 2022. <span>“Cultivation-Independent Genomes Greatly Expand Taxonomic-Profiling Capabilities of <span class="nocase">mOTUs</span> Across Various Environments.”</span> <em>Microbiome</em> 10 (1): 212. <a href="https://doi.org/10.1186/s40168-022-01410-z">https://doi.org/10.1186/s40168-022-01410-z</a>.
+</div>
+<div id="ref-Schaffer2018-be" class="csl-entry" role="listitem">
+Schäffer, Alejandro A, Eric P Nawrocki, Yoon Choi, Paul A Kitts, Ilene Karsch-Mizrachi, and Richard McVeigh. 2018. <span>“<span class="nocase">VecScreen_plus_taxonomy</span>: Imposing a Tax(onomy) Increase on Vector Contamination Screening.”</span> <em>Bioinformatics (Oxford, England)</em> 34 (5): 755–59. <a href="https://doi.org/10.1093/bioinformatics/btx669">https://doi.org/10.1093/bioinformatics/btx669</a>.
+</div>
+<div id="ref-Schloss2009-vk" class="csl-entry" role="listitem">
+Schloss, Patrick D, Sarah L Westcott, Thomas Ryabin, Justine R Hall, Martin Hartmann, Emily B Hollister, Ryan A Lesniewski, et al. 2009. <span>“Introducing Mothur: Open-Source, Platform-Independent, Community-Supported Software for Describing and Comparing Microbial Communities.”</span> <em>Applied and Environmental Microbiology</em> 75 (23): 7537–41. <a href="https://doi.org/10.1128/AEM.01541-09">https://doi.org/10.1128/AEM.01541-09</a>.
+</div>
+<div id="ref-Schmieder2011-ea" class="csl-entry" role="listitem">
+Schmieder, Robert, and Robert Edwards. 2011. <span>“Quality Control and Preprocessing of Metagenomic Datasets.”</span> <em>Bioinformatics (Oxford, England)</em> 27 (6): 863–64. <a href="https://doi.org/10.1093/bioinformatics/btr026">https://doi.org/10.1093/bioinformatics/btr026</a>.
+</div>
+<div id="ref-Schubert2016-qv" class="csl-entry" role="listitem">
+Schubert, Mikkel, Stinus Lindgreen, and Ludovic Orlando. 2016. <span>“<span>AdapterRemoval</span> <span class="nocase">v2</span>: Rapid Adapter Trimming, Identification, and Read Merging.”</span> <em>BMC Research Notes</em> 9 (February): 88. <a href="https://doi.org/10.1186/s13104-016-1900-2">https://doi.org/10.1186/s13104-016-1900-2</a>.
+</div>
+<div id="ref-Sczyrba2017-ma" class="csl-entry" role="listitem">
+Sczyrba, Alexander, Peter Hofmann, Peter Belmann, David Koslicki, Stefan Janssen, Johannes Dröge, Ivan Gregor, et al. 2017. <span>“Critical Assessment of Metagenome Interpretation-a Benchmark of Metagenomics Software.”</span> <em>Nature Methods</em> 14 (11): 1063–71. <a href="https://doi.org/10.1038/nmeth.4458">https://doi.org/10.1038/nmeth.4458</a>.
+</div>
+<div id="ref-De_Sena_Brandine2021-pi" class="csl-entry" role="listitem">
+Sena Brandine, Guilherme de, and Andrew D Smith. 2021. <span>“Falco: High-Speed <span>FastQC</span> Emulation for Quality Control of Sequencing Data.”</span> <em>F1000Research</em> 8 (1874): 1874. <a href="https://doi.org/10.12688/f1000research.21142.2">https://doi.org/10.12688/f1000research.21142.2</a>.
+</div>
+<div id="ref-Sharpton2014-wy" class="csl-entry" role="listitem">
+Sharpton, Thomas J. 2014. <span>“An Introduction to the Analysis of Shotgun Metagenomic Data.”</span> <em>Frontiers in Plant Science</em> 5 (June): 209. <a href="https://doi.org/10.3389/fpls.2014.00209">https://doi.org/10.3389/fpls.2014.00209</a>.
+</div>
+<div id="ref-Shen2023-bk" class="csl-entry" role="listitem">
+Shen, Wei, Hongyan Xiang, Tianquan Huang, Hui Tang, Mingli Peng, Dachuan Cai, Peng Hu, and Hong Ren. 2023. <span>“<span>KMCP</span>: Accurate Metagenomic Profiling of Both Prokaryotic and Viral Populations by Pseudo-Mapping.”</span> <em>Bioinformatics</em> 39 (1): btac845. <a href="https://doi.org/10.1093/bioinformatics/btac845">https://doi.org/10.1093/bioinformatics/btac845</a>.
+</div>
+<div id="ref-Sim2020-ja" class="csl-entry" role="listitem">
+Sim, Mikang, Jongin Lee, Daehwan Lee, Daehong Kwon, and Jaebum Kim. 2020. <span>“<span>TAMA</span>: Improved Metagenomic Sequence Classification Through Meta-Analysis.”</span> <em>BMC Bioinformatics</em> 21 (1): 185. <a href="https://doi.org/10.1186/s12859-020-3533-7">https://doi.org/10.1186/s12859-020-3533-7</a>.
+</div>
+<div id="ref-Sun2021-tq" class="csl-entry" role="listitem">
+Sun, Zheng, Shi Huang, Meng Zhang, Qiyun Zhu, Niina Haiminen, Anna Paola Carrieri, Yoshiki Vázquez-Baeza, et al. 2021. <span>“Challenges in Benchmarking Metagenomic Profilers.”</span> <em>Nature Methods</em> 18 (6): 618–26. <a href="https://doi.org/10.1038/s41592-021-01141-3">https://doi.org/10.1038/s41592-021-01141-3</a>.
+</div>
+<div id="ref-Tamames2018-zq" class="csl-entry" role="listitem">
+Tamames, Javier, and Fernando Puente-Sánchez. 2018. <span>“<span>SqueezeMeta</span>, a Highly Portable, Fully Automatic Metagenomic Analysis Pipeline.”</span> <em>Frontiers in Microbiology</em> 9: 3349. <a href="https://doi.org/10.3389/fmicb.2018.03349">https://doi.org/10.3389/fmicb.2018.03349</a>.
+</div>
+<div id="ref-Uritskiy2018-ut" class="csl-entry" role="listitem">
+Uritskiy, Gherman V, Jocelyne DiRuggiero, and James Taylor. 2018. <span>“<span>MetaWRAP</span>-a Flexible Pipeline for Genome-Resolved Metagenomic Data Analysis.”</span> <em>Microbiome</em> 6 (1): 158. <a href="https://doi.org/10.1186/s40168-018-0541-1">https://doi.org/10.1186/s40168-018-0541-1</a>.
+</div>
+<div id="ref-Vagene2018-px" class="csl-entry" role="listitem">
+Vågene, Åshild J, Alexander Herbig, Michael G Campana, Nelly M Robles García, Christina Warinner, Susanna Sabin, Maria A Spyrou, et al. 2018. <span>“Salmonella Enterica Genomes from Victims of a Major Sixteenth-Century Epidemic in Mexico.”</span> <em>Nature Ecology &amp; Evolution</em> 2 (3): 520–28. <a href="https://doi.org/10.1038/s41559-017-0446-6">https://doi.org/10.1038/s41559-017-0446-6</a>.
+</div>
+<div id="ref-Da_Veiga_Leprevost2017-gl" class="csl-entry" role="listitem">
+Veiga Leprevost, Felipe da, Björn A Grüning, Saulo Alves Aflitos, Hannes L Röst, Julian Uszkoreit, Harald Barsnes, Marc Vaudel, et al. 2017. <span>“<span>BioContainers</span>: An Open-Source and Community-Driven Framework for Software Standardization.”</span> <em>Bioinformatics (Oxford, England)</em> 33 (16): 2580–82. <a href="https://doi.org/10.1093/bioinformatics/btx192">https://doi.org/10.1093/bioinformatics/btx192</a>.
+</div>
+<div id="ref-Wick2017-cn" class="csl-entry" role="listitem">
+Wick, Ryan R, Louise M Judd, Claire L Gorrie, and Kathryn E Holt. 2017. <span>“Completing Bacterial Genome Assemblies with Multiplex <span>MinION</span> Sequencing.”</span> <em>Microbial Genomics</em> 3 (10): e000132. <a href="https://doi.org/10.1099/mgen.0.000132">https://doi.org/10.1099/mgen.0.000132</a>.
+</div>
+<div id="ref-Wood2019-mf" class="csl-entry" role="listitem">
+Wood, Derrick E, Jennifer Lu, and Ben Langmead. 2019. <span>“Improved Metagenomic Analysis with Kraken 2.”</span> <em>Genome Biology</em> 20 (1): 257. <a href="https://doi.org/10.1186/s13059-019-1891-0">https://doi.org/10.1186/s13059-019-1891-0</a>.
+</div>
+<div id="ref-Wratten2021-es" class="csl-entry" role="listitem">
+Wratten, Laura, Andreas Wilm, and Jonathan Göke. 2021. <span>“Reproducible, Scalable, and Shareable Analysis Pipelines with Bioinformatics Workflow Managers.”</span> <em>Nature Methods</em> 18 (10): 1161–68. <a href="https://doi.org/10.1038/s41592-021-01254-9">https://doi.org/10.1038/s41592-021-01254-9</a>.
+</div>
+<div id="ref-Wright2023-yr" class="csl-entry" role="listitem">
+Wright, Robyn J, Andrè M Comeau, and Morgan G I Langille. 2023. <span>“From Defaults to Databases: Parameter and Database Choice Dramatically Impact the Performance of Metagenomic Taxonomic Classification Tools.”</span> <em>Microbial Genomics</em> 9 (3). <a href="https://doi.org/10.1099/mgen.0.000949">https://doi.org/10.1099/mgen.0.000949</a>.
+</div>
+<div id="ref-Ye2019-fl" class="csl-entry" role="listitem">
+Ye, Simon H, Katherine J Siddle, Daniel J Park, and Pardis C Sabeti. 2019. <span>“Benchmarking Metagenomics Tools for Taxonomic Classification.”</span> <em>Cell</em> 178 (4): 779–94. <a href="https://doi.org/10.1016/j.cell.2019.07.010">https://doi.org/10.1016/j.cell.2019.07.010</a>.
+</div>
+<div id="ref-Yilmaz2014-js" class="csl-entry" role="listitem">
+Yilmaz, Pelin, Laura Wegener Parfrey, Pablo Yarza, Jan Gerken, Elmar Pruesse, Christian Quast, Timmy Schweer, Jörg Peplies, Wolfgang Ludwig, and Frank Oliver Glöckner. 2014. <span>“The <span>SILVA</span> and <span>‘All-Species Living Tree Project (<span>LTP</span>)’</span> Taxonomic Frameworks.”</span> <em>Nucleic Acids Research</em> 42 (Database issue): D643–8. <a href="https://doi.org/10.1093/nar/gkt1209">https://doi.org/10.1093/nar/gkt1209</a>.
+</div>
+</div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>For an ‘infamous’ case of adapter sequences in a published eukaryotic genome, see the following blog posts</p>
+<p>Graham Etherington: <a href="https://web.archive.org/web/20201219022000/http://grahametherington.blogspot.com/2014/09/why-you-should-qc-your-reads-and-your.html?m=1">https://web.archive.org/web/20201219022000/http://grahametherington.blogspot.com/2014/09/why-you-should-qc-your-reads-and-your.html?m=1</a>why-you-should-qc-your-reads-and-your.html Sixing Huang: <a href="https://web.archive.org/web/20220904205331/https://dgg32.medium.com/carp-in-the-soil-1168818d2191">https://web.archive.org/web/20220904205331/https://dgg32.medium.com/carp-in-the-soil-1168818d2191</a></p>
+<p>(Accessed 2023-08-25)<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>As demonstrated in this blogpost from Paweł Przytuła: <a href="https://web.archive.org/web/20230320223436/https://appsilon.com/reproducible-research-when-your-results-cant-be-reproduced/">https://web.archive.org/web/20230320223436/https://appsilon.com/reproducible-research-when-your-results-cant-be-reproduced/</a> (Accessed 2023-08-25)<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+
+</main> <!-- /main -->
+<script id = "quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+</body>
+
+</html>
