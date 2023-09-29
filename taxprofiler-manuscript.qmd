@@ -187,18 +187,6 @@ Various parameters are available to optionally turn on different preprocessing s
 Note that even if a user supplies a given database in the database input sheet, the corresponding profiling tool must still be activated with the corresponding pipeline parameter (e.g. `--run_kraken2`).
 Per-classifier flags are also available for the optional saving of additional non-profile output files.
 
-```{#lst-example-cmd .bash lst-cap="Example nf-core/taxprofiler command for running short-read quality control, removal of host DNA and executing the k-mer based Kraken2 and marker gene alignment MetaPhlAn3 tools."}
-$ nextflow run nf-core/taxprofiler -r 1.1.0 \
--profile singularity,<institute> \
---input <samplesheet.csv> --databases <database.csv> \
---perform_shortread_qc  --shortread_qc_minlength 20 --preprocessing_qc_tool falco \
---run_host_removal --hostremoval_reference 'host_genome.fasta' \
---run_kraken2 --kraken2_save_reads \
---run_metaphlan3 \
---run_krona \
---run_profile_standardisation \
-```
-
 All nf-core pipelines are strictly versioned (specified with the Nextflow `-r` flag), and to ensure reproducibility, each version of the pipeline has a fixed set of software used for each step of the pipeline.
 The fixed set of software are controlled through the use of the conda package manager and containers (e.g., Docker, Apptainer [previously known as Singularity]) from the stable Bioconda [@Gruning2018-vr] and BioContainers [@Da_Veiga_Leprevost2017-gl] repositories.
 This, coupled with the intrinsic Nextflow ability to execute on most infrastructure whether that is a local laptop (resource requirements permitting), traditional HPC, as well across common cloud providers also makes nf-core/taxprofiler a very portable pipeline that can be used across many contexts.
@@ -391,6 +379,18 @@ Sequencing matching type refers to which 'molecular alphabet' is primarily used 
 Primary algorithm refers to the algorithm type used for sequencing matching.
 Reference type refers to the typical sequence type used in database construction of the tool.
 Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler) {#tbl-tool-summaries}
+
+```{#lst-example-cmd .bash lst-cap="Example nf-core/taxprofiler command for running short-read quality control, removal of host DNA and executing the k-mer based Kraken2 and marker gene alignment MetaPhlAn3 tools."}
+$ nextflow run nf-core/taxprofiler -r 1.1.0 \
+-profile singularity,<institute> \
+--input <samplesheet.csv> --databases <database.csv> \
+--perform_shortread_qc  --shortread_qc_minlength 20 --preprocessing_qc_tool falco \
+--run_host_removal --hostremoval_reference 'host_genome.fasta' \
+--run_kraken2 --kraken2_save_reads \
+--run_metaphlan3 \
+--run_krona \
+--run_profile_standardisation \
+```
 
 ## Acknowledgments
 
