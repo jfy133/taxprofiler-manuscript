@@ -283,7 +283,7 @@ for metagenomic taxonomic classification and profiling}
 \date{}
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, interior hidden, boxrule=0pt, sharp corners, frame hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, sharp corners, boxrule=0pt, interior hidden, breakable, enhanced]}{\end{tcolorbox}}\fi
 
 \hypertarget{abstract}{%
 \section{Abstract}\label{abstract}}
@@ -398,20 +398,55 @@ Nextflow pipelines (Ewels et al. 2020) to ensure high quality coding
 practises and user accessibility, including detailed documentation and a
 graphical-user-interface (GUI) execution interface.
 
-\hypertarget{implementation}{%
-\section{Implementation}\label{implementation}}
+\hypertarget{description}{%
+\section{Description}\label{description}}
 
 nf-core/taxprofiler aims to facilitate three main steps of a typical
 whole-genome, metagenomic sequencing analysis workflow (Chiu and Miller
-2019). Taking in short- (e.g.~Illumina) or long-read (e.g.~Nanopore)
-FASTQ or FASTA files, it can (1) perform a range of appropriate read
-preprocessing steps, (2) perform taxonomic classification and profiling
-against a range of different tools depending on user preferences, and
-finally (3) perform post-classification aggregation and standardisation
-of the resulting profiles with the possibility of visualisation to the
-outputs (Figure~\ref{fig-workflow-diagram}). All relevant preprocessing
-statistics are displayed in an interactive and dynamic MultiQC report
-(Ewels et al. 2020).
+2019). A longer description of the available functionality and
+motivations can be seen in the
+\protect\hyperlink{supplementary-information}{Supplementary
+Information}.
+
+In brief, nf-core/taxprofiler can accept short- (e.g.~Illumina) and/or
+long-read (e.g.~Nanopore) FASTQ or FASTA files. This is provided in the
+form of a TSV file that includes basic sample and sequencing library
+information. The pipeline can then be executed either via a standard
+Nextflow command-line-interface (CLI) execution or
+graphical-user-interface (GUI) through either the open-source and free
+nf-core launch page (\url{https://nf-core/launch}) or the commercial
+(with free-tier) Nextflow tower (\url{https://tower.nf}) solution.
+Examples of command-line execution and nf-core launch GUI can be seen in
+the \protect\hyperlink{supplementary-information}{Supplementary
+Information}.
+
+It can perform a range of appropriate read preprocessing steps, such
+adapter removal, read merging, low-sequence complexity filtering, host-
+or contamination removal, and/or per-sample run merging. All of these
+steps are optional, and are aimed at removing possible sequencing
+artefacts that may result in false positive taxonomic classification
+hits or improve classification efficiency. Most of these steps also
+provide options of different tools to allow user preference.
+
+After pre-processing, nf-core/taxprofiler can perform simultaneous
+profiling of preprocessing reads as many as 11 different taxonomic
+classifiers or profilers (Table~\ref{tbl-tool-summaries}), and on top of
+this, simultaneous for each of these an arbitrary number of databases
+supplied by the user. Databases are also supplied via a input TSV file,
+that also allows per-database custom classification parameters - meaning
+a given database can be supplied multiple times each with different
+parameters. All classifiers with secondary steps to generate or convert
+to additional output file formats are also included.
+
+Post-processing of taxonomic profiles include aggregation (i.e., merging
+of multiple profiles into a single multi-sample table), standardisation
+of profiles for easier comparison between profilers with the tool
+TAXPASTA (developed originally for the nf-core/taxprofiler project,
+Beber et al. 2023), and visualisation of profiles with Krona (Ondov,
+Bergman, and Phillippy 2011) for supported classifiers.
+
+All relevant preprocessing statistics are displayed in an interactive
+and dynamic MultiQC report (Ewels et al. 2020).
 
 \begin{figure}
 
@@ -432,8 +467,320 @@ are generated.}
 
 \end{figure}
 
+\hypertarget{tbl-tool-summaries}{}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1446}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2289}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1928}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1446}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2892}}@{}}
+\caption{\label{tbl-tool-summaries}List of nf-core/taxprofiler supported
+taxonomic/classifiers profilers as of version 1.1 and their approximate
+method and supported input database types. Sequencing matching type
+refers to which `molecular alphabet' is primarily used for matching
+between a query (read) and a reference (genome/gene). Primary algorithm
+refers to the algorithm type used for sequencing matching. Reference
+type refers to the typical sequence type used in database construction
+of the tool. Method refers to whether the tool performs just read
+classification (classifier) or additionally abundance estimation
+(profiler)}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Tool
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Primary Algorithm
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reference Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sequence Matching Type
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Tool
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Primary Algorithm
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reference Type
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Sequence Matching Type
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Kraken2 & k-mer based & whole-genome & classifier & Nucleotide \\
+Kaiju & k-mer based & whole-genome & classifier & Amino Acid \\
+Bracken & k-mer based & whole-genome & profiler & Nucleotide \\
+KrakenUniq & k-mer based & whole-genome & profiler & Nucleotide \\
+ganon & k-mer based & whole-genome & profiler & Nucleotide \\
+KMCP & k-mer based & whole-genome & profiler & Nucleotide \\
+MALT & alignment based & whole-genome & classifier & Nucleotide/Amino
+Acid \\
+DIAMOND & alignment based & whole-genome & classifier & Amino Acid \\
+Centrifuge & alignment based & whole-genome & profiler & Nucleotide \\
+MetaPhlAn & alignment based & marker-gene & profiler & Nucleotide \\
+mOTUS & alignment based & marker-gene & profiler & Nucleotide \\
+\end{longtable}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+A range of pipelines already exists for taxonomic profiling, however,
+each have their own particular purpose and capabilities. We compared the
+functionality of nf-core/taxprofiler against four other recently
+published or released pipelines, selected based on their similarity of
+purpose to nf-core/taxprofiler. The selection criteria and a more
+detailed comparison between the five pipelines can be seen in the
+\protect\hyperlink{supplementary-information}{Supplementary
+Information}, however overall, while there was a general similarity
+across all pipelines, nf-core/taxprofiler showed the greatest
+accessibility and user choice, through the use of an established
+workflow manager (Nextflow supporting 7 software environment/container
+systems), supporting both CLI and GUI execution, and the number of
+supported classifiers. Furthermore, it is unique in that is the only
+pipeline to support supplying multiple database for all of the tools in
+a single pipeline run.
+
+\hypertarget{tbl-pipeline-comparison}{}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0982}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2109}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1345}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1491}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1382}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1200}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1491}}@{}}
+\caption{\label{tbl-pipeline-comparison}Comparison of functionality with
+four recent taxonomic pipelines with similar functionality. A more
+detailed textual comaprison can be found in the
+\protect\hyperlink{supplementary-information}{Supplementary
+Information}.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Category
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Criterion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+StaG-mwc
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+sunbeam
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Unipro UGENE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+tama
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+nf-core/taxprofiler
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Category
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Criterion
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+StaG-mwc
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+sunbeam
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Unipro UGENE
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+tama
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+nf-core/taxprofiler
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Information & Source code URL &
+\url{https://github.com/ctmrbio/stag-mwc} &
+\url{https://github.com/sunbeam-labs/sunbeam} &
+\url{https://github.com/ugeneunipro/ugene} &
+\url{https://github.com/jkimlab/TAMA} &
+\url{https://github.com/nf-core/taxprofiler/} \\
+Information & Evaluated version & 0.7.0 & 4 & 48 & githash: 3a22c8f &
+1.1.0 \\
+Information & Last release date & 2023-06-13 & 2023-08-08 & 2023-08-08 &
+2022-03-02 & 2023-09-19 \\
+Information & Publication year & Unpublished & 2019 & 2019 & 2020 & This
+publication \\
+Information & Publication DOI & Unpublished &
+\href{https://doi.org/10.1186/s40168-019-0658-x}{10.1186/s40168-019-0658-x}
+&
+\href{https://doi.org/10.1093/bioinformatics/bty901}{10.1093/bioinformatics/bty901}
+&
+\href{https://doi.org/10.1186/s12859-020-3533-7}{10.1186/s12859-020-3533-7}
+& This publication \\
+Reproducibility & Pipeline versioning & Yes & Yes & Yes & No & Yes \\
+Reproducibility & Software versioning & Yes & Yes & Yes & Yes & Yes \\
+Reproducibility & Nr. software environments or container engines
+supported & 2 & 2 & 0 & 1 & 7 \\
+Accessibility & Installation documentation & Yes & Yes & Yes & Yes &
+Yes \\
+Accessibility & Usage documentation & Yes & Yes & Yes & Yes & Yes \\
+Accessibility & Output documentation & Yes & Yes & Yes & Yes & Yes \\
+Accessibility & CLI execution interface & Yes & Yes & No & Yes & Yes \\
+Accessibility & GUI execution interface & No & No & Yes & No & Yes \\
+Accessibility/Scalability & Integration a scheduling systems & Yes & Yes
+& No & No & Yes \\
+Portability/Accessibility & Nr. supported operating systems & 2 & 1 & 3
+& 1 & 2 \\
+Portability & Local machine integration & Yes & Yes & Yes & Yes & Yes \\
+Portability/Scalability & HPC scheduler integration & Yes & Yes & No &
+No & Yes \\
+Portability/Scalability & Cloud computing integration & Unsure & Unsure
+& No & No & Yes \\
+Portability/Scalability & Integration with multiple scheduling systems &
+Partial & Partial & No & No & Yes \\
+Scalability & Per-process resource optimisation & Yes & Yes & Yes & No &
+Yes \\
+Functionality & Short read support & Yes & Yes & Yes & Yes & Yes \\
+Functionality & Long read support & No & No & Yes & No & Yes \\
+Functionality & Read preprocessing & Yes & Yes & Yes & Yes & Yes \\
+Functionality & Sequencing depth estimation & Yes & No & No & No & No \\
+Functionality & Complexity filtering & No & Yes & No & No & Yes \\
+Functionality & Host removal & Yes & Yes & Partial & No & Yes \\
+Functionality & Nr. supported taxonomic classifiers/profilers & 7 & 3 &
+3 & 3 & 11 \\
+Functionality & Graphical run reports & Yes & No & No & No & Yes \\
+Functionality & Standardised profiles & No & No & No & Yes & Yes \\
+Functionality & Multiple database supported & Partial & No & No & No &
+Yes \\
+Functionality & Metagenomic assembly & No & Yes & No & No & No \\
+Functionality & Visualisation & No & No & No & No & Partial \\
+\end{longtable}
+
+An important advantage of nf-core/taxprofiler is that it is being
+developed within the nf-core community (\url{https://nf-co.re}), that
+provides strong long-term support for the continued community-based
+development and maintenance of its pipelines. In this framework, we will
+continue to add additional preprocessing, metagenomic classification,
+and profiling tools as they become established and as requested by the
+metagenomics community, for example, we feel that the inclusion of steps
+such as sequencing saturation estimation as already being performed by
+StaG-mwc would be beneficial to the nf-core/taxprofiler workflow
+(possibly with dedicated tools such as Nonpareil (Rodriguez-R et al.
+2018)), and/or more performant complexity filtering tools such as
+Komplexity as offered by sunbeam. This also applies to extend support to
+other sequencing platforms; nf-core/taxprofiler already supports
+Nanopore long-read data, however the use of long-read PacBio data for
+metagenomic data is growing in interest (Portik, Brown, and Pierce-Ward
+2022). We are therefore considering adding dedicated preprocessing steps
+for this type of sequencing data.
+
+A remaining major challenge for metagenomics researchers (and not
+supported in the same workflow by any of the compared pipelines above)
+is the construction of databases for each profiling tool. Given there
+still are no curated, high-quality `gold standard' databases in
+metagenomics, and while nf-core/taxprofiler allows the profiling against
+multiple databases and settings in parallel, currently the pipeline
+still requires users to construct these manually and to supply to the
+pipeline. While we feel this is currently a reasonable investment as
+such databases can be repeatedly re-used, we are exploring the
+possibility to add an additional complementary workflow in the pipeline
+to allow automated database construction of all classification tools,
+given a set of FASTA reference files.
+
+Finally, once an overall taxonomic profile is generated, researchers
+often wish to validate hits through more sensitive and accurate methods
+such as with read-mapping alignment. While read alignment is supported
+by other pipelines such as StaG-mwc, this happens in-parallel to the
+taxonomic profiling and requires prior expectation of which reference
+genomes to map against. Instead, nf-core/taxprofiler could be easily
+extended to have a validation step similar to that of the ancient DNA
+metagenomic pipeline aMeta (Pochon et al. 2022) where, utilising
+Nextflow's execution parallelism, the input sequences could be aligned
+back to the reference genomes of only those species with hits from the
+taxonomic classification with dedicated accurate short- or long-read
+aligners. In addition to the more precise classification,
+post-classification read-alignment could also be particularly useful for
+researchers in palaeogenomics who wish to use tools other than
+KrakenUniq for initial classification (as in aMeta), where alignment
+information can be used to authenticate ancient DNA within their samples
+but also in clinical metagenomics to identify potential pathogens at
+much finer resolution (e.g.~down to strain level).
+
+Another motivation for developing nf-core/taxprofiler, despite the large
+number of existing metagenomics pipelines is that by establishing a
+taxonomic profiling pipeline within the nf-core ecosystem, it is
+possible to begin building both standalone but also an integrated suite
+of powerful interconnected pipelines for the major stages of metagenomic
+workflows. Existing microbial- and metagenomics- related pipelines
+within the nf-core initiative include nf-core/ampliseq, nf-core/mag, and
+nf-core/funcscan. We expect over time the ability to link inputs and
+outputs of each workflow to develop comprehensive metagenomic analyses,
+while still maintaining powerful standalone pipelines, providing maximal
+user choice.
+
+\hypertarget{conclusion}{%
+\section{Conclusion}\label{conclusion}}
+
+nf-core/taxprofiler is an accessible, efficient, and scalable pipeline
+for metagenomic taxonomic classification and profiling that can be
+executed on anywhere from laptops to the cloud. Offering, to our
+knowledge, the largest number of taxonomic profilers across similar
+pipelines, it provides flexibility for users not just on choice of
+profiling tool but also with databases and database settings, with any
+number being able to be supplied to the pipeline in a single run. We
+hope that through detailed documentation and a range of execution
+options, nf-core/taxprofiler will make reproducible and high-throughput
+metagenomics more accessible for a wide range of disciplines.
+
+\hypertarget{data-availability}{%
+\section{Data Availability}\label{data-availability}}
+
+All data used in this publication
+
+\hypertarget{code-availability}{%
+\section{Code Availability}\label{code-availability}}
+
+nf-core/taxprofiler source code is available on GitHub at
+\url{https://github.com/nf-core/taxprofiler}, and each release is
+archived on Zenodo (latest version DOI:
+\href{https://doi.org/10.5281/zenodo.7728364}{10.5281/zenodo.7728364})
+
+The version of the pipeline described in this paper is version (1.1.0)
+(release specific Zenodo archive DOI:
+\href{https://doi.org/10.5281/zenodo.8358147}{10.5281/zenodo.8358147})
+
+\hypertarget{supplementary-data}{%
+\section{Supplementary Data}\label{supplementary-data}}
+
+\hypertarget{acknowledgments}{%
+\section{Acknowledgments}\label{acknowledgments}}
+
+We thank Prof.~Christina Warinner and the Microbiome Sciences group
+MPI-EVA for original discussions that lead to the pipeline. We are also
+grateful for the nf-core community for the original and ongoing support
+in the development in the pipeline, in particular for the contributions
+by Lauri Mesilaakso, Jianhong Ou, and Rafał Stępień.
+
+\hypertarget{funding}{%
+\section{Funding}\label{funding}}
+
+S.S. and L.A-L. were supported by Rapid establishment of comprehensive
+laboratory pandemic preparedness -- RAPID-SEQ. This material is based
+upon work supported by the U.S. Department of Agriculture, Agricultural
+Research Service, under agreement No.~58-3022-0-001 (T.A.C II). M.B. and
+J.A.F.Y were supported by the Max Planck Society. J.A.F.Y was supported
+by the Werner Siemens-Stiftung (``Paleobiotechnology'', Awarded to
+Prof.~Pierre Stallforth and Prof.~Christina Warinner).
+
+\hypertarget{supplementary-information}{%
+\section{Supplementary Information}\label{supplementary-information}}
+
+\hypertarget{implementation}{%
+\subsection{Implementation}\label{implementation}}
+
 \hypertarget{input-and-execution}{%
-\subsection{Input and Execution}\label{input-and-execution}}
+\subsubsection{Input and Execution}\label{input-and-execution}}
 
 The pipeline can be executed via typical Nextflow commands, or using the
 standard nf-core `launch' GUI
@@ -516,17 +863,17 @@ All nf-core pipelines are strictly versioned (specified with the
 Nextflow \texttt{-r} flag), and to ensure reproducibility, each version
 of the pipeline has a fixed set of software used for each step of the
 pipeline. The fixed set of software are controlled through the use of
-the conda package manager or containers (e.g., Docker, Apptainer
-{[}previously known as Singularity{]}) from the stable Bioconda (Grüning
-et al. 2018) or BioContainers (Veiga Leprevost et al. 2017)
-repositories. This, coupled with the intrinsic Nextflow ability to
-execute on most infrastructure whether that is a local laptop (resource
-requirements permitting), traditional HPC, as well across common cloud
-providers also makes nf-core/taxprofiler a very portable pipeline that
-can be used in many contexts.
+the conda package manager or containers (e.g., Docker, or Apptainer
+-previously known as Singularity) from the stable Bioconda (Grüning et
+al. 2018) or BioContainers (Veiga Leprevost et al. 2017) repositories.
+This, coupled with the intrinsic Nextflow ability to execute on most
+infrastructure whether that is a local laptop (resource requirements
+permitting), traditional HPC, as well across common cloud providers also
+makes nf-core/taxprofiler a very portable pipeline that can be used in
+many contexts.
 
 \hypertarget{preprocessing}{%
-\subsection{Preprocessing}\label{preprocessing}}
+\subsubsection{Preprocessing}\label{preprocessing}}
 
 Preprocessing steps in nf-core/taxprofiler are aimed at removing
 laboratory and sequencing artefacts that may influence taxonomic
@@ -600,7 +947,7 @@ final pipeline run report as well as saved into the results directory of
 the pipeline run for further inspection where necessary.
 
 \hypertarget{profiling}{%
-\subsection{Profiling}\label{profiling}}
+\subsubsection{Profiling}\label{profiling}}
 
 There are many types of metagenomic profiling techniques, from profiling
 against whole-genome references with alignment or k-mer based
@@ -623,62 +970,8 @@ Centrifuge (Kim et al. 2016), MALT (Vågene et al. 2018), DIAMOND
 (Buchfink, Reuter, and Drost 2021), Kaiju (Menzel, Ng, and Krogh 2016),
 MetaPhlAn (Blanco-Míguez et al. 2023), mOTUs (Ruscheweyh et al. 2022),
 ganon (Piro et al. 2020), KMCP (Shen et al. 2023).
-\textbf{?@tbl-tool-summaries} summarises the category and reference
+Table~\ref{tbl-tool-summaries} summarises the category and reference
 database type for each tool.
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2759}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2184}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1839}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1839}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1379}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Sequence Matching Type
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Primary Algorithm
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Reference Type
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Method
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Tool
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Nucleotide & k-mer based & whole-genome & classifier & Kraken2 \\
-Amino Acid & k-mer based & whole-genome & classifier & Kaiju \\
-Nucleotide & k-mer based & whole-genome & profiler & Bracken \\
-\end{longtable}
-
-Nucleotide \textbar{} k-mer based \textbar{} whole-genome \textbar{}
-profiler \textbar{} KrakenUniq \textbar{}\\
-Nucleotide \textbar{} k-mer based \textbar{} whole-genome \textbar{}
-profiler \textbar{} ganon \textbar{}\\
-Nucleotide \textbar{} k-mer based \textbar{} whole-genome \textbar{}
-profiler \textbar{} KMCP \textbar{}\\
-Nucleotide/Amino Acid \textbar{} alignment based \textbar{} whole-genome
-\textbar{} classifier \textbar{} MALT \textbar{}\\
-Amino Acid \textbar{} alignment based \textbar{} whole-genome \textbar{}
-classifer \textbar{} DIAMOND \textbar{}\\
-Nucleotide \textbar{} alignment based \textbar{} whole-genome \textbar{}
-profiler \textbar{} Centrifuge \textbar{}\\
-Nucleotide \textbar{} alignment based \textbar{} marker-gene \textbar{}
-profiler \textbar{} MetaPhlAn \textbar{}\\
-Nucleotide \textbar{} alignment based \textbar{} marker-gene \textbar{}
-profiler \textbar{} mOTUS \textbar{}
-
-: List of nf-core/taxprofiler supported taxonomic/classifiers profilers
-as of version 1.1 and their approximate method and supported input
-database types. Sequencing matching type refers to which `molecular
-alphabet' is primarily used for matching between a query (read) and a
-reference (genome/gene). Primary algorithm refers to the algorithm type
-used for sequencing matching. Reference type refers to the typical
-sequence type used in database construction of the tool. Method refers
-to whether the tool performs just read classification (classifier) or
-additionally abundance estimation (profiler) \{\#tbl-tool-summaries\}
 
 By default, nf-core/taxprofiler produces the per-sample main taxonomic
 classification profile from a tool or a tool's report generation tool.
@@ -711,7 +1004,7 @@ configuration files, further refining computational limitations or
 execution specifications.
 
 \hypertarget{post-profiling}{%
-\subsection{Post-profiling}\label{post-profiling}}
+\subsubsection{Post-profiling}\label{post-profiling}}
 
 In metagenomic studies, it is common practise to compare the profiles
 among many samples, and the results of multiple profiles are normally
@@ -736,7 +1029,7 @@ optionally be generated for supported tools to help provide further
 visualisation of taxonomic profiles.
 
 \hypertarget{output}{%
-\subsection{Output}\label{output}}
+\subsubsection{Output}\label{output}}
 
 To summarise, the main default output from nf-core/taxprofiler are both
 classifier `native' and standardised single- and multi-sample taxonomic
@@ -757,9 +1050,6 @@ themselves, as well as raw reads from preprocessing steps and output
 visualisations from Krona. Nextflow resource usage and trace reports are
 also by default produced for users to check pipeline performance.
 
-\hypertarget{discussion}{%
-\section{Discussion}\label{discussion}}
-
 \hypertarget{comparison-with-other-solutions}{%
 \subsection{Comparison with other
 solutions}\label{comparison-with-other-solutions}}
@@ -776,28 +1066,23 @@ more desirable for the newer metagenomics methods. Despite this, tools
 such as METAXA2 (Bengtsson-Palme et al. 2015) that use shotgun
 sequencing reads to recover 16S sequences from metagenomic samples.
 
-A range of pipelines already exists for taxonomic profiling, however,
-each have their own particular purpose and capabilities. Here we compare
-the functionality of nf-core/taxprofiler against four other recently
-published or released pipelines, selected based on their similarity of
-purpose to nf-core/taxprofiler. We searched Google Scholar for
-open-source pipelines published or released in the last 5 years (at the
-time of writing, since 2018) that were designed primarily for
-metagenomic classification screening, that supported at least 2
-classifiers, had at least one preprocessing step and were not
-specifically targeted at read classification of specific domains of taxa
-(e.g.~viruses or bacteriophages only). We also included an additional
-pipeline at the recommendations of the authors of the pipeline due to
-the functional overlap to nf-core/taxprofiler. We then evaluated the
-pipelines based on their publications and documentation for typical
-metagenomic profiling workflow steps, and a range of criteria related to
-expectations of modern bioinformatic workflows that can be summarised in
-the following four criteria: reproducibility, accessibility,
-scalability, and portability (Wratten, Wilm, and Göke 2021). After
-searching, we selected the following pipelines for comparison with
-nf-core/taxprofiler: sunbeam {[}v4; Clarke et al. (2019){]}, Unipro
-UGENE {[}v48; Rose et al. (2019){]}, TAMA {[}githash: 3a22c8f; Sim et
-al. (2020){]}, and StaG-mwc {[}0.7.0; Boulund et al. (2023){]}.
+We searched Google Scholar for open-source pipelines published or
+released in the last 5 years (at the time of writing, since 2018) that
+were designed primarily for metagenomic classification screening, that
+supported at least 2 classifiers, had at least one preprocessing step
+and were not specifically targeted at read classification of specific
+domains of taxa (e.g.~viruses or bacteriophages only). We also included
+an additional pipeline at the recommendations of the authors of the
+pipeline due to the functional overlap to nf-core/taxprofiler. We then
+evaluated the pipelines based on their publications and documentation
+for typical metagenomic profiling workflow steps, and a range of
+criteria related to expectations of modern bioinformatic workflows that
+can be summarised in the following four criteria: reproducibility,
+accessibility, scalability, and portability (Wratten, Wilm, and Göke
+2021). After searching, we selected the following pipelines for
+comparison with nf-core/taxprofiler: sunbeam (v4, Clarke et al. 2019),
+Unipro UGENE (v48, Rose et al. 2019), TAMA (githash: 3a22c8f, Sim et al.
+2020), and StaG-mwc (0.7.0, Boulund et al. 2023).
 
 In terms of accessibility, all pipelines have documentation describing
 the installation steps, usage instructions, and output files. However,
@@ -928,125 +1213,6 @@ for nf-core/mag (Krakau et al. 2022), MetaWRAP (Uritskiy, DiRuggiero,
 and Taylor 2018), SqueezeMeta (Tamames and Puente-Sánchez 2018), or
 MEDUSA (Morais et al. 2022); Metagenomic read alignment with CCMetaGen
 (Marcelino et al. 2020) and Wochenende (Rosenboom et al. 2022)).
-
-\hypertarget{development-roadmap}{%
-\subsection{Development roadmap}\label{development-roadmap}}
-
-An important advantage of nf-core/taxprofiler is that it is being
-developed within the nf-core community (\url{https://nf-co.re}), that
-provides strong long-term support for the continued community-based
-development and maintenance of its pipelines. In this framework, we will
-continue to add additional preprocessing, metagenomic classification,
-and profiling tools as they become established and as requested by the
-metagenomics community, for example, we feel that the inclusion of steps
-such as sequencing saturation estimation as already being performed by
-StaG-mwc would be beneficial to the nf-core/taxprofiler workflow
-(possibly with dedicated tools such as Nonpareil (Rodriguez-R et al.
-2018)), and/or more performant complexity filtering tools such as
-Komplexity as offered by sunbeam. This also applies to extend support to
-other sequencing platforms; nf-core/taxprofiler already supports
-Nanopore long-read data, however the use of long-read PacBio data for
-metagenomic data is growing in interest (Portik, Brown, and Pierce-Ward
-2022). We are therefore considering adding dedicated preprocessing steps
-for this type of sequencing data.
-
-A remaining major challenge for metagenomics researchers (and not
-supported in the same workflow by any of the compared pipelines above)
-is the construction of databases for each profiling tool. Given there
-still are no curated, high-quality `gold standard' databases in
-metagenomics, and while nf-core/taxprofiler allows the profiling against
-multiple databases and settings in parallel, currently the pipeline
-still requires users to construct these manually and to supply to the
-pipeline. While we feel this is currently a reasonable investment as
-such databases can be repeatedly re-used, we are exploring the
-possibility to add an additional complementary workflow in the pipeline
-to allow automated database construction of all classification tools,
-given a set of FASTA reference files.
-
-Finally, once an overall taxonomic profile is generated, researchers
-often wish to validate hits through more sensitive and accurate methods
-such as with read-mapping alignment. While read alignment is supported
-by other pipelines such as StaG-mwc, this happens in-parallel to the
-taxonomic profiling and requires prior expectation of which reference
-genomes to map against. Instead, nf-core/taxprofiler could be easily
-extended to have a validation step similar to that of the ancient DNA
-metagenomic pipeline aMeta (Pochon et al. 2022) where, utilising
-Nextflow's execution parallelism, the input sequences could be aligned
-back to the reference genomes of only those species with hits from the
-taxonomic classification with dedicated accurate short- or long-read
-aligners. In addition to the more precise classification,
-post-classification read-alignment could also be particularly useful for
-researchers in palaeogenomics who wish to use tools other than
-KrakenUniq for initial classification (as in aMeta), where alignment
-information can be used to authenticate ancient DNA within their samples
-but also in clinical metagenomics to identify potential pathogens at
-much finer resolution (e.g.~down to strain level).
-
-Another motivation for developing nf-core/taxprofiler, despite the large
-number of existing metagenomics pipelines is that by establishing a
-taxonomic profiling pipeline within the nf-core ecosystem, it is
-possible to begin building both standalone but also an integrated suite
-of powerful interconnected pipelines for the major stages of metagenomic
-workflows. Existing microbial- and metagenomics- related pipelines
-within the nf-core initiative include nf-core/ampliseq, nf-core/mag, and
-nf-core/funcscan. We expect over time the ability to link inputs and
-outputs of each workflow to develop comprehensive metagenomic analyses,
-while still maintaining powerful standalone pipelines, providing maximal
-user choice.
-
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
-
-nf-core/taxprofiler is an accessible, efficient, and scalable pipeline
-for metagenomic taxonomic classification and profiling that can be
-executed on anywhere from laptops to the cloud. Offering, to our
-knowledge, the largest number of taxonomic profilers across similar
-pipelines, it provides flexibility for users not just on choice of
-profiling tool but also with databases and database settings, with any
-number being able to be supplied to the pipeline in a single run. We
-hope that through detailed documentation and a range of execution
-options, nf-core/taxprofiler will make reproducible and high-throughput
-metagenomics more accessible for a wide range of disciplines.
-
-\hypertarget{data-availability}{%
-\section{Data Availability}\label{data-availability}}
-
-All data used in this publication
-
-\hypertarget{code-availability}{%
-\section{Code Availability}\label{code-availability}}
-
-nf-core/taxprofiler source code is available on GitHub at
-\url{https://github.com/nf-core/taxprofiler}, and each release is
-archived on Zenodo (latest version DOI:
-\href{https://doi.org/10.5281/zenodo.7728364}{10.5281/zenodo.7728364})
-
-The version of the pipeline described in this paper is version (1.1.0)
-(release specific Zenodo archive DOI:
-\href{https://doi.org/10.5281/zenodo.8358147}{10.5281/zenodo.8358147})
-
-\hypertarget{supplementary-data}{%
-\section{Supplementary Data}\label{supplementary-data}}
-
-\hypertarget{acknowledgments}{%
-\section{Acknowledgments}\label{acknowledgments}}
-
-We thank Prof.~Christina Warinner and the Microbiome Sciences group
-MPI-EVA for original discussions that lead to the pipeline. We are also
-grateful for the nf-core community for the original and ongoing support
-in the development in the pipeline, in particular for the contributions
-by Lauri Mesilaakso, Jianhong Ou, and Rafał Stępień.
-
-\hypertarget{funding}{%
-\section{Funding}\label{funding}}
-
-S.S. and L.A-L. were supported by Rapid establishment of comprehensive
-laboratory pandemic preparedness -- RAPID-SEQ. This material is based
-upon work supported by the U.S. Department of Agriculture, Agricultural
-Research Service, under agreement No.~58-3022-0-001 (T.A.C II). M.B. and
-J.A.F.Y were supported by the Max Planck Society. J.A.F.Y was supported
-by the Werner Siemens-Stiftung (``Paleobiotechnology'', Awarded to
-Prof.~Pierre Stallforth and Prof.~Christina Warinner).
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
