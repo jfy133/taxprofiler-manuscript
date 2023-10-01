@@ -212,10 +212,10 @@ This, coupled with the intrinsic Nextflow ability to execute on most infrastruct
 
 ### Preprocessing
 
-Preprocessing steps in nf-core/taxprofiler are aimed at removing laboratory and sequencing artefacts that may influence taxonomic profiling, either for computing resource consumption or binary classification reasons.
+Preprocessing steps in nf-core/taxprofiler are aimed at removing laboratory and sequencing artefacts that may influence taxonomic profiling, either for computing resource consumption or and/or false-positive or false-negative classification reasons.
 First sequencing quality control with FastQC [@Andrews2010-pd] or Falco [@De_Sena_Brandine2021-pi] is carried out.
 Falco was included for reduced memory requirements, in particular for long read sequencing data.
-Artificial library adapter sequences added during sequencing reduce alignment accuracy by reducing sequence specificity, and in some cases, may result in false-positive hits due to adapter sequence contamination in reference genomes [@Schaffer2018-be;@Breitwieser2018-xg] [^1].
+Artificial library adapter sequences added during sequencing reduce sequencing matching accuracy by reducing sequence specificity, and in some cases, may result in false-positive hits due to adapter sequence contamination in reference genomes [@Schaffer2018-be;@Breitwieser2018-xg] [^1].
 Additionally, paired-end merging may provide longer sequences that will allow for more specific classification when paired-end alignment is not supported by a given classifier.
 For these tasks nf-core/taxprofiler can apply either fastp [@Chen2018-vg] or AdapterRemoval2 [@Schubert2016-qv] for short reads, and currently Porechop [@Wick2017-cn] for Oxford Nanopore long-read data.
 For both short and long reads, FastQC or Falco is run again to allow assessment on the performance of the adapter removal and/or pair-merging step.
@@ -223,7 +223,7 @@ For both short and long reads, FastQC or Falco is run again to allow assessment 
 Low complexity sequences, e.g. sequences containing long stretches of mono- or di-nucleotide repeats provide little specific genetic information that contribute to taxonomic identification, as they can align to many different reference genomes [@Schmieder2011-ea;@Clarke2019-al].
 Including such reads during taxonomic profiling can increase run-time and memory usage for little gain, as during lowest-common-ancestor (LCA) classification steps they will be assigned to high-level taxonomic ranks (e.g. Kingdom).
 nf-core/taxprofiler performs removal of these reads through complexity filtering algorithms as provided by fastp, BBDuk [@Bushnell2022-pf], or PRINSEQ++ [@Cantu2019-lh].
-Long-read sequences often do not have such reads, as lengths are sufficient enough to capture greater sequence diversity - but it is sometimes desirable to only classify reads longer than a certain length - as these provide more precise taxonomic information [@Dilthey2019-ps;@Portik2022-jp].
+Long read sequences often do not have such reads, as lengths are sufficient enough to capture greater sequence diversity - but it is sometimes desirable to only classify reads longer than a certain length - as these provide more precise taxonomic information [@Dilthey2019-ps;@Portik2022-jp].
 Therefore, nf-core/taxprofiler can remove reads shorter than a user-defined length using Filtlong.
 
 Removing host DNA is another common preprocessing step in metagenomic studies.
@@ -233,7 +233,8 @@ To remove multiple hosts or other sequences, all reference genomes can be combin
 Short read host removal can be carried out with Bowtie2 [@Langmead2012-ik;@Langmead2019-ej] and minimap2 [@Li2018-qq] for long reads, both in combination with SAMtools [@Li2009-wy;@Danecek2021-gj], where reads are aligned against the reference genome and the off-target (unaligned) reads are then converted back to FASTQ format for classification.
 
 Finally, nf-core/taxprofiler can optionally perform run merging where libraries have been sequenced over multiple lanes to generate one profile per sample or library.
-The final set of reads used for profiling can be optionally saved for downstream re-use. Throughout all steps, relevant statistics and log files are generated and used both for the final pipeline run report as well as saved into the results directory of the pipeline run for further inspection where necessary.
+The final set of reads used for profiling can be optionally saved for downstream re-use.
+Throughout all steps, relevant statistics and log files are generated and used both for the final pipeline run report as well as saved into the results directory of the pipeline run for further inspection where necessary.
 
 ### Profiling
 
@@ -289,7 +290,8 @@ When available, nf-core/taxprofiler supports the option to produce the 'native' 
 One of the challenges that researchers face when comparing multiple taxonomic classifiers or profilers is the heterogenous output formats that are produced, that often require custom parsing and merging scripts for each tool to standardise.
 To facilitate more user-friendly cross-comparisons between tools, nf-core/taxprofiler utilises the TAXPASTA tool [@Beber2023-hk] to generate standardised profiles and generate multi-sample tables.
 
-Summary statistics for the entire pipeline are visualised and displayed in a customisable MultiQC report [@Ewels2020-vi]. When supported, quality control of data and pipeline runs are shown for manual verification.
+Summary statistics for the entire pipeline are visualised and displayed in a customisable MultiQC report [@Ewels2020-vi].
+When supported, quality control of data and pipeline runs are shown for manual verification.
 Krona plots [@Ondov2011-se] can also optionally be generated for supported tools to help provide further visualisation of taxonomic profiles.
 
 ### Output
@@ -318,7 +320,8 @@ Run metric can be seen in Figure XXXXXX .
 ### Comparison with other solutions
 
 nf-core/taxprofiler has been specifically developed for the analysis of whole-genome, _metagenomic_ sequencing data.
-While other types of taxonomic profiling data such as 16S amplicon sequencing are well established fields with a range of popular high-quality and best-practise tools pipelines (e.g. [@Blanco-Miguez2023-cq;@Schloss2009-vk]) and databases [@DeSantis2006-cm;@Yilmaz2014-js], 'gold standard' tools and databases for metagenomics remain much less established. Thus, the need for highly-multiplexed classification is more desirable for the newer metagenomics methods.
+While other types of taxonomic profiling data such as 16S amplicon sequencing are well established fields with a range of popular high-quality and best-practise tools pipelines (e.g. [@Blanco-Miguez2023-cq;@Schloss2009-vk]) and databases [@DeSantis2006-cm;@Yilmaz2014-js], 'gold standard' tools and databases for metagenomics remain much less established.
+Thus, the need for highly-multiplexed classification is more desirable for the newer metagenomics methods.
 Despite this, tools such as METAXA2 [@Bengtsson-Palme2015-ar] that use shotgun sequencing reads to recover 16S sequences from metagenomic samples.
 <!--# (Moritz): Last sentence feels tagged on and disconnected. -->
 
@@ -344,7 +347,7 @@ In terms of scalability, the aforementioned integration with schedulers and clou
 
 In terms of reproducibility, all five pipelines are good at ensuring reproducibility in terms of pipeline and software versioning (allowing re-execution of pipeline runs using the same software), with only tama not having stable versioned releases.
 However, installing software manually across different infrastructures can result in variability in the execution of each software [^2] [@Di_Tommaso2017-xu].The current most popular solution to the problem of inconsistent software environments is to use container engines such as Docker or Apptainer to run container images which are isolated, deterministic computing environments which can be executed by any system providing a container runtime.
-Only Unipro UGENE does not document the use of a container system with nf-core/taxprofiler offering the biggest choice for users courtesy of Nextflow (6 different engine systems at the time of writing).
+Only Unipro UGENE does not document the use of a container system, with nf-core/taxprofiler offering the biggest choice for users courtesy of Nextflow (6 different engine systems at the time of writing).
 
 Finally, we compared metagenomics related functionality between the pipelines. All pipelines support short-read FASTQ input, but only nf-core/taxprofiler explicitly reports long-read support, while the documentation in Unipro UGENE states that assembled contigs are possible input to some of the profilers.
 All pipelines support read preprocessing (adapter clipping, and merging). In terms of tools used for preprocessing, Trimmomatic [@Bolger2014-pm] is popular across the other pipelines but is not supported in nf-core/taxprofiler. Only sunbeam and nf-core/taxprofiler support complexity filtering to remove low sequence diversity reads. In fact within sunbeam, the authors developed their own dedicated, performant complexity filtering tool Komplexity [@Clarke2019-al].
@@ -389,7 +392,7 @@ In addition to the more precise classification, post-classification read-alignme
 
 Another motivation for developing nf-core/taxprofiler, despite the large number of existing metagenomics pipelines is that by establishing a taxonomic profiling pipeline within the nf-core ecosystem, it is possible to begin building both standalone but also an integrated suite of powerful interconnected pipelines for the major stages of metagenomic workflows.
 Existing microbial- and metagenomics- related pipelines within the nf-core initiative include nf-core/ampliseq, nf-core/mag, and nf-core/funcscan.
-We expect over time the ability to link inputs and outputs of each workflow to develop comprehensive metagenomic analyses, while still maintaing powerful standalone pipelines, providing maximal user choice.
+We expect over time the ability to link inputs and outputs of each workflow to develop comprehensive metagenomic analyses, while still maintaining powerful standalone pipelines, providing maximal user choice.
 
 ## Conclusion
 
