@@ -283,7 +283,7 @@ for metagenomic taxonomic classification and profiling}
 \date{}
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, frame hidden, sharp corners, boxrule=0pt, interior hidden, breakable, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, frame hidden, interior hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, sharp corners]}{\end{tcolorbox}}\fi
 
 \hypertarget{abstract}{%
 \section{Abstract}\label{abstract}}
@@ -403,8 +403,8 @@ graphical-user-interface (GUI) execution interface.
 
 nf-core/taxprofiler aims to facilitate three main steps of a typical
 whole-genome, metagenomic sequencing analysis workflow (Chiu and Miller
-2019). A longer description of the available functionality and
-motivations can be seen in the
+2019,Figure~\ref{fig-workflow-diagram}). A longer description of the
+available functionality and motivations can be seen in the
 \protect\hyperlink{supplementary-information}{Supplementary
 Information}.
 
@@ -416,8 +416,8 @@ Nextflow command-line-interface (CLI) execution or
 graphical-user-interface (GUI) through either the open-source and free
 nf-core launch page (\url{https://nf-core/launch}) or the commercial
 (with free-tier) Nextflow tower (\url{https://tower.nf}) solution.
-Examples of command-line execution and nf-core launch GUI can be seen in
-the \protect\hyperlink{supplementary-information}{Supplementary
+Examples of the command-line execution and nf-core launch GUI can be
+seen in the \protect\hyperlink{supplementary-information}{Supplementary
 Information}.
 
 It can perform a range of appropriate read preprocessing steps, such
@@ -713,11 +713,12 @@ taxonomic profiling pipeline within the nf-core ecosystem, it is
 possible to begin building both standalone but also an integrated suite
 of powerful interconnected pipelines for the major stages of metagenomic
 workflows. Existing microbial- and metagenomics- related pipelines
-within the nf-core initiative include nf-core/ampliseq, nf-core/mag, and
-nf-core/funcscan. We expect over time the ability to link inputs and
-outputs of each workflow to develop comprehensive metagenomic analyses,
-while still maintaining powerful standalone pipelines, providing maximal
-user choice.
+within the nf-core initiative include nf-core/ampliseq (Straub et al.
+2020), nf-core/mag (Krakau et al. 2022), and nf-core/funcscan
+(\url{https://nf-co.re/funcscan}). We expect over time the ability to
+link inputs and outputs of each workflow to develop comprehensive
+metagenomic analyses, while still maintaining powerful standalone
+pipelines, providing maximal user choice.
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -1606,6 +1607,14 @@ Sim, Mikang, Jongin Lee, Daehwan Lee, Daehong Kwon, and Jaebum Kim.
 2020. {``{TAMA}: Improved Metagenomic Sequence Classification Through
 Meta-Analysis.''} \emph{BMC Bioinformatics} 21 (1): 185.
 \url{https://doi.org/10.1186/s12859-020-3533-7}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Straub2020-nc}{}}%
+Straub, Daniel, Nia Blackwell, Adrian Langarica-Fuentes, Alexander
+Peltzer, Sven Nahnsen, and Sara Kleindienst. 2020. {``Interpretations of
+Environmental Microbial Community Studies Are Biased by the Selected
+{16S} {rRNA} (Gene) Amplicon Sequencing Pipeline.''} \emph{Frontiers in
+Microbiology} 11 (October): 550420.
+\url{https://doi.org/10.3389/fmicb.2020.550420}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-Sun2021-tq}{}}%
 Sun, Zheng, Shi Huang, Meng Zhang, Qiyun Zhu, Niina Haiminen, Anna Paola

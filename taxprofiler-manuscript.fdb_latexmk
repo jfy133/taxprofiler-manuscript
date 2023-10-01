@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1696173495 "/home/james/git/jfy133/taxprofiler-manuscript/taxprofiler-manuscript.tex" "taxprofiler-manuscript.pdf" "taxprofiler-manuscript" 1696173496
+["pdflatex"] 1696174078 "/home/james/git/jfy133/taxprofiler-manuscript/taxprofiler-manuscript.tex" "taxprofiler-manuscript.pdf" "taxprofiler-manuscript" 1696174080
   "/etc/texmf/web2c/texmf.cnf" 1684139967 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/james/git/jfy133/taxprofiler-manuscript/taxprofiler-manuscript.tex" 1696173492 85676 e6d2a847ed60066c4285513c194d39bb ""
+  "/home/james/git/jfy133/taxprofiler-manuscript/taxprofiler-manuscript.tex" 1696174076 86217 64a50de0d0621aad5c268e5ce9b3767a ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertinus-type1/lbts_75t36g.enc" 1598215928 3022 10a3376a8bb3e451b08862d68ba20e28 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertinus-type1/lbts_bn2i3n.enc" 1598215928 3216 a138419cfbece4edac2b76fe346913ac ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/libertinus-type1/lbts_hh5cao.enc" 1598215928 2894 e073d1a049f41a9deda4d66376a80a85 ""
@@ -233,8 +233,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1684140078 4036811 4cb80868003c86b962b6b5ae1e1e2902 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1685679618 1405647 b0013e41bae1da2dda3d2ed7bb6137f5 ""
-  "taxprofiler-manuscript.aux" 1696173496 13499 1465036103dedaf7cb8bc0b3ab1da179 "pdflatex"
-  "taxprofiler-manuscript.tex" 1696173492 85676 e6d2a847ed60066c4285513c194d39bb ""
+  "taxprofiler-manuscript.aux" 1696174080 13499 ac9f5794bcb07f1ebca833f8a3cde4a9 "pdflatex"
+  "taxprofiler-manuscript.tex" 1696174076 86217 64a50de0d0621aad5c268e5ce9b3767a ""
   "taxprofiler_launchpage.png" 1690745834 150321 ae2a31133d1168aa18f2eb9ef66bca30 ""
   "taxprofiler_tube.png" 1695376478 916788 6753d8d457f83011901a8353ac23d044 ""
   (generated)

@@ -169,12 +169,12 @@ nf-core/taxprofiler utilises Nextflow [@Di_Tommaso2017-xu] to ensure efficiency,
 
 ## Description
 
-nf-core/taxprofiler aims to facilitate three main steps of a typical whole-genome, metagenomic sequencing analysis workflow [@Chiu2019-mv].
+nf-core/taxprofiler aims to facilitate three main steps of a typical whole-genome, metagenomic sequencing analysis workflow [@Chiu2019-mv,@fig-workflow-diagram].
 A longer description of the available functionality and motivations can be seen in the [Supplementary Information](#supplementary-information).
 
 In brief, nf-core/taxprofiler can accept short- (e.g. Illumina) and/or long-read (e.g. Nanopore) FASTQ or FASTA files.
 This is provided in the form of a TSV file that includes basic sample and sequencing library information.
-The pipeline can then be executed either via a standard Nextflow command-line-interface (CLI) execution or graphical-user-interface (GUI) through either the open-source and free nf-core launch page ([https://nf-core/launch](https://nf-core/launch)) or the commercial (with free-tier) Nextflow tower ([https://tower.nf](https://tower.nf)) solution. Examples of command-line execution and nf-core launch GUI can be seen in the [Supplementary Information](#supplementary-information).
+The pipeline can then be executed either via a standard Nextflow command-line-interface (CLI) execution or graphical-user-interface (GUI) through either the open-source and free nf-core launch page ([https://nf-core/launch](https://nf-core/launch)) or the commercial (with free-tier) Nextflow tower ([https://tower.nf](https://tower.nf)) solution. Examples of the command-line execution and nf-core launch GUI can be seen in the [Supplementary Information](#supplementary-information).
 
 It can perform a range of appropriate read preprocessing steps, such adapter removal, read merging, low-sequence complexity filtering, host- or contamination removal, and/or per-sample run merging. 
 All of these steps are optional, and are aimed at removing possible sequencing artefacts that may result in false positive taxonomic classification hits or improve classification efficiency. 
@@ -264,7 +264,7 @@ A range of pipelines already exists for taxonomic profiling, however, each have 
 : Comparison of functionality with four recent taxonomic pipelines with similar functionality. A more detailed textual comaprison can be found in the [Supplementary Information](#supplementary-information). {#tbl-pipeline-comparison}
 
 An important advantage of nf-core/taxprofiler is that it is being developed within the nf-core community ([https://nf-co.re](https://nf-co.re)), that provides strong long-term support for the continued community-based development and maintenance of its pipelines.
-In this framework, we will continue to add additional preprocessing, metagenomic classification, and profiling tools as they become established and as requested by the metagenomics community, for example, we feel that the inclusion of steps such as sequencing saturation estimation as already being performed by StaG-mwc would be beneficial to the nf-core/taxprofiler workflow (possibly with dedicated tools such as Nonpareil [@Rodriguez-R2018-rm]), and/or more performant complexity filtering tools such as Komplexity as offered by sunbeam.
+In this framework, we will continue to add additional preprocessing, metagenomic classification, and profiling tools as they become established and as requested by the metagenomics community, for example, we feel that the inclusion of steps such as sequencing saturation estimation as already being performed by a similar pipeline StaG-mwc ([https://github.com/ctmrbio/stag-mwc](https://github.com/ctmrbio/stag-mwc)) would be beneficial to the nf-core/taxprofiler workflow [possibly with dedicated tools such as Nonpareil, @Rodriguez-R2018-rm], and/or more performant complexity filtering tools such as Komplexity as offered by the sunbeam metagenomics pipeline [@Clarke2019-al].
 This also applies to extend support to other sequencing platforms; nf-core/taxprofiler already supports Nanopore long-read data, however the use of long-read PacBio data for metagenomic data is growing in interest [@Portik2022-jp].
 We are therefore considering adding dedicated preprocessing steps for this type of sequencing data.
 
@@ -280,7 +280,7 @@ In addition to the more precise classification, post-classification read-alignme
 <!-- TODO additional post-processing steps? e.g. decontamination estimates? -->
 
 Another motivation for developing nf-core/taxprofiler, despite the large number of existing metagenomics pipelines is that by establishing a taxonomic profiling pipeline within the nf-core ecosystem, it is possible to begin building both standalone but also an integrated suite of powerful interconnected pipelines for the major stages of metagenomic workflows.
-Existing microbial- and metagenomics- related pipelines within the nf-core initiative include nf-core/ampliseq, nf-core/mag, and nf-core/funcscan.
+Existing microbial- and metagenomics- related pipelines within the nf-core initiative include nf-core/ampliseq [@Straub2020-nc], nf-core/mag [@Krakau2022-we], and nf-core/funcscan ([https://nf-co.re/funcscan](https://nf-co.re/funcscan)).
 We expect over time the ability to link inputs and outputs of each workflow to develop comprehensive metagenomic analyses, while still maintaining powerful standalone pipelines, providing maximal user choice.
 
 ## Conclusion
