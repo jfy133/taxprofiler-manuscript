@@ -417,7 +417,7 @@ Run metric can be seen in Figure XXXXXX .
 <p>A range of pipelines already exists for taxonomic profiling, however, each have their own particular purpose and capabilities. We compared the functionality of nf-core/taxprofiler against four other recently published or released pipelines, selected based on their similarity of purpose to nf-core/taxprofiler. The selection criteria and a more detailed comparison between the five pipelines can be seen in the <a href="#supplementary-information">Supplementary Information</a>, however overall, while there was a general similarity across all pipelines, nf-core/taxprofiler showed the greatest accessibility and user choice, through the use of an established workflow manager (Nextflow supporting 7 software environment/container systems), supporting both CLI and GUI execution, and the number of supported classifiers. Furthermore, it is unique in that is the only pipeline to support supplying multiple database for all of the tools in a single pipeline run.</p>
 <div id="tbl-pipeline-comparison" class="anchored">
 <table class="table">
-<caption>Table&nbsp;2: Comparison of functionality with four recent taxonomic pipelines with similar functionality. A more detailed textual comaprison can be found in the <a href="#supplementary-information">Supplementary Information</a>.</caption>
+<caption>Table&nbsp;2: Comparison of functionality with four recent taxonomic pipelines with similar functionality. A more detailed textual comparison can be found in the <a href="#supplementary-information">Supplementary Information</a>. Category keys are as follows: I - Information, R - Reproducibility, A - Accessibility, P - Portability, S - Scalability, F - Functionality.</caption>
 <thead>
 <tr class="header">
 <th>Category</th>
@@ -431,7 +431,7 @@ Run metric can be seen in Figure XXXXXX .
 </thead>
 <tbody>
 <tr class="odd">
-<td>Information</td>
+<td>I</td>
 <td>Source code URL</td>
 <td><a href="https://github.com/ctmrbio/stag-mwc">https://github.com/ctmrbio/stag-mwc</a></td>
 <td><a href="https://github.com/sunbeam-labs/sunbeam">https://github.com/sunbeam-labs/sunbeam</a></td>
@@ -440,7 +440,7 @@ Run metric can be seen in Figure XXXXXX .
 <td><a href="https://github.com/nf-core/taxprofiler/">https://github.com/nf-core/taxprofiler/</a></td>
 </tr>
 <tr class="even">
-<td>Information</td>
+<td>I</td>
 <td>Evaluated version</td>
 <td>0.7.0</td>
 <td>4</td>
@@ -449,7 +449,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>1.1.0</td>
 </tr>
 <tr class="odd">
-<td>Information</td>
+<td>I</td>
 <td>Last release date</td>
 <td>2023-06-13</td>
 <td>2023-08-08</td>
@@ -458,7 +458,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>2023-09-19</td>
 </tr>
 <tr class="even">
-<td>Information</td>
+<td>I</td>
 <td>Publication year</td>
 <td>Unpublished</td>
 <td>2019</td>
@@ -467,7 +467,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>This publication</td>
 </tr>
 <tr class="odd">
-<td>Information</td>
+<td>I</td>
 <td>Publication DOI</td>
 <td>Unpublished</td>
 <td><a href="https://doi.org/10.1186/s40168-019-0658-x">10.1186/s40168-019-0658-x</a></td>
@@ -476,7 +476,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>This publication</td>
 </tr>
 <tr class="even">
-<td>Reproducibility</td>
+<td>R</td>
 <td>Pipeline versioning</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -485,7 +485,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Reproducibility</td>
+<td>R</td>
 <td>Software versioning</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -494,7 +494,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Reproducibility</td>
+<td>R</td>
 <td>Nr. software environments or container engines supported</td>
 <td>2</td>
 <td>2</td>
@@ -503,7 +503,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>7</td>
 </tr>
 <tr class="odd">
-<td>Accessibility</td>
+<td>A</td>
 <td>Installation documentation</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -512,7 +512,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Accessibility</td>
+<td>A</td>
 <td>Usage documentation</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -521,7 +521,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Accessibility</td>
+<td>A</td>
 <td>Output documentation</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -530,7 +530,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Accessibility</td>
+<td>A</td>
 <td>CLI execution interface</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -539,7 +539,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Accessibility</td>
+<td>A</td>
 <td>GUI execution interface</td>
 <td>No</td>
 <td>No</td>
@@ -548,7 +548,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Accessibility/Scalability</td>
+<td>A/S</td>
 <td>Integration a scheduling systems</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -557,7 +557,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Portability/Accessibility</td>
+<td>P/A</td>
 <td>Nr. supported operating systems</td>
 <td>2</td>
 <td>1</td>
@@ -566,7 +566,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>2</td>
 </tr>
 <tr class="even">
-<td>Portability</td>
+<td>P</td>
 <td>Local machine integration</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -575,7 +575,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Portability/Scalability</td>
+<td>P/S</td>
 <td>HPC scheduler integration</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -584,7 +584,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Portability/Scalability</td>
+<td>P/S</td>
 <td>Cloud computing integration</td>
 <td>Unsure</td>
 <td>Unsure</td>
@@ -593,7 +593,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Portability/Scalability</td>
+<td>P/S</td>
 <td>Integration with multiple scheduling systems</td>
 <td>Partial</td>
 <td>Partial</td>
@@ -602,7 +602,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Scalability</td>
+<td>S</td>
 <td>Per-process resource optimisation</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -611,7 +611,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Functionality</td>
+<td>F</td>
 <td>Short read support</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -620,7 +620,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Functionality</td>
+<td>F</td>
 <td>Long read support</td>
 <td>No</td>
 <td>No</td>
@@ -629,7 +629,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Functionality</td>
+<td>F</td>
 <td>Read preprocessing</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -638,7 +638,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Functionality</td>
+<td>F</td>
 <td>Sequencing depth estimation</td>
 <td>Yes</td>
 <td>No</td>
@@ -647,7 +647,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>No</td>
 </tr>
 <tr class="odd">
-<td>Functionality</td>
+<td>F</td>
 <td>Complexity filtering</td>
 <td>No</td>
 <td>Yes</td>
@@ -656,7 +656,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Functionality</td>
+<td>F</td>
 <td>Host removal</td>
 <td>Yes</td>
 <td>Yes</td>
@@ -665,7 +665,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Functionality</td>
+<td>F</td>
 <td>Nr. supported taxonomic classifiers/profilers</td>
 <td>7</td>
 <td>3</td>
@@ -674,7 +674,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>11</td>
 </tr>
 <tr class="even">
-<td>Functionality</td>
+<td>F</td>
 <td>Graphical run reports</td>
 <td>Yes</td>
 <td>No</td>
@@ -683,7 +683,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Functionality</td>
+<td>F</td>
 <td>Standardised profiles</td>
 <td>No</td>
 <td>No</td>
@@ -692,7 +692,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="even">
-<td>Functionality</td>
+<td>F</td>
 <td>Multiple database supported</td>
 <td>Partial</td>
 <td>No</td>
@@ -701,7 +701,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>Yes</td>
 </tr>
 <tr class="odd">
-<td>Functionality</td>
+<td>F</td>
 <td>Metagenomic assembly</td>
 <td>No</td>
 <td>Yes</td>
@@ -710,7 +710,7 @@ Run metric can be seen in Figure XXXXXX .
 <td>No</td>
 </tr>
 <tr class="even">
-<td>Functionality</td>
+<td>F</td>
 <td>Visualisation</td>
 <td>No</td>
 <td>No</td>
