@@ -283,7 +283,7 @@ for metagenomic taxonomic classification and profiling}
 \date{}
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, frame hidden, interior hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, frame hidden, sharp corners, enhanced, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, interior hidden]}{\end{tcolorbox}}\fi
 
 \hypertarget{abstract}{%
 \section{Abstract}\label{abstract}}
@@ -558,9 +558,11 @@ a single pipeline run.
   >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1491}}@{}}
 \caption{\label{tbl-pipeline-comparison}Comparison of functionality with
 four recent taxonomic pipelines with similar functionality. A more
-detailed textual comaprison can be found in the
+detailed textual comparison can be found in the
 \protect\hyperlink{supplementary-information}{Supplementary
-Information}.}\tabularnewline
+Information}. Category keys are as follows: I - Information, R -
+Reproducibility, A - Accessibility, P - Portability, S - Scalability, F
+- Functionality.}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Category
@@ -599,62 +601,53 @@ nf-core/taxprofiler
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Information & Source code URL &
-\url{https://github.com/ctmrbio/stag-mwc} &
+I & Source code URL & \url{https://github.com/ctmrbio/stag-mwc} &
 \url{https://github.com/sunbeam-labs/sunbeam} &
 \url{https://github.com/ugeneunipro/ugene} &
 \url{https://github.com/jkimlab/TAMA} &
 \url{https://github.com/nf-core/taxprofiler/} \\
-Information & Evaluated version & 0.7.0 & 4 & 48 & githash: 3a22c8f &
-1.1.0 \\
-Information & Last release date & 2023-06-13 & 2023-08-08 & 2023-08-08 &
+I & Evaluated version & 0.7.0 & 4 & 48 & githash: 3a22c8f & 1.1.0 \\
+I & Last release date & 2023-06-13 & 2023-08-08 & 2023-08-08 &
 2022-03-02 & 2023-09-19 \\
-Information & Publication year & Unpublished & 2019 & 2019 & 2020 & This
+I & Publication year & Unpublished & 2019 & 2019 & 2020 & This
 publication \\
-Information & Publication DOI & Unpublished &
+I & Publication DOI & Unpublished &
 \href{https://doi.org/10.1186/s40168-019-0658-x}{10.1186/s40168-019-0658-x}
 &
 \href{https://doi.org/10.1093/bioinformatics/bty901}{10.1093/bioinformatics/bty901}
 &
 \href{https://doi.org/10.1186/s12859-020-3533-7}{10.1186/s12859-020-3533-7}
 & This publication \\
-Reproducibility & Pipeline versioning & Yes & Yes & Yes & No & Yes \\
-Reproducibility & Software versioning & Yes & Yes & Yes & Yes & Yes \\
-Reproducibility & Nr. software environments or container engines
-supported & 2 & 2 & 0 & 1 & 7 \\
-Accessibility & Installation documentation & Yes & Yes & Yes & Yes &
-Yes \\
-Accessibility & Usage documentation & Yes & Yes & Yes & Yes & Yes \\
-Accessibility & Output documentation & Yes & Yes & Yes & Yes & Yes \\
-Accessibility & CLI execution interface & Yes & Yes & No & Yes & Yes \\
-Accessibility & GUI execution interface & No & No & Yes & No & Yes \\
-Accessibility/Scalability & Integration a scheduling systems & Yes & Yes
-& No & No & Yes \\
-Portability/Accessibility & Nr. supported operating systems & 2 & 1 & 3
-& 1 & 2 \\
-Portability & Local machine integration & Yes & Yes & Yes & Yes & Yes \\
-Portability/Scalability & HPC scheduler integration & Yes & Yes & No &
-No & Yes \\
-Portability/Scalability & Cloud computing integration & Unsure & Unsure
-& No & No & Yes \\
-Portability/Scalability & Integration with multiple scheduling systems &
-Partial & Partial & No & No & Yes \\
-Scalability & Per-process resource optimisation & Yes & Yes & Yes & No &
-Yes \\
-Functionality & Short read support & Yes & Yes & Yes & Yes & Yes \\
-Functionality & Long read support & No & No & Yes & No & Yes \\
-Functionality & Read preprocessing & Yes & Yes & Yes & Yes & Yes \\
-Functionality & Sequencing depth estimation & Yes & No & No & No & No \\
-Functionality & Complexity filtering & No & Yes & No & No & Yes \\
-Functionality & Host removal & Yes & Yes & Partial & No & Yes \\
-Functionality & Nr. supported taxonomic classifiers/profilers & 7 & 3 &
-3 & 3 & 11 \\
-Functionality & Graphical run reports & Yes & No & No & No & Yes \\
-Functionality & Standardised profiles & No & No & No & Yes & Yes \\
-Functionality & Multiple database supported & Partial & No & No & No &
-Yes \\
-Functionality & Metagenomic assembly & No & Yes & No & No & No \\
-Functionality & Visualisation & No & No & No & No & Partial \\
+R & Pipeline versioning & Yes & Yes & Yes & No & Yes \\
+R & Software versioning & Yes & Yes & Yes & Yes & Yes \\
+R & Nr. software environments or container engines supported & 2 & 2 & 0
+& 1 & 7 \\
+A & Installation documentation & Yes & Yes & Yes & Yes & Yes \\
+A & Usage documentation & Yes & Yes & Yes & Yes & Yes \\
+A & Output documentation & Yes & Yes & Yes & Yes & Yes \\
+A & CLI execution interface & Yes & Yes & No & Yes & Yes \\
+A & GUI execution interface & No & No & Yes & No & Yes \\
+A/S & Integration a scheduling systems & Yes & Yes & No & No & Yes \\
+P/A & Nr. supported operating systems & 2 & 1 & 3 & 1 & 2 \\
+P & Local machine integration & Yes & Yes & Yes & Yes & Yes \\
+P/S & HPC scheduler integration & Yes & Yes & No & No & Yes \\
+P/S & Cloud computing integration & Unsure & Unsure & No & No & Yes \\
+P/S & Integration with multiple scheduling systems & Partial & Partial &
+No & No & Yes \\
+S & Per-process resource optimisation & Yes & Yes & Yes & No & Yes \\
+F & Short read support & Yes & Yes & Yes & Yes & Yes \\
+F & Long read support & No & No & Yes & No & Yes \\
+F & Read preprocessing & Yes & Yes & Yes & Yes & Yes \\
+F & Sequencing depth estimation & Yes & No & No & No & No \\
+F & Complexity filtering & No & Yes & No & No & Yes \\
+F & Host removal & Yes & Yes & Partial & No & Yes \\
+F & Nr. supported taxonomic classifiers/profilers & 7 & 3 & 3 & 3 &
+11 \\
+F & Graphical run reports & Yes & No & No & No & Yes \\
+F & Standardised profiles & No & No & No & Yes & Yes \\
+F & Multiple database supported & Partial & No & No & No & Yes \\
+F & Metagenomic assembly & No & Yes & No & No & No \\
+F & Visualisation & No & No & No & No & Partial \\
 \end{longtable}
 
 An important advantage of nf-core/taxprofiler is that it is being
@@ -664,16 +657,18 @@ development and maintenance of its pipelines. In this framework, we will
 continue to add additional preprocessing, metagenomic classification,
 and profiling tools as they become established and as requested by the
 metagenomics community, for example, we feel that the inclusion of steps
-such as sequencing saturation estimation as already being performed by
-StaG-mwc would be beneficial to the nf-core/taxprofiler workflow
-(possibly with dedicated tools such as Nonpareil (Rodriguez-R et al.
-2018)), and/or more performant complexity filtering tools such as
-Komplexity as offered by sunbeam. This also applies to extend support to
-other sequencing platforms; nf-core/taxprofiler already supports
-Nanopore long-read data, however the use of long-read PacBio data for
-metagenomic data is growing in interest (Portik, Brown, and Pierce-Ward
-2022). We are therefore considering adding dedicated preprocessing steps
-for this type of sequencing data.
+such as sequencing saturation estimation as already being performed by a
+similar pipeline StaG-mwc (\url{https://github.com/ctmrbio/stag-mwc})
+would be beneficial to the nf-core/taxprofiler workflow (possibly with
+dedicated tools such as Nonpareil, Rodriguez-R et al. 2018), and/or more
+performant complexity filtering tools such as Komplexity as offered by
+the sunbeam metagenomics pipeline (Clarke et al. 2019). This also
+applies to extend support to other sequencing platforms;
+nf-core/taxprofiler already supports Nanopore long-read data, however
+the use of long-read PacBio data for metagenomic data is growing in
+interest (Portik, Brown, and Pierce-Ward 2022). We are therefore
+considering adding dedicated preprocessing steps for this type of
+sequencing data.
 
 A remaining major challenge for metagenomics researchers (and not
 supported in the same workflow by any of the compared pipelines above)
