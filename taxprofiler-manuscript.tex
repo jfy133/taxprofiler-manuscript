@@ -283,7 +283,7 @@ for metagenomic taxonomic classification and profiling}
 \date{}
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, frame hidden, sharp corners, enhanced, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, interior hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, borderline west={3pt}{0pt}{shadecolor}, interior hidden, enhanced, sharp corners, boxrule=0pt, frame hidden]}{\end{tcolorbox}}\fi
 
 \hypertarget{abstract}{%
 \section{Abstract}\label{abstract}}
@@ -387,6 +387,15 @@ greater scalability than traditional HPCs. Being able to reliably and
 reproducibly execute taxonomic classification tasks across
 infrastructure with minimal intervention would therefore be a boon for
 the metagenomics field.
+
+While a range of metagenomic pipelines already exist (e.g.~for a
+non-comprehensive list, Boulund et al. 2023; Piro, Matschkowski, and
+Renard 2017; Sim et al. 2020; Rose et al. 2019; Clarke et al. 2019), few
+leverage workflow managers such as Nextflow or Snakemake to make
+multi-step workflows easier to use in HPC or cloud infrastructure.
+Furthermore, often these pipelines aim to carry out multiple different
+types of metagenomic analyses Boulund et al. (2023) of which each step
+has fewer options of tools and may be unwanted by the end user.
 
 Here we present nf-core/taxprofiler, a pipeline designed to allow users
 to efficiently and simultaneously taxonomically classify and profile
@@ -653,20 +662,27 @@ F & Visualisation & No & No & No & No & Partial \\
 An important advantage of nf-core/taxprofiler is that it is being
 developed within the nf-core community (\url{https://nf-co.re}), that
 provides strong long-term support for the continued community-based
-development and maintenance of its pipelines. In this framework, we will
-continue to add additional preprocessing, metagenomic classification,
-and profiling tools as they become established and as requested by the
-metagenomics community, for example, we feel that the inclusion of steps
-such as sequencing saturation estimation as already being performed by a
-similar pipeline StaG-mwc (\url{https://github.com/ctmrbio/stag-mwc})
-would be beneficial to the nf-core/taxprofiler workflow (possibly with
-dedicated tools such as Nonpareil, Rodriguez-R et al. 2018), and/or more
-performant complexity filtering tools such as Komplexity as offered by
-the sunbeam metagenomics pipeline (Clarke et al. 2019). This also
-applies to extend support to other sequencing platforms;
-nf-core/taxprofiler already supports Nanopore long-read data, however
-the use of long-read PacBio data for metagenomic data is growing in
-interest (Portik, Brown, and Pierce-Ward 2022). We are therefore
+development and maintenance of its pipelines.
+
+In this framework, we will continue to add additional preprocessing,
+metagenomic classification, and profiling tools as they become
+established and as requested by the metagenomics community, for example,
+we feel that the inclusion of steps such as sequencing saturation
+estimation as already being performed by a similar pipeline StaG-mwc
+(\url{https://github.com/ctmrbio/stag-mwc}) would be beneficial to the
+nf-core/taxprofiler workflow (possibly with dedicated tools such as
+Nonpareil, Rodriguez-R et al. 2018), and/or more performant complexity
+filtering tools such as Komplexity as offered by the sunbeam
+metagenomics pipeline (Clarke et al. 2019). Additional tools that could
+be added for profiling could include sourmash (Titus Brown and Irber
+2016) that provides scalable sequence to sequence comparison or other
+marker gene reference tools such as tools such as METAXA2
+(Bengtsson-Palme et al. 2015) that use shotgun sequencing reads to
+recover 16S sequences from metagenomic samples. Adding additional
+classifiers also applies to extend support to other sequencing
+platforms; nf-core/taxprofiler already supports Nanopore long-read data,
+however the use of long-read PacBio data for metagenomic data is growing
+in interest (Portik, Brown, and Pierce-Ward 2022). We are therefore
 considering adding dedicated preprocessing steps for this type of
 sequencing data.
 
@@ -825,7 +841,9 @@ database input sheet, the corresponding profiling tool must still be
 activated with the corresponding pipeline parameter
 (e.g.~\texttt{-\/-run\_kraken2}). Per-classifier flags are also
 available for the optional saving of additional non-profile output
-files.
+files. Alternatively to command line flags, parameters can be specified
+via pre-configured YAML format files, with which (provided no hardcoded
+paths are included) can be re-used across pipeline runs.
 
 \begin{codelisting}
 
@@ -1058,9 +1076,7 @@ best-practise tools pipelines (e.g. (Blanco-Míguez et al. 2023; Schloss
 et al. 2009)) and databases (DeSantis et al. 2006; Yilmaz et al. 2014),
 `gold standard' tools and databases for metagenomics remain much less
 established. Thus, the need for highly-multiplexed classification is
-more desirable for the newer metagenomics methods. Despite this, tools
-such as METAXA2 (Bengtsson-Palme et al. 2015) that use shotgun
-sequencing reads to recover 16S sequences from metagenomic samples.
+more desirable for the newer metagenomics methods.
 
 We searched Google Scholar for open-source pipelines published or
 released in the last 5 years (at the time of writing, since 2018) that
@@ -1498,6 +1514,12 @@ Against Large and up-to-Date Sets of Reference Sequences.''}
 \emph{Bioinformatics (Oxford, England)} 36 (Suppl\_1): i12--20.
 \url{https://doi.org/10.1093/bioinformatics/btaa458}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-Piro2017-hm}{}}%
+Piro, Vitor C, Marcel Matschkowski, and Bernhard Y Renard. 2017.
+{``{MetaMeta}: Integrating Metagenome Analysis Tools to Improve
+Taxonomic Profiling.''} \emph{Microbiome} 5 (1): 101.
+\url{https://doi.org/10.1186/s40168-017-0318-y}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-Pochon2022-hj}{}}%
 Pochon, Zoé, Nora Bergfeldt, Emrah Kırdök, Mário Vicente, Thijessen
 Naidoo, Tom van der Valk, N Ezgi Altınışık, et al. 2022. {``{aMeta}: An
@@ -1622,6 +1644,11 @@ Tamames, Javier, and Fernando Puente-Sánchez. 2018. {``{SqueezeMeta}, a
 Highly Portable, Fully Automatic Metagenomic Analysis Pipeline.''}
 \emph{Frontiers in Microbiology} 9: 3349.
 \url{https://doi.org/10.3389/fmicb.2018.03349}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Titus-Brown2016-ku}{}}%
+Titus Brown, C, and Luiz Irber. 2016. {``Sourmash: A Library for
+{MinHash} Sketching of {DNA}.''} \emph{Journal of Open Source Software}
+1 (5): 27. \url{https://doi.org/10.21105/joss.00027}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-Uritskiy2018-ut}{}}%
 Uritskiy, Gherman V, Jocelyne DiRuggiero, and James Taylor. 2018.

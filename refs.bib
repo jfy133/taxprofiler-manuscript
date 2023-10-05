@@ -3049,3 +3049,122 @@
   doi      = {10.1101/2022.10.03.510579},
   language = {en}
 }
+
+@article{Titus-Brown2016-ku,
+  title     = {sourmash: a library for {MinHash} sketching of {DNA}},
+  author    = {Titus Brown, C and Irber, Luiz},
+  journal   = {Journal of open source software},
+  publisher = {The Open Journal},
+  volume    = 1,
+  number    = 5,
+  pages     = 27,
+  abstract  = {sourmash is a toolbox for creating, comparing, and manipulating
+               MinHash sketches of genomic data. MinHash sketches provide a
+               lightweight way to store “signatures” of large DNA or RNA
+               sequence collections, and then compare or search them using a
+               Jaccard index. MinHash sketches can be used to identify samples,
+               find similar samples, identify data sets with shared sequences,
+               and build phylogenetic trees (Ondov et al. 2015). sourmash
+               provides a command line script, a Python library, and a CPython
+               module for MinHash sketches.},
+  month     = sep,
+  year      = 2016,
+  url       = {https://joss.theoj.org/papers/10.21105/joss.00027},
+  doi       = {10.21105/joss.00027},
+  issn      = {2475-9066}
+}
+
+@article{Piro2017-hm,
+  title     = {{MetaMeta}: integrating metagenome analysis tools to improve
+               taxonomic profiling},
+  author    = {Piro, Vitor C and Matschkowski, Marcel and Renard, Bernhard Y},
+  journal   = {Microbiome},
+  publisher = {BioMed Central},
+  volume    = 5,
+  number    = 1,
+  pages     = 101,
+  abstract  = {BACKGROUND: Many metagenome analysis tools are presently
+               available to classify sequences and profile environmental
+               samples. In particular, taxonomic profiling and binning methods
+               are commonly used for such tasks. Tools available among these two
+               categories make use of several techniques, e.g., read mapping,
+               k-mer alignment, and composition analysis. Variations on the
+               construction of the corresponding reference sequence databases
+               are also common. In addition, different tools provide good
+               results in different datasets and configurations. All this
+               variation creates a complicated scenario to researchers to decide
+               which methods to use. Installation, configuration and execution
+               can also be difficult especially when dealing with multiple
+               datasets and tools. RESULTS: We propose MetaMeta: a pipeline to
+               execute and integrate results from metagenome analysis tools.
+               MetaMeta provides an easy workflow to run multiple tools with
+               multiple samples, producing a single enhanced output profile for
+               each sample. MetaMeta includes a database generation,
+               pre-processing, execution, and integration steps, allowing easy
+               execution and parallelization. The integration relies on the
+               co-occurrence of organisms from different methods as the main
+               feature to improve community profiling while accounting for
+               differences in their databases. CONCLUSIONS: In a controlled case
+               with simulated and real data, we show that the integrated
+               profiles of MetaMeta overcome the best single profile. Using the
+               same input data, it provides more sensitive and reliable results
+               with the presence of each organism being supported by several
+               methods. MetaMeta uses Snakemake and has six pre-configured
+               tools, all available at BioConda channel for easy installation
+               (conda install -c bioconda metameta). The MetaMeta pipeline is
+               open-source and can be downloaded at:
+               https://gitlab.com/rki\_bioinformatics .},
+  month     = aug,
+  year      = 2017,
+  url       = {https://microbiomejournal.biomedcentral.com/articles/10.1186/s40168-017-0318-y},
+  keywords  = {Binning; Metagenomics; Pipeline; Taxonomic profiling},
+  doi       = {10.1186/s40168-017-0318-y},
+  pmc       = {PMC5557516},
+  pmid      = 28807044,
+  issn      = {2049-2618,2049-2618},
+  language  = {en}
+}
+
+@article{Morais2022-rt,
+  title     = {{MEDUSA}: A pipeline for sensitive taxonomic classification and
+               flexible functional annotation of metagenomic shotgun sequences},
+  author    = {Morais, Diego A A and Cavalcante, João V F and Monteiro, Shênia S
+               and Pasquali, Matheus A B and Dalmolin, Rodrigo J S},
+  journal   = {Frontiers in genetics},
+  publisher = {Frontiers Media SA},
+  volume    = 13,
+  pages     = 814437,
+  abstract  = {Metagenomic studies unravel details about the taxonomic
+               composition and the functions performed by microbial communities.
+               As a complete metagenomic analysis requires different tools for
+               different purposes, the selection and setup of these tools remain
+               challenging. Furthermore, the chosen toolset will affect the
+               accuracy, the formatting, and the functional identifiers reported
+               in the results, impacting the results interpretation and the
+               biological answer obtained. Thus, we surveyed state-of-the-art
+               tools available in the literature, created simulated datasets,
+               and performed benchmarks to design a sensitive and flexible
+               metagenomic analysis pipeline. Here we present MEDUSA, an
+               efficient pipeline to conduct comprehensive metagenomic analyses.
+               It performs preprocessing, assembly, alignment, taxonomic
+               classification, and functional annotation on shotgun data,
+               supporting user-built dictionaries to transfer annotations to any
+               functional identifier. MEDUSA includes several tools, as fastp,
+               Bowtie2, DIAMOND, Kaiju, MEGAHIT, and a novel tool implemented in
+               Python to transfer annotations to BLAST/DIAMOND alignment
+               results. These tools are installed via Conda, and the workflow is
+               managed by Snakemake, easing the setup and execution. Compared
+               with MEGAN 6 Community Edition, MEDUSA correctly identifies more
+               species, especially the less abundant, and is more suited for
+               functional analysis using Gene Ontology identifiers.},
+  month     = mar,
+  year      = 2022,
+  url       = {https://www.frontiersin.org/articles/10.3389/fgene.2022.814437},
+  keywords  = {bioinformatics; functional annotation; metagenomics; pipeline;
+               shotgun sequences; taxonomic classification},
+  doi       = {10.3389/fgene.2022.814437},
+  pmc       = {PMC8940201},
+  pmid      = 35330728,
+  issn      = {1664-8021},
+  language  = {en}
+}
