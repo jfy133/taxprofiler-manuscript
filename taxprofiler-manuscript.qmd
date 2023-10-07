@@ -171,7 +171,7 @@ These frameworks provide for developers robust workflow execution with different
 While a range of metagenomic pipelines already exist [a non-exhaustive list being for example, @Boulund2023-ct;@Piro2017-hm;@Sim2020-ja; @Rose2019-jf;@Clarke2019-al], few leverage workflow managers to make multi-step workflows easier to use in HPC or cloud infrastructure. 
 Furthermore, often these pipelines aim to carry out multiple different types of metagenomic analyses [e.g. also performing functional or assembly analyses, @Morais2022-rt,@Boulund2023-ct] of which each step has fewer options of tools and may be unwanted by the end user. 
 
-Here we present nf-core/taxprofiler, a pipeline designed to allow users to efficiently and simultaneously taxonomically classify and profile short- and long-read sequencing data against (at the time of writing 11 classifiers and databases in a single pipeline run.
+Here we present nf-core/taxprofiler, a pipeline designed to allow users to efficiently and simultaneously taxonomically classify and profile short- and long-read sequencing data against (at the time of writing) 11 classifiers and databases in a single pipeline run.
 nf-core/taxprofiler utilises Nextflow [@Di_Tommaso2017-xu] to ensure efficiency, portability, and scalability, and has been developed within the nf-core initiative of Nextflow pipelines [@Ewels2020-vi] to ensure high quality coding practises and user accessibility, including detailed documentation and a graphical-user-interface (GUI) execution interface.
 
 ## Description
@@ -306,9 +306,11 @@ With the development within the open and welcoming nf-core community and with be
 
 <!-- TODO make this last sentence better, it's a bit poop -->
 
+<!--
 ## Data Availability
 
-All data used in this publication <!-- TODO : Version 2 of preprint -->
+All data used in this publication: TODO : Version 2 of preprint 
+-->
 
 ## Code Availability
 
@@ -316,7 +318,9 @@ nf-core/taxprofiler source code is available on GitHub at [https://github.com/nf
 
 The version of the pipeline described in this paper is version (1.1.0) (release specific Zenodo archive DOI: [10.5281/zenodo.8358147](https://doi.org/10.5281/zenodo.8358147))
 
+<!--
 ## Supplementary Data
+-->
 
 ## Acknowledgments
 
