@@ -129,7 +129,8 @@ A common approach to address the differences and biases between the many differe
 This, however, is a very time-consuming task when performed manually - particularly when combined with the appropriate preprocessing of sequencing reads before the classification.
 
 Here we present nf-core/taxprofiler, a highly parallelised taxonomic classification and processing pipeline that allows for automated and simultaneous classification and/or profiling of both short- and long-read metagenomic sequencing libraries against a large number of taxonomic classifiers and profilers as well as databases within a single pipeline run.
-Implemented in Nextflow and as part of the nf-core initiative, the pipeline benefits from high levels of scalability and portability, accommodating from small to extremely large projects on a wide range of computing infrastructure, as well as best-practise software development and community support to ensure longevity and adaptability of the pipeline, keeping up with the field of metagenomics.
+Implemented in Nextflow and as part of the nf-core initiative, the pipeline benefits from high levels of scalability and portability, accommodating from small to extremely large projects on a wide range of computing infrastructure. 
+It has been developed following best-practise software development practises and community support to ensure longevity and adaptability of the pipeline, to help keep it up to date with the field of metagenomics.
 
 ## Introduction
 
@@ -138,8 +139,8 @@ While metabarcoding approaches targeting the 16S rRNA or other marker genes are 
 These metagenomic analyses have been shown to provide a similar resolution on microbial genomes during taxonomic classification [@Hillmann2018-ud], with the added benefit of having greater reusability potential of the data, via whole genome reconstruction and also functional classification of metagenomics [@Sharpton2014-wy;@Quince2017-bl].
 
 Taxonomic classifiers (sometimes referred to as taxonomic binners) aim to identify the original 'taxonomic source' of a given DNA sequence [@Ye2019-fl;@Meyer2022-dg;@Govender2022-td].
-In metagenomics, this typically consists of comparing millions of DNA sequences against hundreds or thousands of reference genomes either via alignment or 'k-mer matching' [@Sharpton2014-wy;@Sun2021-tq], with the most close match being considered the most likely original 'source' organism of that sequence.
-Taxonomic profilers additionally will also try to infer species abundance of the organism in the original sample, based on the sequence abundance [@Nayfach2016-ej].
+In metagenomics, this typically consists of comparing millions of DNA reads (sequenced DNA molecules) against hundreds or thousands of reference genomes either via sequence alignment or 'k-mer matching' [@Sharpton2014-wy;@Sun2021-tq], with the most close match being considered the most likely original 'source' organism of that sequence.
+We will also refer to taxonomic profilers that are classifiers that also try to infer _species_ abundance of the organism in the original sample, in addition to the typical sequence abundance [@Nayfach2016-ej].
 We will use classifiers and profilers interchangeably throughout the publication.
 
 Due to the scale of the problem, taxonomic profiling remains an 'unresolved problem' in bioinformatics.
@@ -147,25 +148,31 @@ Due to the scale of the problem, taxonomic profiling remains an 'unresolved prob
 Having to identify the original source of many sequences out of many reference genomes, but in an _efficient_ manner, is understandably a difficult problem.
 Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts [@Sczyrba2017-ma;@Meyer2022-dg].
 Additionally, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results.
-Thus, no established 'gold standard' method currently exists.
+Thus, no established 'gold standard' classifier tool or method currently exists.
 
 One solution to addressing the problem of choice among the range of different tools is to run all of them in parallel, and cross compare the results.
 This can be useful both for benchmarking studies [e.g. @Sczyrba2017-ma;@Meyer2022-dg], but also to build consensus profiles whereby confidence of a particular taxonomic identification can be increased when it is detected by multiple tools [@McIntyre2017-td;@Ye2019-fl].
 
-A second challenge in taxonomic classification is a question of databases. As with tools, there is no one set 'gold standard' database.
+A second challenge in taxonomic classification (and arguably a larger one) is a question of databases. 
+As with tools, there is no one set 'gold standard' database.
 Different questions and contexts require different databases, such as when a researcher wants to search for both bacterial and viral species in samples, and as an extension of this, taxonomic classifiers may need different settings for each database.
 Furthermore, as genomic sequencing becomes cheaper and more efficient, the number of publicly available reference genomes is rapidly increasing [@Nasko2018-cl]. Consequently, the size of reference databases of taxonomic classifiers is also growing, often outpacing the computational capacity available to researchers.
 In fact, while this was one of the main motivations behind classifiers such as Kraken2 [@Wood2019-mf], these algorithmic techniques are already becoming insufficient [@Wright2023-yr].
 
-Finally, with the decrease of costs, the possibility for larger and larger metagenomic sequencing datasets increases, leading to increasing sample sizes in studies, as exemplified by the doubling of the number of metagenomes on the European Bioinformatic Institute's MGnify database in two years [@Mitchell2019-kt].
+Finally, with the decrease of costs, the possibility for larger and larger metagenomic sequencing datasets increases, leading to increasing sample sizes in studies.
+This is exemplified by the doubling of the number of metagenomes on the European Bioinformatic Institute's MGnify database within just two years [@Mitchell2019-kt].
+
 Altogether this highlights the need for methods to efficiently profile many samples using many tools.
 Manually setting up bioinformatic jobs for classification tasks for each database and settings against different tools on traditional academic computing infrastructure (e.g. high performance computing clusters or 'HPC' clusters) can be very tedious.
 Additionally, particularly for very large sample sets, there is increasing use of cloud platforms that have greater scalability than traditional HPCs.
 Being able to reliably and reproducibly execute taxonomic classification tasks across infrastructure with minimal intervention would therefore be a boon for the metagenomics field.
 
-While a range of metagenomic pipelines already exist [e.g. for a non-comprehensive list, @Boulund2023-ct;@Piro2017-hm;@Sim2020-ja; @Rose2019-jf;@Clarke2019-al], few leverage workflow managers such as Nextflow or Snakemake to make multi-step workflows easier to use in HPC or cloud infrastructure. Furthermore, often these pipelines aim to carry out multiple different types of metagenomic analyses [e.g. also performing functional or assembly analyses, @Morais2022-rt,@Boulund2023-ct] of which each step has fewer options of tools and may be unwanted by the end user. 
+In reason years, workflow managers such as Nextflow [@Di_Tommaso2017-xu] or Snakemake [@Molder2021-et] have become highly popular in bioinformatics.
+These frameworks provide for developers robust workflow execution with different HPC scheduling tools and software provisioning systems, ensuring maximum portability and efficient in different computational contexts.
+While a range of metagenomic pipelines already exist [a non-exhaustive list being for example, @Boulund2023-ct;@Piro2017-hm;@Sim2020-ja; @Rose2019-jf;@Clarke2019-al], few leverage workflow managers to make multi-step workflows easier to use in HPC or cloud infrastructure. 
+Furthermore, often these pipelines aim to carry out multiple different types of metagenomic analyses [e.g. also performing functional or assembly analyses, @Morais2022-rt,@Boulund2023-ct] of which each step has fewer options of tools and may be unwanted by the end user. 
 
-Here we present nf-core/taxprofiler, a pipeline designed to allow users to efficiently and simultaneously taxonomically classify and profile short- and long-read sequencing data against multiple tools and databases in a single pipeline run.
+Here we present nf-core/taxprofiler, a pipeline designed to allow users to efficiently and simultaneously taxonomically classify and profile short- and long-read sequencing data against (at the time of writing 11 classifiers and databases in a single pipeline run.
 nf-core/taxprofiler utilises Nextflow [@Di_Tommaso2017-xu] to ensure efficiency, portability, and scalability, and has been developed within the nf-core initiative of Nextflow pipelines [@Ewels2020-vi] to ensure high quality coding practises and user accessibility, including detailed documentation and a graphical-user-interface (GUI) execution interface.
 
 ## Description
@@ -174,26 +181,24 @@ nf-core/taxprofiler aims to facilitate three main steps of a typical whole-genom
 A longer description of the available functionality and motivations can be seen in the [Supplementary Information](#supplementary-information).
 
 In brief, nf-core/taxprofiler can accept short- (e.g. Illumina) and/or long-read (e.g. Nanopore) FASTQ or FASTA files.
-This is provided in the form of a TSV file that includes basic sample and sequencing library information.
+These are supplied to the pipeline in the form of a TSV file that includes basic sample and sequencing library metadata.
 The pipeline can then be executed either via a standard Nextflow command-line-interface (CLI) execution or graphical-user-interface (GUI) through either the open-source and free nf-core launch page ([https://nf-core/launch](https://nf-core/launch)) or the commercial (with free-tier) Nextflow tower ([https://tower.nf](https://tower.nf)) solution. Examples of the command-line execution and nf-core launch GUI can be seen in the [Supplementary Information](#supplementary-information).
 
-It can perform a range of appropriate read preprocessing steps, such adapter removal, read merging, low-sequence complexity filtering, host- or contamination removal, and/or per-sample run merging. 
+THe pipeline can perform a range of metagenomics appropriate read preprocessing steps, such adapter removal, read merging, low-sequence complexity filtering, host- or contamination removal, and/or per-sample run merging. 
 All of these steps are optional, and are aimed at removing possible sequencing artefacts that may result in false positive taxonomic classification hits or improve classification efficiency. 
 Most of these steps also provide options of different tools to allow user preference.
 
 After pre-processing, nf-core/taxprofiler can perform simultaneous profiling of preprocessing reads as many as 11 different taxonomic classifiers or profilers (@tbl-tool-summaries), and on top of this, simultaneous for each of these an arbitrary number of databases supplied by the user.
+As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk].
 Databases are also supplied via a input TSV file, that also allows per-database custom classification parameters - meaning a given database can be supplied multiple times each with different parameters.
 All classifiers with secondary steps to generate or convert to additional output file formats are also included.
 
-Post-processing of taxonomic profiles include aggregation (i.e., merging of multiple profiles into a single multi-sample table), standardisation of profiles for easier comparison between profilers with the tool TAXPASTA [developed originally for the nf-core/taxprofiler project, @Beber2023-hk], and visualisation of profiles with Krona [@Ondov2011-se] for supported classifiers.
+Post-processing of taxonomic profiles include standardisation and aggregation of profiles , i.e., merging of multiple profiles into a single multi-sample table, for easier comparison between profilers with the tool TAXPASTA [@Beber2023-hk], and visualisation of profiles with Krona [@Ondov2011-se] for supported classifiers.
 
 All relevant preprocessing statistics are displayed in an interactive and dynamic MultiQC report [@Ewels2020-vi].
 
 ![Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control (e.g. with FastQC), read preprocessing (e.g. removal of adapters), complexity filtering, host removal, and run merging before performing taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are standardised into a common taxon table format, and when supported visualisations of the profiles are generated.](taxprofiler_tube.png){#fig-workflow-diagram fig-alt="Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control, read preprocessing, complexity filtering, host removal, and run merging before going into taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are additionally standardised into a common taxon table format and some with visualisation of profiles."}
 
-<!-- TODO CHECK!!!!! -->
-<!-- The table looks good to me /sofstam-->
-<!--# (Moritz): AFAIK Bracken redistributes reads assigned to LCAs down to species (or other chosen rank). So it is still providing sequence abundance rather than taxonomic abundance. -->
 | Tool       | Primary Algorithm | Reference Type | Method     | Sequence Matching Type |
 |------------|-------------------|----------------|------------|------------------------|
 | Kraken2    | k-mer based       | whole-genome   | classifier | Nucleotide             |
@@ -210,6 +215,10 @@ All relevant preprocessing statistics are displayed in an interactive and dynami
 
 : List of nf-core/taxprofiler supported taxonomic/classifiers profilers as of version 1.1 and their approximate method and supported input database types. Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). Primary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler) {#tbl-tool-summaries}
 
+nf-core/taxprofiler comes with extensive documentation for general usage, short- and long- parameter help texts, and output file descriptions. 
+To ensure maximum accessibility, these are available in pipeline results as markdown files, on the nf-core website and for the parameter help texts on the command line via standard `--help`.
+The output documentation also aims to guide users as the most suitable files for different types of downstream analysis
+
 <!--
 
 TODO: Version 2 of preprint
@@ -224,7 +233,8 @@ Run metric can be seen in Figure XXXXXX .
 
 ## Discussion
 
-A range of pipelines already exists for taxonomic profiling, however, each have their own particular purpose and capabilities. We compared the functionality of nf-core/taxprofiler against four other recently published or released pipelines, selected based on their similarity of purpose to nf-core/taxprofiler. The selection criteria and a more detailed comparison between the five pipelines can be seen in the [Supplementary Information](#supplementary-information), however overall, while there was a general similarity across all pipelines, nf-core/taxprofiler showed the greatest accessibility and user choice, through the use of an established workflow manager (Nextflow supporting 7 software environment/container systems), supporting both CLI and GUI execution, and the number of supported classifiers. Furthermore, it is unique in that is the only pipeline to support supplying multiple database for all of the tools in a single pipeline run.
+A range of pipelines already exists for taxonomic profiling, however, each have their own particular purpose and capabilities. We compared the functionality of nf-core/taxprofiler against four other recently published or released pipelines, selected based on their similarity of purpose to nf-core/taxprofiler. The selection criteria and a more detailed comparison between the five pipelines can be seen in the [Supplementary Information](#supplementary-information).
+Overall, while there was a general similarity across all pipelines, nf-core/taxprofiler showed the largest number of functionality for pipeline execution accessibility and user choice, through the use of an established workflow manager (with Nextflow supporting 7 software environment/container systems), supporting both CLI and GUI execution, and the number of supported classifiers. Furthermore, it is unique in that is the only pipeline to support supplying multiple database for all of the tools in a single pipeline run.
 
 | Category                  | Criterion                                                | StaG-mwc                            | sunbeam                                 | Unipro UGENE                         | tama                            | nf-core/taxprofiler                     |
 |---------------------------|----------------------------------------------------------|-------------------------------------|-----------------------------------------|--------------------------------------|---------------------------------|-----------------------------------------|
@@ -264,10 +274,10 @@ A range of pipelines already exists for taxonomic profiling, however, each have 
 
 : Comparison of functionality with four recent taxonomic pipelines with similar functionality. A more detailed textual comparison can be found in the [Supplementary Information](#supplementary-information). Category keys are as follows: I - Information, R - Reproducibility, A - Accessibility, P - Portability, S - Scalability, F - Functionality. {#tbl-pipeline-comparison}
 
-An important advantage of nf-core/taxprofiler is that it is being developed within the nf-core community ([https://nf-co.re](https://nf-co.re)), that provides strong long-term support for the continued community-based development and maintenance of its pipelines.
+Another important advantage of nf-core/taxprofiler is that it is being developed within the nf-core community ([https://nf-co.re](https://nf-co.re)), that provides strong long-term support for the continued community-based development and maintenance of its pipelines.
 
 In this framework, we will continue to add additional preprocessing, metagenomic classification, and profiling tools as they become established and as requested by the metagenomics community, for example, we feel that the inclusion of steps such as sequencing saturation estimation as already being performed by a similar pipeline StaG-mwc ([https://github.com/ctmrbio/stag-mwc](https://github.com/ctmrbio/stag-mwc)) would be beneficial to the nf-core/taxprofiler workflow [possibly with dedicated tools such as Nonpareil, @Rodriguez-R2018-rm], and/or more performant complexity filtering tools such as Komplexity as offered by the sunbeam metagenomics pipeline [@Clarke2019-al].
-Additional tools that could be added for profiling could include sourmash [@Titus-Brown2016-ku] that provides scalable sequence to sequence comparison or other marker gene reference tools such as tools such as METAXA2 [@Bengtsson-Palme2015-ar] that use shotgun sequencing reads to recover 16S sequences from metagenomic samples.
+Additional tools that could be added for short-read classification could include sourmash [@Titus-Brown2016-ku] that provides scalable sequence to sequence comparison or other marker gene reference tools such as tools such as METAXA2 [@Bengtsson-Palme2015-ar] that use shotgun sequencing reads to recover 16S sequences from metagenomic samples.
 Adding additional classifiers also applies to extend support to other sequencing platforms; nf-core/taxprofiler already supports Nanopore long-read data, however the use of long-read PacBio data for metagenomic data is growing in interest [@Portik2022-jp].
 We are therefore considering adding dedicated preprocessing steps for this type of sequencing data.
 
@@ -277,20 +287,21 @@ While we feel this is currently a reasonable investment as such databases can be
 
 Finally, once an overall taxonomic profile is generated, researchers often wish to validate hits through more sensitive and accurate methods such as with read-mapping alignment.
 While read alignment is supported by other pipelines such as StaG-mwc, this happens in-parallel to the taxonomic profiling and requires prior expectation of which reference genomes to map against.
-Instead, nf-core/taxprofiler could be easily extended to have a validation step similar to that of the ancient DNA metagenomic pipeline aMeta [@Pochon2022-hj] where, utilising Nextflow's execution parallelism, the input sequences could be aligned back to the reference genomes of only those species with hits from the taxonomic classification with dedicated accurate short- or long-read aligners.
-In addition to the more precise classification, post-classification read-alignment could also be particularly useful for researchers in palaeogenomics who wish to use tools other than KrakenUniq for initial classification (as in aMeta), where alignment information can be used to authenticate ancient DNA within their samples but also in clinical metagenomics to identify potential pathogens at much finer resolution (e.g. down to strain level).
+Instead, nf-core/taxprofiler could be easily extended to have a validation step similar to the approach of the ancient DNA metagenomic pipeline aMeta [@Pochon2022-hj].
+Utilising Nextflow's execution parallelism, the input sequences could be aligned back to the reference genomes of only those species with hits resulting from the taxonomic classification, but with dedicated accurate short- or long-read aligners.
+In addition to the more precise classification, post-classification read-alignment could also be particularly useful for researchers in palaeogenomics who wish to use tools other than KrakenUniq for initial classification (as in aMeta), where alignment information can be used to authenticate ancient DNA within their samples, but also in clinical metagenomics to identify potential pathogens at much finer resolution (e.g. down to strain level).
 
 <!-- TODO additional post-processing steps? e.g. decontamination estimates? -->
 
-Another motivation for developing nf-core/taxprofiler, despite the large number of existing metagenomics pipelines is that by establishing a taxonomic profiling pipeline within the nf-core ecosystem, it is possible to begin building both standalone but also an integrated suite of powerful interconnected pipelines for the major stages of metagenomic workflows.
+Another motivation for developing nf-core/taxprofiler, despite the large number of existing metagenomics pipelines, is that by establishing a taxonomic profiling pipeline within the nf-core ecosystem, it is possible to begin building both standalone but also an integrated suite of powerful interconnected pipelines for the major stages of metagenomic workflows.
 Existing microbial- and metagenomics- related pipelines within the nf-core initiative include nf-core/ampliseq [@Straub2020-nc], nf-core/mag [@Krakau2022-we], and nf-core/funcscan ([https://nf-co.re/funcscan](https://nf-co.re/funcscan)).
 We expect over time the ability to link inputs and outputs of each workflow to develop comprehensive metagenomic analyses, while still maintaining powerful standalone pipelines, providing maximal user choice.
 
 ## Conclusion
 
 nf-core/taxprofiler is an accessible, efficient, and scalable pipeline for metagenomic taxonomic classification and profiling that can be executed on anywhere from laptops to the cloud.
-Offering, to our knowledge, the largest number of taxonomic profilers across similar pipelines, it provides flexibility for users not just on choice of profiling tool but also with databases and database settings, with any number being able to be supplied to the pipeline in a single run.
-We hope that through detailed documentation and a range of execution options, nf-core/taxprofiler will make reproducible and high-throughput metagenomics more accessible for a wide range of disciplines.
+To our knowledge, the pipeline offers the largest number of taxonomic profilers across similar pipelines, providing flexibility for users not just on choice of profiling tool but also with databases and database settings, with any number being able to be supplied to the pipeline in a single run.
+With the development within the open and welcoming nf-core community and with best-practise development infrastructure, we look forward to further contributions and involvement of the wider metagenomics community, and also we hope that through detailed documentation and a range of execution options, nf-core/taxprofiler will make reproducible and high-throughput metagenomics more accessible for a wide range of disciplines.
 
 <!-- TODO make this last sentence better, it's a bit poop -->
 
@@ -386,12 +397,12 @@ Throughout all steps, relevant statistics and log files are generated and used b
 
 There are many types of metagenomic profiling techniques, from profiling against whole-genome references with alignment or k-mer based approaches, to methods involving alignment to species-specific marker-gene families [@Quince2017-bl;@Ye2019-fl].
 nf-core/taxprofiler aims to support and include all established classification or profiling tools as requested by the community.
-<!--# (Moritz): I was actually wondering about this the other day. I think there are two possible approaches: 1. We add all tools on a per request basis as stated here. Upside: Everybody's happy. Downside: Maintenance becomes ever more burdensome over time. Do we ever remove profilers? 2. The taxprofiler maintainers choose the "best" representative tool within a specific category. -->
+
 The choice of tools used in a pipeline run is up to the user, with a tool being executed when both the corresponding database and `--run_<tool>` flag is provided.
 Specific classification settings for each tool and database are specified in the database CSV input sheet.
 Some tools also have pipeline level command-line flags for controlling certain aspects of output files.
 
-As of version 1.1.0, the following classifiers and profilers are available: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk]. @tbl-tool-summaries summarises the category and reference database type for each tool.
+The following classifiers and profilers are supported in version 1.1.0 of nf-core/taxprofiler: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk]. @tbl-tool-summaries summarises the category and reference database type for each tool.
 
 By default, nf-core/taxprofiler produces the per-sample main taxonomic classification profile from a tool or a tool's report generation tool.
 The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.).
@@ -430,7 +441,6 @@ Nextflow resource usage and trace reports are also by default produced for users
 nf-core/taxprofiler has been specifically developed for the analysis of whole-genome, _metagenomic_ sequencing data.
 While other types of taxonomic profiling data such as 16S amplicon sequencing are well established fields with a range of popular high-quality and best-practise tools pipelines (e.g. [@Blanco-Miguez2023-cq;@Schloss2009-vk]) and databases [@DeSantis2006-cm;@Yilmaz2014-js], 'gold standard' tools and databases for metagenomics remain much less established.
 Thus, the need for highly-multiplexed classification is more desirable for the newer metagenomics methods.
-<!--# (Moritz): Last sentence feels tagged on and disconnected. -->
 
 We searched Google Scholar for open-source pipelines published or released in the last 5 years (at the time of writing, since 2018) that were designed primarily for metagenomic classification screening, that supported at least 2 classifiers, had at least one preprocessing step and were not specifically targeted at read classification of specific domains of taxa (e.g. viruses or bacteriophages only).
 We also included an additional pipeline at the recommendations of the authors of the pipeline due to the functional overlap to nf-core/taxprofiler. We then evaluated the pipelines based on their publications and documentation for typical metagenomic profiling workflow steps, and a range of criteria related to expectations of modern bioinformatic workflows that can be summarised in the following four criteria: reproducibility, accessibility, scalability, and portability [@Wratten2021-es]. After searching, we selected the following pipelines for comparison with nf-core/taxprofiler: sunbeam [v4,@Clarke2019-al], Unipro UGENE [v48, @Rose2019-jf], TAMA [githash: 3a22c8f, @Sim2020-ja], and StaG-mwc [0.7.0, @Boulund2023-ct].
@@ -441,8 +451,9 @@ However, there are varying levels of detail and comprehensiveness. In particular
 For execution options, most of the pipelines provide CLI execution, except for Unipro UGENE which offers only GUI-based pipeline set-up (despite a command-line execution of the GUI generated configuration). In particular, nf-core/taxprofiler is the only pipeline providing both CLI and GUI interfaces for pipeline run execution.
 
 Criteria covering portability also overlap with accessibility, as it implies options for and ease of different users running on different types of computing infrastructure, whether that is on their own laptop, on an HPC cluster, or in the cloud.
-Unipro UGENE is the only pipeline that supports execution on all three major operating systems (Linux, OSX, Windows), whereas StaG-mwc and nf-core/taxprofiler can be run on unix operating systems, and sunbeam and TAMA are only being supported on Linux.
-<!--# (Moritz): Is this so? Nextflow requires bash, but there is git bash, anaconda terminal, and the WSL for Windows. So this seems a bit strict? -->
+Unipro UGENE is the only pipeline that explicitly satates support for execution on all three major operating systems (Linux, OSX, Windows), whereas StaG-mwc and nf-core/taxprofiler can be run on unix operating systems (albiet possibly on Windows via Windows Subsystem for Linux
+(WSL)), and sunbeam and TAMA are only being supported on Linux.
+
 While all pipelines support 'local' machine execution (e.g. personal laptops or desktops), a large portion of academic users execute computationally intensive bioinformatic tasks on HPC clusters.
 In these contexts, pipeline task submissions are normally managed by job schedulers, thus integration with schedulers is an important criterion for running large multi-step and parallelised pipelines.
 The three pipelines leveraging workflow managers (Snakemake [@Molder2021-et] and Nextflow) support integration with schedulers (StaG-mwc, sunbeam, and nf-core/taxprofiler) with nf-core/taxprofiler supporting the most by far ([>10 scheduling systems](https://www.nextflow.io/docs/latest/executor.html)) as natively offered by Nextflow. This allows the greatest possible choice for users in terms of which HPC infrastructure they can execute their pipeline on.
