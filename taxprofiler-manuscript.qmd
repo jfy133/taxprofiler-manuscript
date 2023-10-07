@@ -143,11 +143,10 @@ In metagenomics, this typically consists of comparing millions of DNA reads (seq
 We will also refer to taxonomic profilers that are classifiers that also try to infer _species_ abundance of the organism in the original sample, in addition to the typical sequence abundance [@Nayfach2016-ej].
 We will use classifiers and profilers interchangeably throughout the publication.
 
-Due to the scale of the problem, taxonomic profiling remains an 'unresolved problem' in bioinformatics.
-<!--# (Moritz): In my opinion, the more important part of the problem that remains unresolved is that the accuracy (and other confusion matrix metrics) of profilers is doubtful because we do not have any biological ground truth data. Only with simulated sequencing reads can we know the real abundances, but how well that translates to real world sequencing data of complex communities is not known. Additionally, DNA extraction protocols are biased and so, even for mock communities, we can't know if deviations in reported abundances are due to extraction, sequencing, or classification biases. -->
-Having to identify the original source of many sequences out of many reference genomes, but in an _efficient_ manner, is understandably a difficult problem.
-Therefore a plethora of tools have been developed to address this challenge, all with their own biases and specific contexts [@Sczyrba2017-ma;@Meyer2022-dg].
-Additionally, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results.
+Having to identify the original source of the many DNA sequences out of the many reference genomes, but in a time and computationally _efficient_ manner, is a difficult problem.
+In many cases biologists are not just interested as to which organism of each DNA sequence comes from, but rather using this information to _infer_ the original natural abundance of each organism of the given environment - something that is very difficult due to the biases inherent to DNA extraction and sequencing.
+Therefore a plethora of tools have been developed to address these challenges, all with their own biases and specific contexts [@Sczyrba2017-ma;@Meyer2022-dg].
+Furthermore, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results.
 Thus, no established 'gold standard' classifier tool or method currently exists.
 
 One solution to addressing the problem of choice among the range of different tools is to run all of them in parallel, and cross compare the results.
@@ -296,6 +295,8 @@ In addition to the more precise classification, post-classification read-alignme
 Another motivation for developing nf-core/taxprofiler, despite the large number of existing metagenomics pipelines, is that by establishing a taxonomic profiling pipeline within the nf-core ecosystem, it is possible to begin building both standalone but also an integrated suite of powerful interconnected pipelines for the major stages of metagenomic workflows.
 Existing microbial- and metagenomics- related pipelines within the nf-core initiative include nf-core/ampliseq [@Straub2020-nc], nf-core/mag [@Krakau2022-we], and nf-core/funcscan ([https://nf-co.re/funcscan](https://nf-co.re/funcscan)).
 We expect over time the ability to link inputs and outputs of each workflow to develop comprehensive metagenomic analyses, while still maintaining powerful standalone pipelines, providing maximal user choice.
+
+
 
 ## Conclusion
 
@@ -481,9 +482,6 @@ However the advantages of nf-core/taxprofiler mainly come from the offering of t
 The functionality offered by other pipelines not currently supported by nf-core/taxprofiler include sequencing saturation estimation (StaG-mwc), taxonomy-free composition comparison (StaG-mwc), functional profiling (StaG-mwc), _de novo_ assembly (sunbeam), and reference mapping (StaG-mwc, sunbeam).
 We do not plan to support _de novo_ assembly or functional profiling in nf-core/taxprofiler as we feel these are already better served by other existing dedicated pipelines within the nf-core ecosystem [nf-core/mag for _de novo assembly, @Krakau2022-we, and nf-core/funcscan for functional profiling https://nf-co.re/funcscan], as well as elsewhere [e.g. MetaWrap @Uritskiy2018-ut;].
 
-<!--# (Moritz): I think this paragraph could be moved up where I noted that we might mention excluded pipelines. -->
-We note there exists a range of other pipelines that also include some form of taxonomic classification.
-However often these pipelines have been developed with a different main purpose (e.g. Assembly and binning for nf-core/mag [@Krakau2022-we], MetaWRAP [@Uritskiy2018-ut], SqueezeMeta [@Tamames2018-zq], or MEDUSA [@Morais2022-rt]; Metagenomic read alignment with CCMetaGen [@Marcelino2020-rg] and Wochenende [@Rosenboom2022-bt]).
 
 ## References
 
