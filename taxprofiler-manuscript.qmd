@@ -144,11 +144,11 @@ Taxonomic classifiers (sometimes referred to as taxonomic binners) aim to identi
 In metagenomics, this typically consists of comparing millions of DNA reads (sequenced DNA molecules) against hundreds or thousands of reference genomes either via sequence alignment or 'k-mer matching' [@Sharpton2014-wy;@Sun2021-tq].
 The reference genome with the most similar match to the read is then considered the most likely original 'source' organism of that sequence.
 In this article we will also refer to 'taxonomic profilers'.
-We consider in these as classifiers that also try to infer _species_ or 'biological' abundance of the organism in the original sample, in addition to the typical sequence abundance [@Nayfach2016-ej].
+We consider these as classifiers that also try to infer sequence abundance (i.e. re-assignment of counts to the most likely source based on the distribution of other hits) or biological relative abundance of the organism in the original sample (by coverage of expected marker genes, copy number estimations etc.), in addition to the simple read classification [@Nayfach2016-ej].
 We will use classifiers and profilers interchangeably throughout the publication.
 
 Having to identify the original source of the many DNA sequences out of the many reference genomes in a time and computationally efficient manner is a difficult problem.
-In many cases biologists are not just interested as to which organism of each DNA sequence comes from, but also in using this information to infer the original natural abundance of each organism of the given environment - something that is very difficult due to the biases inherent to DNA extraction and sequencing.
+In many cases biologists are not just interested as to which organism of each DNA sequence comes from, but also in using this information to infer the original 'cellular' (or natural) abundance of each organism of the given environment - something that is very difficult due to the biases inherent to DNA extraction and sequencing.
 Therefore a plethora of tools have been developed to address these challenges, all with their own biases and specific contexts [@Sczyrba2017-ma;@Meyer2022-dg].
 Furthermore, each tool often produces tool-specific output formats making it difficult to efficiently cross compare results.
 Thus, no established 'gold standard' classifier tool or method currently exists.
@@ -205,21 +205,21 @@ All relevant preprocessing statistics are displayed in an interactive and dynami
 
 ![Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control (e.g. with FastQC), read preprocessing (e.g. removal of adapters), complexity filtering, host removal, and run merging before performing taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are standardised into a common taxon table format, and when supported visualisations of the profiles are generated.](taxprofiler_tube.png){#fig-workflow-diagram fig-alt="Visual overview of the nf-core/taxprofiler workflow. nf-core/taxprofiler can take in FASTQ (short or long reads) or FASTA files (long reads), that will optionally go through sequencing quality control, read preprocessing, complexity filtering, host removal, and run merging before going into taxonomic classification and/or profiling with a user-selected range of tools and databases. Output from all classifiers and profilers are additionally standardised into a common taxon table format and some with visualisation of profiles."}
 
-| Tool       | Primary Algorithm | Reference Type | Method     | Sequence Matching Type |
-|------------|-------------------|----------------|------------|------------------------|
-| Kraken2    | k-mer based       | whole-genome   | classifier | Nucleotide             |
-| Kaiju      | k-mer based       | whole-genome   | classifier | Amino Acid             |
-| Bracken    | k-mer based       | whole-genome   | profiler   | Nucleotide             |
-| KrakenUniq | k-mer based       | whole-genome   | profiler   | Nucleotide             |
-| ganon      | k-mer based       | whole-genome   | profiler   | Nucleotide             |
-| KMCP       | k-mer based       | whole-genome   | profiler   | Nucleotide             |
-| MALT       | alignment based   | whole-genome   | classifier | Nucleotide/Amino Acid  |
-| DIAMOND    | alignment based   | whole-genome   | classifier | Amino Acid             |
-| Centrifuge | alignment based   | whole-genome   | profiler   | Nucleotide             |
-| MetaPhlAn  | alignment based   | marker-gene    | profiler   | Nucleotide             |
-| mOTUS      | alignment based   | marker-gene    | profiler   | Nucleotide             |
+| Tool       | Primary Algorithm | Reference Type | Sequence Matching Type |
+|------------|-------------------|----------------|------------------------|
+| Kraken2    | k-mer based       | whole-genome   | Nucleotide             |
+| Kaiju      | k-mer based       | whole-genome   | Amino Acid             |
+| Bracken    | k-mer based       | whole-genome   | Nucleotide             |
+| KrakenUniq | k-mer based       | whole-genome   | Nucleotide             |
+| ganon      | k-mer based       | whole-genome   | Nucleotide             |
+| KMCP       | k-mer based       | whole-genome   | Nucleotide             |
+| MALT       | alignment based   | whole-genome   | Nucleotide/Amino Acid  |
+| DIAMOND    | alignment based   | whole-genome   | Amino Acid             |
+| Centrifuge | alignment based   | whole-genome   | Nucleotide             |
+| MetaPhlAn  | alignment based   | marker-gene    | Nucleotide             |
+| mOTUS      | alignment based   | marker-gene    | Nucleotide             |
 
-: List of nf-core/taxprofiler supported taxonomic/classifiers profilers as of version 1.1 and their approximate method and supported input database types. Primary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Method refers to whether the tool performs just read classification (classifier) or additionally abundance estimation (profiler). Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). {#tbl-tool-summaries}
+: List of nf-core/taxprofiler supported taxonomic/classifiers profilers as of version 1.1 and their approximate method and supported input database types. Primary algorithm refers to the algorithm type used for sequencing matching. Reference type refers to the typical sequence type used in database construction of the tool. Sequencing matching type refers to which 'molecular alphabet' is primarily used for matching between a query (read) and a reference (genome/gene). {#tbl-tool-summaries}
 
 nf-core/taxprofiler comes with extensive documentation for general usage, short- and long- parameter help texts, and output file descriptions. 
 To ensure maximum accessibility, these are available in pipeline results as markdown files ([https://github.com/nf-core/taxprofiler](https://github.com/nf-core/taxprofiler)), on the nf-core website ([https://nf-co.re/taxprofiler](https://nf-co.re/taxprofiler)) and for the parameter help texts on the command line via standard `--help`.
@@ -423,7 +423,7 @@ Some tools also have pipeline level command-line flags for controlling certain a
 The following classifiers and profilers are supported in version 1.1.0 of nf-core/taxprofiler: Kraken2 [@Wood2019-mf], Bracken [@Lu2017-vc], KrakenUniq [@Breitwieser2018-xg], Centrifuge [@Kim2016-qc], MALT [@Vagene2018-px], DIAMOND [@Buchfink2021-ks], Kaiju [@Menzel2016-xy], MetaPhlAn [@Blanco-Miguez2023-cq], mOTUs [@Ruscheweyh2022-hn], ganon [@Piro2020-es], KMCP [@Shen2023-bk].
 
 By default, nf-core/taxprofiler produces the default per-sample taxonomic classification profile output from a tool or a tool's report generation tool.
-The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated abundance, taxonomic level etc.).
+The output is normally in the form of counts per reference sequencing, with additional statistics about the hits of a particular organism (estimated sequence abundance, taxonomic level etc.).
 Users can also optionally request output of per-read classification output and output such as classified and unclassified reads in FASTQ format, where supported.
 
 The pipeline provides high efficiency, particularly during the metagenomic classification stage, through the inherent parallelisation provided by Nextflow.
