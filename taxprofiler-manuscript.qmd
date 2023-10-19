@@ -100,7 +100,7 @@ affiliations:
     postal-code: 04103
     country: Germany
   - id: hki
-    name: Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute
+    name: Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute (current address)
     address: Adolf-Reichwein-Straße
     city: Jena
     state: Thuringen
@@ -187,7 +187,7 @@ A longer description of the available functionality and motivations can be seen 
 
 In brief, nf-core/taxprofiler can accept short- (e.g. Illumina) and/or long-read (e.g. Nanopore) FASTQ or FASTA files.
 These are supplied to the pipeline in the form of a TSV file that includes basic sample and sequencing library metadata.
-The pipeline can then be executed either via a standard Nextflow command-line-interface execution or graphical-user-interface through either the open-source and free nf-core launch page ([https://nf-core/launch](https://nf-core/launch)) or the commercial (with free-tier) Nextflow tower ([https://tower.nf](https://tower.nf)) solution. Examples of the command-line execution and nf-core launch GUI can be seen in the [Supplementary Information](#supplementary-information).
+The pipeline can then be executed either via a standard Nextflow command-line-interface execution or graphical-user-interface through either the open-source and free nf-core launch page ([https://nf-co.re/launch](https://nf-co.re/launch)) or the commercial (with free-tier) Nextflow tower ([https://tower.nf](https://tower.nf)) solution. Examples of the command-line execution and nf-core launch GUI can be seen in the [Supplementary Information](#supplementary-information).
 
 The pipeline can perform a range of metagenomics appropriate read preprocessing steps, such adapter removal, read merging, low-sequence complexity filtering, host- or contamination removal, and/or per-sample run merging. 
 All of these steps are optional, and are aimed at removing possible sequencing artefacts that may result in false positive taxonomic classification hits or improve classification efficiency. 
@@ -353,7 +353,7 @@ J.A.F.Y was supported by the Werner Siemens-Stiftung ("Paleobiotechnology", Awar
 
 The pipeline can be executed via typical Nextflow commands (@lst-example-cmd), or using the standard nf-core 'launch' GUI (@fig-launch-page), making the pipeline accessible for both computationally experienced as well as less experienced researchers.
 In addition to the general usage and parameter documentation of the pipeline ([https://nf-co.re/taxprofiler](https://nf-co.re/taxprofiler)).
-The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameters are being modified for each pipeline parameter ([https://nf-co.re/taxprofiler/launch](https://nf-co.re/taxprofiler/launch)).
+The GUI offers immediate assistance and guidance to users on what each parameter does, both in short- and long-form, with long-form parameter descriptions additionally describing which tool-specific parameters are being modified for each pipeline parameter ([https://nf-co.re/launch/?pipeline=taxprofiler](https://nf-co.re/launch/?pipeline=taxprofiler)).
 The GUI also includes controlled user input by providing strict drop-down lists and input validation prior execution of the pipeline (@fig-launch-page) to reduce the risk of typos and other mistakes, which is in contrast to the command-line interface that only includes validation at pipeline run-time.
 
 ```{#lst-example-cmd .bash lst-cap="Example nf-core/taxprofiler command for running short-read quality control, removal of host DNA and executing the k-mer based Kraken2 and marker gene alignment MetaPhlAn tools."}
