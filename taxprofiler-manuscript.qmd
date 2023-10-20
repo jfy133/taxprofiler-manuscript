@@ -355,6 +355,8 @@ M.B. and J.A.F.Y were supported by the Max Planck Society.
 M.B. was supported by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) under Germany´s Excellence Strategy – EXC 2051 – Project-ID 390713860 (Balance of the Microverse).
 J.A.F.Y was supported by the Werner Siemens-Stiftung ("Paleobiotechnology", Awarded to Prof. Pierre Stallforth and Prof. Christina Warinner).
 
+\pagebreak
+
 ## Supplementary Information
 
 ### Implementation
@@ -520,6 +522,8 @@ It provides the greatest number of computational infrastructure types the pipeli
 The functionality offered by other pipelines not currently supported by nf-core/taxprofiler include sequencing saturation estimation (StaG-mwc), taxonomy-free composition comparison (StaG-mwc), functional profiling (StaG-mwc), _de novo_ assembly (sunbeam), and reference mapping (StaG-mwc, sunbeam).
 We do not plan to support _de novo_ assembly or functional profiling in nf-core/taxprofiler as we feel these are already better served by other existing dedicated pipelines within the nf-core ecosystem: nf-core/mag for _de novo_ assembly, [@Krakau2022-we] and nf-core/funcscan for functional profiling ([https://nf-co.re/funcscan](https://nf-co.re/funcscan)), as well as elsewhere e.g. MetaWRAP [@Uritskiy2018-ut].
 
+\pagebreak
+\pagestyle{empty}
 
 ## References
 
