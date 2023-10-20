@@ -46,6 +46,7 @@ author:
       roles: ['software', 'editing']
       affiliations:
       - ref: eva
+      - ref: hkia
     - name: Mahwash Jamy
       given: Mahwash
       family: Jamy
@@ -69,7 +70,8 @@ author:
       roles: ['conceptualization', 'project administration', 'software', 'supervision', 'writing', 'editing']
       affiliations:
         - ref: eva
-        - ref: hki
+        - ref: hkia
+        - ref: hkip
 affiliations:
   - id: ki
     name: Department of Microbiology, Tumor and Cell Biology, Karolinkska Institutet
@@ -99,8 +101,15 @@ affiliations:
     state: Saxony
     postal-code: 04103
     country: Germany
-  - id: hki
-    name: Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute (current address)
+  - id: hkip
+    name: Research Unit Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute (current address)
+    address: Adolf-Reichwein-Straße
+    city: Jena
+    state: Thuringen
+    postal-code: 07745
+    country: Germany
+  - id: hkia
+    name: Research Unit Archaeogenetics, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute (current address)
     address: Adolf-Reichwein-Straße
     city: Jena
     state: Thuringen
@@ -343,6 +352,7 @@ We are also grateful for the nf-core community for the original and ongoing supp
 S.S. and L.A-L. were supported by Rapid establishment of comprehensive laboratory pandemic preparedness – RAPID-SEQ.
 This material is based upon work supported by the U.S. Department of Agriculture, Agricultural Research Service, under agreement No. 58-3022-0-001 (T.A.C II).
 M.B. and J.A.F.Y were supported by the Max Planck Society.
+M.B. was supported by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) under Germany´s Excellence Strategy – EXC 2051 – Project-ID 390713860 (Balance of the Microverse).
 J.A.F.Y was supported by the Werner Siemens-Stiftung ("Paleobiotechnology", Awarded to Prof. Pierre Stallforth and Prof. Christina Warinner).
 
 ## Supplementary Information
