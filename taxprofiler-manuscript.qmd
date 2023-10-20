@@ -532,7 +532,6 @@ The functionality offered by other pipelines not currently supported by nf-core/
 We do not plan to support _de novo_ assembly or functional profiling in nf-core/taxprofiler as we feel these are already better served by other existing dedicated pipelines within the nf-core ecosystem: nf-core/mag for _de novo_ assembly, [@Krakau2022-we] and nf-core/funcscan for functional profiling ([https://nf-co.re/funcscan](https://nf-co.re/funcscan)), as well as elsewhere e.g. MetaWRAP [@Uritskiy2018-ut].
 
 \pagebreak
-\pagestyle{empty}
 
 ## References
 
