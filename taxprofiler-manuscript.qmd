@@ -123,6 +123,7 @@ affiliations:
     postal-code: 66506
     country: United States
   - id: xx
+    name: "https://nf-co.re"
 bibliography: refs.bib
 license: "CC BY"
 crossref:
