@@ -355,6 +355,10 @@ M.B. and J.A.F.Y were supported by the Max Planck Society.
 M.B. was supported by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) under Germany´s Excellence Strategy – EXC 2051 – Project-ID 390713860 (Balance of the Microverse).
 J.A.F.Y was supported by the Werner Siemens-Stiftung ("Paleobiotechnology", Awarded to Prof. Pierre Stallforth and Prof. Christina Warinner).
 
+## Conflict of Interest Statement
+
+M.E.B. is a cofounder of Unseen Bio ApS, a company that offers gut microbiome profiling to consumers. The remaining authors have no conflicts of interest to declare.
+
 \pagebreak
 
 ## Supplementary Information
