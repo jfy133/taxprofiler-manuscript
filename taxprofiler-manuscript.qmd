@@ -13,9 +13,11 @@ author:
       given: Moritz
       family: Beber
       orcid: 0000-0003-2406-1978
+      email: moritz.beber@igdore.org
       roles: ['conceptualization', 'software', 'editing']
       affiliations:
       - ref: usb
+      - ref: igd
     - name: Tanja Normark
       given: Tanja
       family: Normark
@@ -94,6 +96,8 @@ affiliations:
     state: Capital Region
     postal-code: 2100
     country: Denmark
+  - id: igd
+    name: Institute for Globally Distributed Open Research and Education (IGDORE)
   - id: eva
     name: Department of Archaeogenetics, Max Planck Institute for Evolutionary Anthropology
     address: Deutsche Pl. 6
