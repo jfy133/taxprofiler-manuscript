@@ -16,8 +16,8 @@ author:
       email: moritz.beber@igdore.org
       roles: ['conceptualization', 'software', 'editing']
       affiliations:
-      - ref: usb
       - ref: igd
+      - ref: usb
     - name: Tanja Normark
       given: Tanja
       family: Normark
